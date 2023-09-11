@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatile" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="css/navbar.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/footer.css" />
+        <title><%= title %></title>
+    </head>
+    <body>
+        <div class="container">
+            <%- include ('../includes/navbar') -%>
+            <div id="content">
+                <% if (operation == 'create') { %> 
+                    <%- include('../includes/forms/create/createForm') -%>
+                <% } else { %> 
+                    <%- include ('../includes/forms/update/updateForm') -%> 
+                <% } %>
+            </div>
+            <%- include ('../includes/footer') -%>
+        </div>
+    </body>
+</html>

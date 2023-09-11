@@ -1,0 +1,38 @@
+<div id="content">
+    <div id="login">
+        <h3><%= header %></h3>
+        <form action="/login" method="POST" id="form">
+            <!-- <input type="text" name="firstName" id="firstName" placeholder="First Name">
+          <input type="text" name="lastName" id="lastName" placeholder="Last Name"> -->
+            <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                value="<%= form.email %>"
+                required
+            />
+            <input
+                type="password"
+                name="password"
+                class="password"
+                placeholder="Password"
+                value="<%= form.password %>"
+                required
+            />
+            <input type="submit" value="Login" id="button" class="btn" />
+
+            <div><% if (error) { %> <%= error %> <% } %></div>
+
+            <div><input type="checkbox" id="showPswdBtn" />Show password</div>
+            <script src="js/script.js"></script>
+
+            <div class="container-register">
+                <p>
+                    Don't have an account?
+                    <a href="/register" class="link">Register</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

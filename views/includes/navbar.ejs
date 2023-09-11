@@ -1,0 +1,62 @@
+<div id="navbar">
+    <!-- Navbar Desktop Start -->
+    <div class="navbar-desktop">
+        <div class="logo">
+            <a href="/">
+                <img src="logo.svg" />
+            </a>
+        </div>
+
+        <ul class="nav">
+            <li><a href="/">Home</a></li>
+            <!-- <li><a href="/rooms">Rooms</a></li> -->
+            <li><a href="/menu">Menu</a></li>
+        </ul>
+
+        <div class="dropdown">
+            <a class="dropbtn" onclick="myFunction()"> My Account </a>
+            <div class="dropdown-content" id="myDropdown">
+                <% if (user == 'none') { %>
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+                <% } else { %>
+                <a href="/account">Settings</a>
+                <a href="/logout">Logout</a>
+                <% } %>
+            </div>
+            <script src="js/dropdown.js"></script>
+        </div>
+        <!-- <a href="/account">My account</a> -->
+    </div>
+    <% try { if (userPrivilege == 1) { %>
+    <div class="sub-nav">
+        <ul id="sub-nav">
+            <li><a href="create">Create Room</a></li>
+            <li><a href="/update">Update Room</a></li>
+            <li>Update Menu</li>
+        </ul>
+    </div>
+    <% }} catch (e) {} %>
+
+    <!-- Navbar Desktop End -->
+
+    <!-- Navbar Mobile Start -->
+    <div class="navbar-mobile">
+        <div class="logo-mobile">
+            <a href="/">
+                <img src="logo.svg" />
+            </a>
+        </div>
+
+        <div class="hamburger-menu">
+            <img src="hamburger.svg" />
+        </div>
+
+        <ul class="nav-mobile">
+            <li>Home</li>
+            <li>Rooms</li>
+            <li>Menu</li>
+        </ul>
+    </div>
+    <!-- Navbar Mobile End -->
+</div>

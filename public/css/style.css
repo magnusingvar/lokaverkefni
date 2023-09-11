@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Oxygen', Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: block;
+    margin: 0;
+}
+
+html {
+    height: 100%;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#content {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+#error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#error > * {
+    margin: 0
+}
+
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: white;
+}
+
+.hero-image {
+    background-image: linear-gradient(rgba(125, 125, 125, 0.5), rgba(0, 0, 0, 0.5)), url("/images/hero.webp");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero-text {
+    display: flex;
+    justify-content: center;
+    padding-top: 20vh;
+    padding-bottom: 5vh;
+}
+
+.image {
+    width: 400px;
+    height: 100%;
+}
+
+.booking {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.booking > div {
+    margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+}

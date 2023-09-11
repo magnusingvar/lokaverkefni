@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatile" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/navbar.css" />
+        <link rel="stylesheet" type="text/css" href="css/footer.css" />
+        <title><%= title %></title>
+    </head>
+    <body>
+        <div class="container">
+            <%- include('../includes/navbar') %>
+            <div id="content">
+                <% if (rooms.length > 0 || rooms == "undefined") { %> <% for
+                (let i = 0; i < rooms.length; i += 1){ %>
+                <div class="room-container">
+                    <a href="/room?id=<%= rooms[i].id %>">
+                        <div class="room">
+                            <div class="title">
+                                Room Suitable for <%= rooms[i].suitableFor %>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <% } %> <% } else { %> No rooms were found, please try again or
+                contact support if the problem persists <% } %>
+            </div>
+            <%- include('../includes/footer') %>
+        </div>
+    </body>
+</html>
