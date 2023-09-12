@@ -2,46 +2,65 @@
     <div id="register">
         <h3><%= header %></h3>
         <form action="/register" method="post" id="form">
-            <input
+            <div id="firstName">
+                <input
                 type="text"
                 name="firstName"
                 id="firstName"
                 placeholder="First Name"
                 value="<%= form.firstName %>"
                 required
-            />
-            <input
+                />
+            </div>
+
+            <div id="lastName">
+                <input
                 type="text"
                 name="lastName"
                 id="lastName"
                 placeholder="Last Name"
                 value="<%= form.lastName %>"
                 required
-            />
-            <input
+                />
+            </div>
+
+            <div id="email">
+                <input
                 type="email"
                 name="email"
                 id="email"
                 placeholder="Email"
                 value="<%= form.email %>"
                 required
-            />
-            <input
+                />
+            </div>
+
+            <div id="password">
+                <input
                 type="password"
                 name="password"
                 class="password"
                 placeholder="Password"
                 value="<%= form.password %>"
                 required
-            />
-            <input
+                />
+
+                <i class="i eye-show" id="showPswdBtn"></i>
+            </div>
+
+
+            <div id="password">
+                <input
                 type="password"
                 name="verifyPassword"
                 class="password verify"
                 placeholder="Verify Password"
                 value="<%= form.password2 %>"
                 required
-            />
+                />
+
+                <i class="i eye-show" id="showVrfyPswdBtn"></i>
+            </div>
 
             <input type="submit" value="Register" id="button" class="btn" />
 

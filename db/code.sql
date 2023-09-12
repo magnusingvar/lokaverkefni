@@ -25,27 +25,32 @@ CREATE TABLE rooms (
     image TEXT NOT NULL
 );
 
-CREATE TABLE booking (
-    idRoom INTEGER,
+CREATE TABLE bookings (
+    id INTEGER PRIMARY KEY,
     bookingNumber TEXT NOT NULL,
-    bookedFrom DATE,
-    bookedTo DATE,
-    FOREIGN KEY (idRoom) REFERENCES rooms (id)
+    dateFrom TEXT,
+    dateTo TEXT
 );
 
-CREATE TABLE roomBooking (
+INSERT INTO bookings (bookingNumber, dateFrom, dateTo)
+VALUES ('t12345', '2023-09-13', '2023-09-14');
+
+CREATE TABLE roomUserBookings (
     idRoom INTEGER,
     idUser INTEGER,
+    idBooking INTEGER,
+    PRIMARY KEY (idRoom, idUser, idBooking),
     FOREIGN KEY (idRoom) REFERENCES rooms (id),
-    FOREIGN KEY (idUser) REFERENCES users (id)
+    FOREIGN KEY (idUser) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (idBooking) REFERENCES bookings (id)
 );
 
-DROP TABLE roomBooking
+DROP TABLE roomUserBookings
 
-INSERT INTO roomBooking (idBooking, idRoom, idUser, bookedFrom, bookedTo) VALUES (1, 1, 1, '2023-09-12', '2023-09-13')
-INSERT INTO roomBooking (idBooking, idRoom, idUser) VALUES (3, 2, 2)
+INSERT INTO roomUserBookings (idRoom, idUser, idBooking)
+VALUES (2, 1, 2);
 
-SELECT * FROM roomBooking
+SELECT * FROM rooms
 
 UPDATE users SET userPrivilege = 1
 WHERE id = 1

@@ -4,35 +4,42 @@
         <form action="/login" method="POST" id="form">
             <!-- <input type="text" name="firstName" id="firstName" placeholder="First Name">
           <input type="text" name="lastName" id="lastName" placeholder="Last Name"> -->
-            <input
+            <div id="email">
+                <input
                 type="email"
                 name="email"
                 id="email"
                 placeholder="Email"
                 value="<%= form.email %>"
                 required
-            />
-            <input
+                />
+            </div>
+
+            <div id="password">
+                <input
                 type="password"
                 name="password"
                 class="password"
                 placeholder="Password"
                 value="<%= form.password %>"
                 required
-            />
+                />
+            
+                <i class="i eye-show" id="showPswdBtn"></i>
+            </div>
+
             <input type="submit" value="Login" id="button" class="btn" />
 
             <div><% if (error) { %> <%= error %> <% } %></div>
 
-            <div><input type="checkbox" id="showPswdBtn" />Show password</div>
             <script src="js/script.js"></script>
 
-            <div class="container-register">
-                <p>
-                    Don't have an account?
-                    <a href="/register" class="link">Register</a>
-                </p>
-            </div>
         </form>
+        <div class="container-register">
+            <p>
+                Don't have an account?
+                <a href="/register" class="link">Register</a>
+            </p>
+        </div>
     </div>
 </div>

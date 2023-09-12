@@ -9,7 +9,7 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    let where = 'WHERE rooms.id = 1';
+    let where = 'WHERE rooms.id';
     const rooms = readRooms(dbFile, where);
     const header = 'Rooms';
 

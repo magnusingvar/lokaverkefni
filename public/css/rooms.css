@@ -1,0 +1,16 @@
+#content {
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.grid {
+    margin: 8px 0;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+}
+
+.grid-item {
+    height: fit-content;
+    margin: 12px;
+}

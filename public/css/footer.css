@@ -24,6 +24,28 @@
 }
 
 .footer-info > * {
-    display: block;
+    display: flex;
     margin: 0 10px;
+    align-items: center;
+}
+
+.i {
+    font-style: normal;
+    margin: 0 10px;
+    width: 16px;
+    height: fit-content;
+}
+
+.location::before {
+    content: url(/svg/location-dot-solid.svg);
+
+    /* content: url(/svg/location-dot-solid.svg); */
+}
+
+.email::before {
+    content: url(/svg/envelope-solid.svg);
+}
+
+.phone::before {
+    content: url(/svg/phone-solid.svg)
 }

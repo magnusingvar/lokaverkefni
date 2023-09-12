@@ -17,12 +17,34 @@
     gap: 10px;
 }
 
+#password {
+    display: inline-flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.eye-show {
+    position: absolute;
+    width: 20px;
+    height: 30px;
+    content: url(/svg/eye-solid.svg);
+    cursor: pointer;
+}
+
+.eye-hide {
+    content: url(/svg/eye-slash-solid.svg);
+}
+
 #form > input#firstName, input#lastName, 
 input#email, input.password {
     width: 100%;
     max-width: calc(100vw/3);
     min-width: calc(100vw/4);
     padding: 8px 10px;
+}
+
+input.password {
+    padding-right: 30px;
 }
 
 input[type=text]:focus, input[type=password]:focus,
@@ -32,8 +54,8 @@ input[type=email]:focus {
 
 .btn {
     width: 100%;
-    max-width: calc(100vw/3);
-    min-width: calc(100vw/4);
+    /* max-width: calc(100vw/3);
+    min-width: calc(100vw/4); */
     padding: 7px 0px;
     background-color: #f2f3f4;
     border: 1px solid gray;

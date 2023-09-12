@@ -5,6 +5,16 @@
     font-family: 'Oxygen', Arial, Helvetica, sans-serif;
 }
 
+.i {
+    margin: 0 10px;
+    width: 16px;
+    height: fit-content;
+}
+
+.invert {
+    filter: invert(100);
+}
+
 body {
     display: block;
     margin: 0;
@@ -85,4 +95,18 @@ a:hover {
     margin: 0 10px;
     display: flex;
     flex-direction: column;
+}
+
+@media only screen and (max-width: 580px) {
+    .hero-text {
+        display: flex;
+        justify-content: center;
+        padding-top: 4vh;
+        padding-bottom: 5vh;
+    }
+
+    .booking {
+        flex-direction: column;
+        margin: 0 10px;
+    }
 }
