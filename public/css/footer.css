@@ -1,5 +1,4 @@
-.footer {
-    /* position: relative; */
+#footer {
     width: 100%;
     height: 100px;
     display: flex;
@@ -16,36 +15,45 @@
     align-items: center;
 }
 
-.footer-info {
+.footer-item {
     display: flex;
     flex-direction: row;
     align-content: center;
     font-size: 14px;
 }
 
-.footer-info > * {
+.footer-item > * {
     display: flex;
     margin: 0 10px;
     align-items: center;
 }
 
-.i {
-    font-style: normal;
-    margin: 0 10px;
-    width: 16px;
+.text > p > a {
+    color: #fff;
+}
+
+.icon {
+    display: flex;
+    width: fit-content;
     height: fit-content;
+    margin-right: 10px;
+}
+
+.icon > span > i {
+    display: block;
 }
 
 .location::before {
-    content: url(/svg/location-dot-solid.svg);
-
-    /* content: url(/svg/location-dot-solid.svg); */
+    display: block;
+    content: url(/svg/location.svg);
 }
 
 .email::before {
-    content: url(/svg/envelope-solid.svg);
+    display: block;
+    content: url(/svg/envelope.svg);
 }
 
 .phone::before {
-    content: url(/svg/phone-solid.svg)
+    display: block;
+    content: url(/svg/phone.svg)
 }

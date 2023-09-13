@@ -11,7 +11,7 @@
                 id="email"
                 placeholder="Email"
                 value="<%= form.email %>"
-                required
+                required autocomplete="email"
                 />
             </div>
 
@@ -32,7 +32,7 @@
 
             <div><% if (error) { %> <%= error %> <% } %></div>
 
-            <script src="js/script.js"></script>
+            <script src="js/script.js" type="module"></script>
 
         </form>
         <div class="container-register">

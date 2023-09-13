@@ -2,29 +2,42 @@
 .navbar-desktop {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     border-bottom: 1px solid #000;
     padding: 0 15px;
-  }
+}
   
-  .logo {
-    padding: 12px;
-  }
+.logo {
+     padding: 12px;
+}
   
-  .nav {
+.nav, .right{
     display: flex;
     flex-direction: row;
-    margin-right: auto;
+    align-items: center;
     list-style-type: none;
     gap: 20px;
-  }
+}
   
-  a {
+.nav {
+    margin-right: auto;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+}
+
+.user::before {
+    display: block;
+    content: url(/svg/user.svg);
+}
+
+a {
     color: #000;
     text-decoration: none;
   }
   
-  .dropdown {
+  .right {
     display: flex;
     flex-direction: row;
     justify-content: right;

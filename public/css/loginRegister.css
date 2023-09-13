@@ -27,24 +27,26 @@
     position: absolute;
     width: 20px;
     height: 30px;
-    content: url(/svg/eye-solid.svg);
+    margin-right: 10px;
+    content: url(/svg/eye.svg);
     cursor: pointer;
 }
 
 .eye-hide {
-    content: url(/svg/eye-slash-solid.svg);
+    margin-right: 10px;
+    content: url(/svg/eye-slash.svg);
 }
 
-#form > input#firstName, input#lastName, 
+
+input#firstName, input#lastName, 
 input#email, input.password {
-    width: 100%;
-    max-width: calc(100vw/3);
-    min-width: calc(100vw/4);
+    width: 100vw;
+    max-width: calc(100vw/4);
     padding: 8px 10px;
 }
 
 input.password {
-    padding-right: 30px;
+    padding-right: 32px;
 }
 
 input[type=text]:focus, input[type=password]:focus,

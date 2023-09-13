@@ -3,7 +3,7 @@
     <div class="navbar-desktop">
         <div class="logo">
             <a href="/">
-                <img src="logo.svg" />
+                <img src="svg/logo.svg" />
             </a>
         </div>
 
@@ -12,8 +12,37 @@
             <!-- <li><a href="/rooms">Rooms</a></li> -->
             <li><a href="/menu">Menu</a></li>
         </ul>
+
+        <ul class="right">
+            <!-- <div class="item">
+                <select>
+                    <option class="test">
+                        <p>
+                            &#127470;&#127480; 
+                        </p>
+                    </option>
+                </select>
+            </div> -->
+            <div class="item">
+                <% if (user == 'none') { %>
+                    <div class="icon">
+                        <span>
+                            <i class="i user"></i>
+                        </span>
+                    </div>
+                    <a href="/login">Login</a>
+                <% } else { %>
+                    <div class="icon">
+                        <span>
+                            <i class="i user"></i>
+                        </span>
+                    </div>
+                    <a href="/account">My account</a>
+                <% } %>
+            </div>
+        </ul>
         
-        <div class="dropdown">
+        <!-- <div class="dropdown">
             <p class="dropbtn" onclick="myFunction()"> My Account </p>
             <div class="dropdown-content" id="myDropdown">
                 <% if (user == 'none') { %>
@@ -25,7 +54,7 @@
                 <% } %>
             </div>
             <script src="js/dropdown.js"></script>
-        </div>
+        </div> -->
         <!-- <a href="/account">My account</a> -->
     </div>
     <% try { if (userPrivilege == 1) { %>
@@ -44,18 +73,18 @@
     <div class="navbar-mobile">
         <div class="logo-mobile">
             <a href="/">
-                <img src="logo.svg" />
+                <img src="svg/logo.svg" />
             </a>
         </div>
 
-        <div class="hamburger-menu">
+        <!-- <div class="hamburger-menu">
             <img src="hamburger.svg" />
-        </div>
+        </div> -->
 
         <ul class="nav-mobile">
-            <li>Home</li>
-            <li>Rooms</li>
-            <li>Menu</li>
+            <li><a href="/">Home</a></li>
+            <!-- <li>Rooms</li> -->
+            <li><a href="/menu">Menu</a></li>
         </ul>
     </div>
     <!-- Navbar Mobile End -->

@@ -1,5 +1,5 @@
 <div id="content">
-    <div class="hero-container">
+    <div class="hero-container lazy">
         <div class="hero-image">
             <div class="hero-text">
                 <h1>
@@ -10,24 +10,24 @@
                 <div class="booking">
                     <div class="check-in">
                         <label for="check-in">Check in: </label>
-                        <input type="date" name="check-in">
+                        <input type="date" name="check-in" id="check-in">
                     </div>
 
                     <div class="check-out">
                         <label for="check-out">Check out: </label>
-                        <input type="date" name="check-out">
+                        <input type="date" name="check-out" id="check-out">
                     </div>
 
                     <div class="people">
                         <label for="people">Number of people: </label>
-                        <select name="people">
+                        <select name="people" id="people">
                             <% for (let i = 1; i < 5; i += 1) { %>
                                 <option name="<%= i %>"><%= i %></option>
                             <% } %>
                         </select>
                     </div>
                     
-                    <div>
+                    <div class="search">
                         <input type="submit" value="Search">
                     </div>
                 </div>
