@@ -112,8 +112,7 @@ a {
   }
   
   .logo-mobile > a > img {
-    min-width: 100%;
-    max-width: 80%;
+    min-width: 40vw;
   }
   
   .navbar-mobile {
@@ -143,7 +142,7 @@ a {
     }
   
     .nav-mobile {
-      font-size: calc((1rem + 1vw));
+      font-size: calc((1.1rem));
     }
   }
   

@@ -9,9 +9,10 @@
 }
 
 .footer-container {
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
@@ -24,7 +25,7 @@
 
 .footer-item > * {
     display: flex;
-    margin: 0 10px;
+    margin: 0 12px;
     align-items: center;
 }
 
@@ -56,4 +57,19 @@
 .phone::before {
     display: block;
     content: url(/svg/phone.svg)
+}
+
+@media only screen and (max-width: 580px) {
+    #footer {
+        height: 100%;
+        padding: 18px 0;
+    }
+
+    .footer-container {
+        flex-direction: row;
+    }
+
+    .footer-item {
+        flex-direction: column;
+    }
 }

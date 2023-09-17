@@ -76,23 +76,35 @@ a:hover {
     padding-bottom: 5vh;
 }
 
-.image {
-    width: 400px;
-    height: 100%;
+#booking {
+    display: flex;
+    justify-content: center;  
 }
 
-.booking {
+.booking { 
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: row;
+    gap: 16px;
 }
 
 .booking > div {
-    margin: 0 10px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+}
+
+.label {
+    margin: 0 0 4px 0;
+}
+
+.datepicker, .booking-item {
+    padding: 14px 8px;
+    height: 100%;
+}
+
+.btn {
+    margin-top: auto;
+    padding: 15px 12px;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 580px) {
@@ -100,7 +112,7 @@ a:hover {
         display: flex;
         justify-content: center;
         padding-top: 4vh;
-        padding-bottom: 5vh;
+        padding-bottom: 2vh;
     }
 
     .booking {

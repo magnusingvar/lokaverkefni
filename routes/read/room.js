@@ -7,21 +7,35 @@ const validSession = require('../functions/userSession');
 const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
+    console.log(req.query.id)
+    const room = readRoom(dbFile, req.query.id);
     const user = validSession(req.session);
     try {
-        const room = readRoom(dbFile, req.query.id);
-        console.log(room.suitableFor);
-        // Check if user is logged in
         if (req.session.loggedIn) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
-            res.render('read/room', { title: 'Room suitable for ' + room.suitableFor, user, userPrivilege, room } );
+            res.render('read/room', { title: 'Room suitable for', user, userPrivilege, room });
         } else {
             const userPrivilege = readUser(dbFile, user);
-            res.render('read/room', { title: 'Room suitable for ' + room.suitableFor, user, userPrivilege, room });
+            res.render('read/room', { title: 'Room suitable for', user, userPrivilege, room});
         }
-    } catch (e) {
-        res.render('error', { title: 'Error', status: 404, msg: 'Page not found!', user});
+    } catch(e) {
+        console.log('error');
     }
+
+    // try {
+    //     const room = readRoom(dbFile, req.query.id);
+    //     console.log(room.suitableFor);
+    //     // Check if user is logged in
+    //     if (req.session.loggedIn) {
+    //         const userPrivilege = readUser(dbFile, user).userPrivilege;
+    //         res.render('read/room', { title: 'Room suitable for ' + room.suitableFor, user, userPrivilege, room } );
+    //     } else {
+    //         const userPrivilege = readUser(dbFile, user);
+    //         res.render('read/room', { title: 'Room suitable for ' + room.suitableFor, user, userPrivilege, room });
+    //     }
+    // } catch (e) {
+    //     res.render('error', { title: 'Error', status: 404, msg: 'Page not found!', user});
+    // }
 });
 
 module.exports = router;

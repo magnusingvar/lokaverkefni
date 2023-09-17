@@ -1,12 +1,26 @@
 const Database = require('better-sqlite3');
 
-module.exports = function readRooms(dbFile, where) {
+module.exports = function readRooms(dbFile, checkin, checkout, people) {
     const db = new Database(dbFile);
     const sql = db.prepare(
-        `SELECT id, suitableFor, 
-    numberOfBeds, pricePerNight
-    FROM rooms ${where}`);
-    const rooms = sql.all();
+    `SELECT *
+    FROM rooms
+    WHERE id NOT IN (
+        SELECT idRoom
+        FROM bookings
+        WHERE (
+            ? >= checkin AND ? < checkout
+        ) OR (
+            ? > checkin AND ? <= checkout
+        ) OR (
+            ? <= checkin AND ? >= checkout
+        )
+    ) OR id NOT IN (
+        SELECT idRoom
+        FROM bookings
+        WHERE checkout <= ?
+    ) AND suitableFor = ?`);
+    const rooms = sql.all(checkin, checkin, checkout, checkout, checkin, checkout, checkout, people);
     db.close();
     return rooms;
 };

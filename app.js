@@ -6,6 +6,8 @@ const frontPage = require('./routes/');
 
 const readRooms = require('./routes/read/rooms');
 const readRoom = require('./routes/read/room');
+const readMenu = require('./routes/read/menu');
+
 
 const createRoom = require('./routes/create/createRoom');
 // const uploadImage = require('./routes/functions/upload');
@@ -47,6 +49,7 @@ app.use('/delete', deleteAccount);
 app.use('/create', createRoom);
 app.use('/rooms', readRooms);
 app.use('/room', readRoom);
+app.use('/menu', readMenu);
 
 // app.use('/upload', uploadImage);
 // app.use('/update', updateRoom);

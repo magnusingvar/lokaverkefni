@@ -13,17 +13,23 @@
     <body>
         <div class="container">
             <%- include ('../includes/navbar') -%>
-            <div id="content">
-                <div class="room-type">
-                    Room Suitable for <%= room.suitableFor %>
-                </div>
+                <div id="content">
+                    <div class="room-type">
+                        Room Suitable for <%= room.suitableFor %>
+                    </div>
 
-                <div class="room-price">
-                    Price per night: $<%= room.pricePerNight %>
-                </div>
+                    <div class="room-price">
+                        Price per night: $<%= room.pricePerNight %>
+                    </div>
 
-                <img src="<%= room.image %>" class="image" />
-            </div>
+                    <img src="<%= room.image %>" class="image" />
+
+                    <form action="/book" method="POST">
+                        <input type="submit" class="btn" id="signup-btn" value="Book Room">
+                    </form>
+
+                
+                </div>
 
             <%- include ('../includes/footer') -%>
         </div>

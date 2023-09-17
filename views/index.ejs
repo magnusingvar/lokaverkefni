@@ -15,7 +15,39 @@
     <body>
         <div class="container">
             <%- include('includes/navbar') %> 
-            <%- include('includes/hero/hero')%>
+            <div id="content">
+                <div class="hero-container lazy">
+                    <div class="hero-image">
+                        <div class="hero-text">
+                            <h1>
+                                Book Now
+                            </h1>
+                        </div>
+                        <form action="/rooms" method="GET" id="booking">
+                            <div class="booking">
+                                <div class="date">
+                                    <label for="checkin" class="label">Check in:</label>
+                                    <input type="date" name="checkin" class="datepicker" id="checkin">
+                                </div>
+                                <div class="date">
+                                    <label for="checkout" class="label">Check out:</label>
+                                    <input type="date" name="checkout" class="datepicker" id="checkout">
+                                </div>
+            
+                                <div class="people">
+                                    <label for="people" class="label">Number of people: </label>
+                                    <select name="people" class="booking-item" id="people">
+                                        <% for (let i = 1; i < 5; i += 1) { %>
+                                            <option name="<%= i %>"><%= i %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <input type="submit" value="Search" class="btn">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <%- include('includes/footer') %>
         </div>
     </body>

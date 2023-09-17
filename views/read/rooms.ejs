@@ -20,7 +20,7 @@
                     <% if (rooms.length > 0 || rooms == "undefined") { %> <% for
                         (let i = 0; i < rooms.length; i += 1){ %>
                         <div class="grid-item">
-                            <a href="/room?id=<%= rooms[i].id %>">
+                            <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>">
                                 <div class="room">
                                     <div class="title">
                                         Room Suitable for <%= rooms[i].suitableFor %>

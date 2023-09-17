@@ -9,12 +9,6 @@ const validSession = require('./functions/userSession');
 const dbFile = path.join(__dirname, '../db/database.db');
 
 router.get('/', (req, res) => {
-    // const dateToday = new Date();
-  
-    // const month = dateToday.getMonth() + 1;
-    // const day = dateToday.getDate();
-    // const year = dateToday.getFullYear();
-  
     const user = validSession(req.session);
     if(req.session.validSession) {
         const userPrivilege = readUser(dbFile, user).userPrivilege;

@@ -11,7 +11,7 @@
                 id="email"
                 placeholder="Email"
                 value="<%= form.email %>"
-                required autocomplete="email"
+                autocomplete="email"
                 />
             </div>
 
@@ -22,10 +22,11 @@
                 class="password"
                 placeholder="Password"
                 value="<%= form.password %>"
-                required
                 />
-            
-                <i class="i eye-show" id="showPswdBtn"></i>
+                
+                <button class="pswd-show-btn" type="button">
+                    <i class="i eye-show" id="showPswdBtn"></i>
+                </button>
             </div>
 
             <input type="submit" value="Login" id="button" class="btn" />
@@ -33,7 +34,6 @@
             <div><% if (error) { %> <%= error %> <% } %></div>
 
             <script src="js/script.js" type="module"></script>
-
         </form>
         <div class="container-register">
             <p>
