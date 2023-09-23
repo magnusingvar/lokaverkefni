@@ -9,17 +9,26 @@
         <link rel="stylesheet" type="text/css" href="css/navbar.css" />
         <link rel="stylesheet" type="text/css" href="css/footer.css" />
         <title><%= title %></title>
+        <style>
+            .main {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+                width: 100%;
+                height: calc(100vh - 173px);
+                text-align: center;
+            }
+        </style>
     </head>
-    <body>
-        <div class="container">
-            <%- include('includes/navbar') %>
-            <div id="content">
-                <div id="error">
-                    <h2><%= status %></h2>
-                    <h3><%= msg %></h3>
-                </div>
-            </div>
-            <%- include('includes/footer') %>
-        </div>
-    </body>
+<body>
+<%- include('includes/navbar') %>
+<div class="main">
+    <div id="error">
+        <h2><%= status %></h2>
+        <h3><%= msg %></h3>
+    </div>
+</div>
+<%- include('includes/footer') %>
+</body>
 </html>

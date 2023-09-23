@@ -13,42 +13,20 @@
         <title><%= title %></title>
     </head>
     <body>
-        <div class="container">
-            <%- include('includes/navbar') %> 
-            <div id="content">
-                <div class="hero-container lazy">
-                    <div class="hero-image">
-                        <div class="hero-text">
-                            <h1>
-                                Book Now
-                            </h1>
-                        </div>
-                        <form action="/rooms" method="GET" id="booking">
-                            <div class="booking">
-                                <div class="date">
-                                    <label for="checkin" class="label">Check in:</label>
-                                    <input type="date" name="checkin" class="datepicker" id="checkin">
-                                </div>
-                                <div class="date">
-                                    <label for="checkout" class="label">Check out:</label>
-                                    <input type="date" name="checkout" class="datepicker" id="checkout">
-                                </div>
-            
-                                <div class="people">
-                                    <label for="people" class="label">Number of people: </label>
-                                    <select name="people" class="booking-item" id="people">
-                                        <% for (let i = 1; i < 5; i += 1) { %>
-                                            <option name="<%= i %>"><%= i %></option>
-                                        <% } %>
-                                    </select>
-                                </div>
-                                <input type="submit" value="Search" class="btn">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <%- include('includes/footer') %>
+    <%- include('includes/navbar') %> 
+    <div class="hero">
+        <div class="book-now">
+            <h2>Book now</h2>
+            <%- include('includes/forms/roomSearch') %>
         </div>
+    </div>
+    <div class="main">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec nibh molestie, efficitur leo sed, viverra nunc. Donec vehicula accumsan erat facilisis ullamcorper. Donec commodo quis dui nec placerat. Donec mi orci, scelerisque eget nisl ac, hendrerit condimentum odio. Nam dictum odio eget quam tempus, a mattis odio ornare. Nullam auctor libero ut libero suscipit, ut accumsan nunc condimentum. Donec ullamcorper maximus sapien quis egestas.</p>
+
+        <p>Mauris viverra scelerisque lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce ultrices enim sit amet elit tincidunt maximus. Suspendisse vitae pellentesque lectus. Duis commodo leo suscipit augue mollis, non venenatis dolor ullamcorper. Duis tincidunt scelerisque lacus, vel vehicula leo consectetur vel. Duis posuere nisl non odio consequat ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        
+        <p>Etiam a leo nec mi blandit euismod. Etiam fringilla odio vitae risus ornare, id bibendum velit consequat. Fusce posuere risus sollicitudin condimentum ultrices. Fusce gravida, purus eget laoreet mattis, velit sapien ultrices diam, id dapibus erat leo id quam. Maecenas quis risus convallis, placerat elit non, iaculis tortor. Nullam porttitor magna risus, quis bibendum metus tincidunt in. Etiam vel ligula ac risus mattis tincidunt vel sit amet ante. Morbi et viverra ligula. Ut ac dignissim nisi, condimentum imperdiet mauris. Pellentesque ut ipsum vel diam tristique faucibus eu et lectus. Maecenas posuere neque non lacus bibendum, sit amet pharetra justo semper. Sed mi risus, tempor sit amet ligula eget, varius pretium est. Sed a odio in orci accumsan pretium suscipit ut quam.</p>
+    </div>
+    <%- include('includes/footer') %>
     </body>
 </html>

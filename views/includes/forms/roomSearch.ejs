@@ -1,0 +1,22 @@
+<form action="/rooms" method="GET" id="booking">
+    <div class="booking">
+        <div class="date">
+            <label for="checkin" class="label">Check in:</label>
+            <input type="date" value="<%= form.checkin %>" name="checkin" class="datepicker" id="checkin">
+        </div>
+        <div class="date">
+            <label for="checkout" class="label">Check out:</label>
+            <input type="date" value="<%= form.checkout %>" name="checkout" class="datepicker" id="checkout">
+        </div>
+
+        <div class="people">
+            <label for="people" class="label">Number of people: </label>
+            <select name="people" class="peoplepicker" id="people">
+                <% for (let i = 1; i < 5; i += 1) { %>
+                    <option name="<%= i %>" value="<%= i %>"><%= i %></option>
+                <% } %>
+            </select>
+        </div>
+        <input type="submit" value="Search" class="btn">
+    </div>
+</form>

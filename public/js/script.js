@@ -3,7 +3,6 @@ let shwVrfyPswdBtn = document.getElementById('showVrfyPswdBtn');
 const password = document.querySelector('.password');
 const password2 = document.querySelector('.verify');
 
-
 if (shwVrfyPswdBtn == null) {
     shwPswdBtn.onclick = function() {
         this.classList.toggle('eye-hide');

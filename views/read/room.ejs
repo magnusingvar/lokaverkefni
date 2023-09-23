@@ -11,27 +11,143 @@
         <title><%= title %></title>
     </head>
     <body>
-        <div class="container">
-            <%- include ('../includes/navbar') -%>
-                <div id="content">
-                    <div class="room-type">
-                        Room Suitable for <%= room.suitableFor %>
-                    </div>
+    <%- include ('../includes/navbar') -%>
 
-                    <div class="room-price">
-                        Price per night: $<%= room.pricePerNight %>
-                    </div>
+    <div class="container">
+        <% if (operation == "view") { %>
+                <h3 class="room-title">
+                    <%= room.type %> Room
+                </h3>
 
-                    <img src="<%= room.image %>" class="image" />
-
-                    <form action="/book" method="POST">
-                        <input type="submit" class="btn" id="signup-btn" value="Book Room">
-                    </form>
-
-                
+                       
+                <div id="description">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa qui iure impedit quas voluptates ratione. In sed magni aliquid ex placeat dolores ab! Voluptates sint suscipit sed minima quasi? Dicta?
                 </div>
 
-            <%- include ('../includes/footer') -%>
-        </div>
-    </body>
+                <div class="room-info">
+                <div id="guests">
+                    <div class="icon">
+                        <i class="i guests"></i>
+                    </div>
+                    <%= room.occupancy %>
+                </div>
+
+                <div id="beds">
+                    <div class="icon">
+                        <i class="i beds"></i>
+                    </div>
+                    <%= room.beds %>
+                </div>
+
+                <div id="price">
+                    Price per night: $<%= room.ppn %>
+                </div>
+           </div>
+
+           <div class="images">
+                <% if (room.type === "Standard") { %>
+                    <%- include ('../includes/images/standard.ejs') %>
+                <% } else { %>
+                    <%- include ('../includes/images/deluxe.ejs') %>
+                <% } %>
+            </div>
+            <div class="dots">
+                <span class="dot" onclick="plusImages(1)"></span>
+                <span class="dot" onclick="plusImages(2)"></span>
+                <span class="dot" onclick="plusImages(3)"></span>
+            </div>
+            
+            <% if (userBooking != '') { %>
+                <form action="/cancel" method="POST">
+                    <button>Cancel</button>
+                    <input type="hidden" name="id" value="<%= room.id %>">
+                </form>
+            <% } %>
+        <% } else { %>
+            <div class="stay">
+                <% if (nights > 1) { %>
+                    <div class="nights">
+                        You have selected this room for <%= nights %> nights.
+                    </div>
+                    <br>
+                    <div class="timeframe">
+                        From <%= checkin %> to <%= checkout %>
+                    </div>
+                <% } else { %>
+                    <div class="nights">
+                        You have selected this room for <%= nights %> night.
+                    </div>
+                    <br>
+                    <div class="timeframe">
+                        From <%= checkin %> to <%= checkout %>
+                    </div>
+                <% } %> 
+            </div>
+    
+            <div class="room-type">
+                <h3>
+                    Room Suitable for <%= room.occupancy %>
+                </h3>
+           </div>
+       
+           <div class="room-price">
+                Total price: $<%= totalPrice %> (<%=nights%> x $<%=room.ppn%>)
+           </div>
+       
+           <!-- <%= room.description %> -->
+    
+           <div class="images">
+                <% if (room.type === "Standard") { %>
+                    <%- include ('../includes/images/standard.ejs') %>
+                <% } %>
+            </div>
+            <div style="text-align:center">
+                <span class="dot" onclick="plusImages(1)"></span>
+                <span class="dot" onclick="plusImages(2)"></span>
+                <span class="dot" onclick="plusImages(3)"></span>
+            </div>
+            
+            <% if (userBooking) { %>
+            <form action="/book?id=<%= room.id %>&checkin=<%= checkin %>&checkout=<%= checkout %>" method="POST">
+                <input type="submit" class="btn" id="signup-btn" value="Book Room">
+            </form>
+            <% } else { %>
+                test
+            <% } %>
+        <% } %> 
+    </div>
+
+    <script>
+        let imageIndex = 1;
+        showImages(imageIndex);
+        
+        // Next/previous controls
+        function plusImages(n) {
+          showImages(imageIndex += n);
+        }
+        
+        // Thumbnail image controls
+        function currentImage(n) {
+          showSlides(imageIndex = n);
+        }
+        
+        function showImages(n) {
+          let i;
+          let images = document.getElementsByClassName("image");
+          let dots = document.getElementsByClassName("dot");
+          if (n > images.length) {imageIndex = 1}
+          if (n < 1) {imageIndex = images.length}
+          for (i = 0; i < images.length; i++) {
+            images[i].style.display = "none";
+          }
+          for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+          }
+          images[imageIndex-1].style.display = "block";
+          dots[imageIndex-1].className += " active";
+        }
+    </script>
+        
+    <%- include ('../includes/footer') -%>
+</body>
 </html>

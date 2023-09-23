@@ -1,0 +1,14 @@
+<h2><%= header %></h2>
+<div class="grid">
+    <% for (let i = 0; i < rooms.length; i += 1){ %>
+    <div class="grid-item">
+        <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>">
+            <div class="room">
+                <div class="title">
+                    Room Suitable for <%= rooms[i].occupancy %>
+                </div>
+            </div>
+        </a>
+    </div>
+    <% } %>
+</div> 

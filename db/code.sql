@@ -17,13 +17,106 @@ CREATE TABLE users (
     userPrivilege INTEGER NOT NULL DEFAULT 0
 );
 
+SELECT * FROM users
+
 CREATE TABLE rooms (
     id INTEGER PRIMARY KEY,
-    suitableFor INTEGER NOT NULL,
-    numberOfBeds INTEGER NOT NULL,
-    pricePerNight INTEGER,
-    image TEXT NOT NULL
+    type TEXT NOT NULL,
+    occupancy INTEGER NOT NULL,
+    beds INTEGER NOT NULL,
+    bedType TEXT NOT NULL,
+    ppn INTEGER NOT NULL,
+    description TEXT
 );
+
+CREATE TABLE roomTypes (
+    id INTEGER PRIMARY KEY,
+    type TEXT NOT NULL UNIQUE
+);
+
+
+INSERT INTO roomTypes (type) VALUES ('Standard'), ('Deluxe')
+
+SELECT * FROM roomTypes
+
+DROP TABLE rooms
+
+CREATE TABLE images (
+    id INTEGER PRIMARY KEY,
+    src TEXT,
+);
+
+CREATE TABLE roomsImages (
+    id INTEGER,
+    idRoom INTEGER NOT NULL,
+    idImage INTEGER NOT NULL,
+    PRIMARY KEY (id, idRoom, idImage),
+    FOREIGN KEY (idRoom) REFERENCES rooms (id),
+    FOREIGN KEY (idImage) REFERENCES images (id)
+);
+
+CREATE TABLE bookings (
+    id INTEGER PRIMARY KEY,
+    idRoom INTEGER,
+    idUser INTEGER,
+    checkin TEXT NOT NULL,
+    checkout TEXT NOT NULL,
+    FOREIGN KEY (idRoom) REFERENCES rooms (id),
+    FOREIGN KEY (idUser) REFERENCES users (id),
+    UNIQUE (idRoom, idUser, checkin, checkout)
+);
+
+SELECT * FROM bookings
+
+DROP TABLE images;
+DROP TABLE roomsImages;
+
+UPDATE users SET userPrivilege = 1
+WHERE id = 1
+
+UPDATE users SET firstName = 'Test' WHERE id = 1
+
+SELECT * FROM bookings
+DROP TABLE bookings
+
+SELECT rooms.id, rooms.numberOfBeds,
+rooms.pricePerNight,
+bookings.checkin, bookings.checkout FROM rooms 
+INNER JOIN bookings
+ON bookings.idRoom = rooms.id
+INNER JOIN users
+ON bookings.idUser = users.id
+WHERE bookings.idUser = 1
+
+SELECT * FROM rooms
+
+
+
+
+CREATE TABLE userBooking (
+    idUser INTEGER,
+    idBooking INTEGER,
+    PRIMARY KEY (idUser, idBooking),
+    FOREIGN KEY (idUser) REFERENCES users (id),
+    FOREIGN KEY (idBooking) REFERENCES bookings (id)
+);
+
+INSERT INTO userBooking (idUser, idBooking) VALUES (1, 1)
+
+SELECT * FROM bookings
+INNER JOIN userBooking ON
+userBooking.idBooking = bookings.id
+INNER JOIN rooms
+ON bookings.idRoom = rooms.id
+INNER JOIN users
+ON userBooking.idUser = users.id
+WHERE users.id = 1
+
+SELECT * FROM userBooking
+SELECT * FROM bookings
+
+DROP TABLE userBooking;
+DROP TABLE bookings;
 
 -- CREATE TABLE bookings (
 --     id INTEGER PRIMARY KEY,
@@ -33,15 +126,6 @@ CREATE TABLE rooms (
 --     FOREIGN KEY (idRoom) REFERENCES rooms (id),
 --     UNIQUE (idRoom, checkin, checkout)
 -- );
-
-CREATE TABLE bookings (
-    id INTEGER PRIMARY KEY,
-    idRoom INTEGER,
-    checkin TEXT NOT NULL,
-    checkout TEXT NOT NULL,
-    FOREIGN KEY (idRoom) REFERENCES rooms (id),
-    UNIQUE (idRoom, checkin, checkout)
-);
 
 SELECT * FROM rooms;
 SELECT * FROM bookings
@@ -80,9 +164,6 @@ VALUES (2, 1, 2);
 
 SELECT * FROM rooms
 
-UPDATE users SET userPrivilege = 1
-WHERE id = 1
-
 DROP TABLE users
 DROP TABLE rooms
 
@@ -117,41 +198,8 @@ AND id NOT IN (
     SELECT idRoom
     FROM bookings
     WHERE checkout <= 2023-09-18
-) 
+) AND suitableFor = 3
 
-SELECT * FROM rooms
-LEFT JOIN bookings
-ON rooms.id = bookings.idRoom
-AND bookings.dateFrom <= "2023-09-17"
-AND bookings.dateTo >= "2023-09-20"
-WHERE 
-bookings.id IS NULL
-
-
-SELECT * FROM rooms
-WHERE rooms.id NOT IN (
-    SELECT idRoom
-    FROM bookings
-    wHERE dateFrom <= "2023-09-18"
-    AND dateTo > "2023-09-19"
-)
 
 DROP TABLE bookings;
 DROP TABLE roomUserBookings
-
-
-SELECT * FROM bookings
-
-SELECT *
-FROM rooms
-WHERE (
-    check_in_date > 'selected_check_out_date' OR
-    check_out_date < 'selected_check_in_date'
-) OR (
-    room_number NOT IN (
-        SELECT room_number
-        FROM room_bookings
-        WHERE check_in_date BETWEEN 'selected_check_in_date' AND 'selected_check_out_date'
-        OR check_out_date BETWEEN 'selected_check_in_date' AND 'selected_check_out_date'
-    )
-);

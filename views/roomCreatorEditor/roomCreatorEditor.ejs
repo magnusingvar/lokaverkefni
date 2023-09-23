@@ -1,25 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatile" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" type="text/css" href="css/navbar.css" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/footer.css" />
-        <title><%= title %></title>
-    </head>
-    <body>
-        <div class="container">
-            <%- include ('../includes/navbar') -%>
-            <div id="content">
-                <% if (operation == 'create') { %> 
-                    <%- include('../includes/forms/create/createForm') -%>
-                <% } else { %> 
-                    <%- include ('../includes/forms/update/updateForm') -%> 
-                <% } %>
-            </div>
-            <%- include ('../includes/footer') -%>
-        </div>
-    </body>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatile" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/navbar.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/footer.css" />
+    <title><%= title %></title>
+</head>
+<body>
+<%- include ('../includes/navbar') -%>
+    <div class="main">
+        <% if (operation == 'create') { %> 
+            <form action="/create" method="POST">
+                <label for="type">Room type: </label>
+                <select name="type" class="type">
+                    <% for (let i = 0; i < types.length; i += 1) { %>
+                        <option value="<%= types[i].type %>"><%= types[i].type %></option>
+                    <% } %> 
+                </select>
+                <br><br>
+            
+                <label for="occupancy">Room occupancy: </label>
+                <select name="occupancy" class="occupancy">
+                    <% for (let i = 1; i < 5; i += 1) { %>
+                        <option value="<%= i %>">
+                            <% if (i < 2) { %>
+                                <%= i %> Person
+                            <% } else { %>
+                                <%= i %> People
+                            <% } %>
+                        </option>
+                    <% } %>
+                </select>
+            
+                <br><br>
+            
+                <label for="beds">Number of beds: </label>
+                <select name="beds" class="beds">
+                    <% for (let i = 1; i < 3; i +=1) { %>
+                        <option value="<%= i %>">
+                            <% if (i < 2) { %>
+                                <%= i %> Bed
+                            <% } else { %>
+                                <%= i %> Beds
+                            <% } %>
+                        </option>
+                    <%} %>
+                </select>
+            
+                <label for="bedType">Bed type: </label>
+                <select name="bedType" class="bedType">
+                    <option value="Double">Double</option>
+                    <option value="Queen">Queen</option>
+                    <option value="King">King</option>
+                </select>
+                <br><br>
+            
+                <input type="text" name="ppn" class="price" placeholder="Price per night">
+                <input type="text" name="description" placeholder="Description">
+                <input type="submit" value="Create">
+            </form>
+            
+            <%= msg %>            
+        <% } else { %> 
+            <form action="/update" method="POST">
+                <label for="type">Room type: </label>
+                <select name="type" class="type">
+                    <% for (let i = 0; i < types.length; i += 1) { %>
+                        <option value="<%= room.id %>" <% if(types[i].id == room.type) {%> selected <% } %> ><%= room.name %>
+                            <%= types[i].type %>
+                        </option>
+                    <% } %>
+                </select>
+            
+                <input type="hidden" name="id" value="<%= room.id %>">
+                <label for="occupancy">Room occupancy: </label>
+                <select name="occupancy" class="occupancy">
+                    <% for (let i = 1; i < 5; i += 1) { %>
+                        <option value="<%= i %>">
+                            <% if (i < 2) { %>
+                                <%= i %> Person
+                            <% } else { %>
+                                <%= i %> People
+                            <% } %>
+                        </option>
+                    <% } %>
+                </select>
+            
+                <label for="beds">Number of beds: </label>
+                <select name="beds" class="beds">
+                    <% for (let i = 1; i < 5; i +=1) { %>
+                        <option value="<%= i %>">
+                            <% if (i < 2) { %>
+                                <%= i %> Bed
+                            <% } else { %>
+                                <%= i %> Beds
+                            <% } %>
+                        </option>
+                    <%} %>
+                </select>
+            
+                <input type="text" name="ppn" class="price" placeholder="Price per night" value="<%= room.ppn %>">
+                <input type="text" name="description" class="description" placeholder="Description" value="<%= room.description %>">
+                <input type="submit" value="Update">
+            </form>
+        <% } %>
+    </div>
+    <%- include ('../includes/footer') -%>
+</body>
 </html>

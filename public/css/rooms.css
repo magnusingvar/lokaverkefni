@@ -1,7 +1,6 @@
 #content {
+    display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: center;
 }
 
 .grid {
@@ -13,4 +12,19 @@
 .grid-item {
     height: fit-content;
     margin: 12px;
+}
+
+.msg {
+    text-align: center;
+}
+
+.attention {
+    animation: pulse 2s infinite;
+    border: 1px solid #d0342c;
+}
+
+@keyframes pulse {
+    0%   { border-color: #ff5f15; }
+    50%  { border-color: inherit; }
+    100% { border-color: #d0342c; }
 }

@@ -10,11 +10,16 @@ const dbFile = path.join(__dirname, '../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
+    const form = {
+        checkin: '',
+        checkout: ''
+    }
+
     if(req.session.validSession) {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        res.render('index', { title: 'Homepage', user, userPrivilege});
+        res.render('index', { title: 'Homepage', user, userPrivilege, form});
     } else {
-        res.render('index', { title: 'Homepage', user});
+        res.render('index', { title: 'Homepage', user, form});
     }
 });
 
