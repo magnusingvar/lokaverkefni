@@ -6,9 +6,11 @@ const validSession = require('../functions/userSession');
 const updateAccount = require('../../db/update/updateAccount');
 const dbFile = path.join(__dirname, '../../db/database.db');
 
-router.get('/', (req, res) => { 
-    updateAccount(dbFile, req.body.firstName, req.body.lastName, req.body.email, 1);
-    res.redirect('/')
+router.get('/', (req, res) => {
+    const user = validSession(req.session);
+    const userId = readUser(dbFile, user).id;
+    updateAccount(dbFile, req.query.firstName, req.query.lastName, req.query.email, req.query.userId);
+    res.redirect('/account');
 });
 
 module.exports = router;

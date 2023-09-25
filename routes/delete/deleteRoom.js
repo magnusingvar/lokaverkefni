@@ -12,6 +12,8 @@ router.post('/', (req, res) => {
         const room = readRoom(dbFile, req.body.id);
         deleteRoom(dbFile, req.body.id)
         res.redirect('/edit')
+    } else {
+        res.render('error', { title: 'Error', status: 403, msg: `Access denied.`, user });
     }
 });
 

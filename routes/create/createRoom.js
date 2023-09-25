@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
     try {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        if (userPrivilege == 1) {
+        if (userPrivilege == "administrator") {
             const types = readRoomTypes(dbFile);
             if (error != 1) {
                 res.render('roomCreatorEditor/roomCreatorEditor', { title: 'Create Room', operation: 'create', user, userPrivilege, types, msg: ''});
@@ -38,8 +38,12 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => { 
     try {
-        createRoom(dbFile, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
-        res.redirect('/create');
+        if (userPrivilege == "administrator") {
+            createRoom(dbFile, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
+            res.redirect('/create');
+        } else {
+            res.redirect('/');
+        }
     } catch (e) {
         res.redirect('/create?error=1');
     }

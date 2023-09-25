@@ -8,12 +8,12 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    if (req.session.loggedIn) {
+    if (req.session.validSession) {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        res.render('read/menu', { title: 'Menu', user, userPrivilege } );
+        res.render('read/menu', { title: 'Restaurant', user, userPrivilege } );
     } else {
         const userPrivilege = readUser(dbFile, user);
-        res.render('read/menu', { title: 'Menu', user, userPrivilege });
+        res.render('read/menu', { title: 'Restaurant', user, userPrivilege});
     }
 });
 

@@ -1,6 +1,6 @@
 const Database = require('better-sqlite3');
 
-module.exports = function updateAccount(dbFile, id, firstName, lastName, email) {
+module.exports = function updateAccount(dbFile, firstName, lastName, email, id) {
   const db = new Database(dbFile);
   const sql = db.prepare(`
   UPDATE users SET firstName = ?,

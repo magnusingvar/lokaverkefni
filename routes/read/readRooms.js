@@ -12,9 +12,18 @@ router.get('/', (req, res) => {
     const checkout = req.query.checkout;
     const people = req.query.people;
 
-    const rooms = readRooms(dbFile, checkin, checkout, people);
-    const header = 'Rooms';
+    let one_day = 1000 * 60 * 60 * 24
 
+    const ciDate = new Date(checkin)
+    const coDate = new Date(checkout)
+    
+    const checkinDate = ciDate.getTime();
+    const checkoutDate = coDate.getTime();
+
+
+    const nights = Math.round(checkoutDate - checkinDate)/one_day
+
+    const header = 'Rooms';
     const today = new Date();
     const yyyy = today.getFullYear();
     let mm = today.getMonth() + 1;
@@ -38,23 +47,62 @@ router.get('/', (req, res) => {
     date is not the same as the checkin date.`
 
     const url = req.url;
+    const price = req.query.price;
+    const occupancy = req.query.occupancy;
+    let priceSortBy = req.query.price;
+    let occupancySortBy = req.query.occupancy;
+
+
+    function orderRooms() {
+        // if (priceSortBy === undefined || priceSortBy === '') {
+        //     let orderby = `ORDER BY rooms.id`
+        //     let rooms = readRooms(dbFile, checkin, checkout, people, orderby);
+        //     return rooms;
+        // } else 
+        if (priceSortBy === 'asc' || priceSortBy === 'desc') {
+            let orderby = `ORDER BY rooms.ppn ${priceSortBy}`
+            let rooms = readRooms(dbFile, checkin, checkout, people, orderby);
+            return rooms;
+        } else  {
+            let orderby = `ORDER BY rooms.occupancy ${occupancySortBy}`
+            let rooms = readRooms(dbFile, checkin, checkout, people, orderby);
+            return rooms;
+        }
+    }
+
+    function readRoom() {
+        if (url.includes('price')) {
+            let rooms = orderRooms(priceSortBy);
+            return rooms;
+        } else if(url.includes('occupancy')) {
+            let rooms = orderRooms(occupancySortBy);
+            return rooms;
+        } else {
+            let orderby = `ORDER BY rooms.id ASC`
+            let rooms = readRooms(dbFile, checkin, checkout, people, orderby);
+            return rooms;
+        };
+    }
+
+    let rooms = readRoom();
 
     if (url == '/') {
         if (req.session.validSession) {
-            const rooms = readRooms(dbFile, '', '', '');
+            const rooms = readRooms(dbFile, '', '', '', '');
             const userPrivilege = readUser(dbFile, user).userPrivilege;
             res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'edit'});
         } else {
-            const userPrivilege = readUser(dbFile, user);
-            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'edit'});
+            res.redirect('/');
+            // const userPrivilege = readUser(dbFile, user);
+            // res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'edit'});
         }    
     } else {
         if (req.session.validSession) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
-            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'search'});
+            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy});
         } else {
             const userPrivilege = readUser(dbFile, user);
-            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'search'});
+            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy});
         }    
     }
 });

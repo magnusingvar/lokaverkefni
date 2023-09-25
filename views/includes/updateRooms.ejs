@@ -1,35 +1,37 @@
-<table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>View</th>
-            <th>Update</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <% for (let i = 0; i < rooms.length; i += 1){ %>
-        <tr>
-            <td>
-                <%= rooms[i].id %>
-            </td>
-            <td>
-                <form action="/room" method="GET">
-                    <button>View</button>
-                    <input type="hidden" name="id" value="<%= rooms[i].id %>">
-                </form>
-            </td>
-            <td>
-                <form action="/update" method="GET">
-                    <button>Update</button>
-                    <input type="hidden" name="id" value="<%= rooms[i].id %>">
-                </form>
-            </td>
-            <td>
-                <form action="/delete" method="POST">
-                    <button>Delete</button>
-                    <input type="hidden" name="id" value="<%= rooms[i].id %>"> 
-                </form>
-            </td>
-        </tr>
-    <% } %>
-</table>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>View</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <% for (let i = 0; i < rooms.length; i += 1){ %>
+            <tr>
+                <td>
+                    <%= rooms[i].id %>
+                </td>
+                <td>
+                    <form action="/room" method="GET">
+                        <button>View</button>
+                        <input type="hidden" name="id" value="<%= rooms[i].id %>">
+                    </form>
+                </td>
+                <td>
+                    <form action="/update" method="GET">
+                        <button>Update</button>
+                        <input type="hidden" name="id" value="<%= rooms[i].id %>">
+                    </form>
+                </td>
+                <td>
+                    <form action="/delete" method="POST">
+                        <button>Delete</button>
+                        <input type="hidden" name="id" value="<%= rooms[i].id %>"> 
+                    </form>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+</div>

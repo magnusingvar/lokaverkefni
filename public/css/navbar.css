@@ -1,19 +1,27 @@
+.navbar {
+    flex: none;
+    width: 100%;
+}
+
 /* Navbar desktop start */
 .navbar-desktop {
-	  position: relative;
-	  width: 100%;
-	  height: 73px;
+	width: 100%;
+	height: 73px;
     display: flex;
     background: var(--nav-bg);
     padding: 0 15px;
-	  border-bottom: 1px solid #000;
-	  z-index: 1;
+	border-bottom: 1px solid #000;
+	z-index: 1;
 }
   
 .logo {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-item {
+    padding: 0 10px;
 }
 
 .nav, .right{
@@ -24,7 +32,7 @@
 }
   
 .right {
-	  margin-left: auto;
+	margin-left: auto;
 }
 
 .item {
@@ -32,9 +40,15 @@
     align-items: center;
 }
 
+.icon {
+    display: inline-block;
+}
+
 .user::before {
-    display: block;
-    content: url(/svg/person.svg);
+    content: url(/svg/user.svg);
+    position: relative;
+    top: 2px;
+    margin: 0 8px 0 0;
 }
 
 a {
@@ -49,48 +63,10 @@ a {
     overflow: hidden;
 }
   
-.dropdown .dropbtn {
-    cursor: pointer;
-    font-size: 16px;  
-    border: none;
-    outline: none;
-    color: var(--text-black);
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-}
-  
-.dropdown-content {
-    text-align: center;
-    margin-top: 47px;
-    display: none;
-    position: absolute;
-    background-color: var(--bg-color);
-    min-width: auto;
-    border-top: 0px;
-    border: 1px solid #000;
-    /* border-radius: 0px 0px 12px 12px; */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-  
-.dropdown-content a {
-    display: block;
-    color: var(--text-black);
-    padding: 10px 12px;
-    text-decoration: none;
-}
-  
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-  
-.show {
-    display: flex;
-    flex-direction: column;
-}
-  
 .sub-nav {
+    width: 100%;
+    height: 30px;
+    background: var(--bg-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -138,7 +114,7 @@ a {
 }
   
   
-@media only screen and (max-width: 580px) {
+@media only screen and (max-width: 600px) {
     .navbar-desktop {
       display: none;
   }

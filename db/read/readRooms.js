@@ -1,6 +1,6 @@
 const Database = require('better-sqlite3');
 
-module.exports = function readRooms(dbFile, checkin, checkout, people) {
+module.exports = function readRooms(dbFile, checkin, checkout, people, orderby) {
     const db = new Database(dbFile);
     const sql = db.prepare(`
         SELECT *
@@ -20,9 +20,9 @@ module.exports = function readRooms(dbFile, checkin, checkout, people) {
             SELECT idRoom
             FROM bookings
             WHERE checkout <= ?
-        )
+        ) ${orderby}
     `);
-    
+            
     const rooms = sql.all(people, checkin, checkin, checkout, checkout, checkin, checkout, checkout);
     db.close();
     return rooms;

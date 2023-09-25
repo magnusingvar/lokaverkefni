@@ -9,9 +9,17 @@
     <link rel="stylesheet" type="text/css" href="css/footer.css" />
     <link rel="stylesheet" type="text/css" href="css/rooms.css" />
     <title><%= title %></title>
+    <% if (userPrivilege == "administrator") { %>
+    <style>
+    .container {
+         height: calc(100vh - 203px);
+    }
+    </style>
+    <% } %>
 </head>
 <body>
 <%- include('../includes/navbar') %>
+<div class="container">
     <% if (operation != 'edit') { %>
         <% if (checkin != '' && checkout != '' && checkin != checkout && checkin >= formattedToday && !(checkout <= checkin)) { %>
             <%- include('../includes/rooms') %>
@@ -28,6 +36,7 @@
     <% } else { %>
         <%- include('../includes/updateRooms') %>
     <% } %>
+</div>
 <%- include('../includes/footer') %>
 </body>
 </html>

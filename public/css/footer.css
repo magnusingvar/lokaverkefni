@@ -1,5 +1,4 @@
-#footer {
-    position: relative;
+.footer {
     width: 100%;
     min-height: 100px;
     display: flex;
@@ -7,6 +6,7 @@
     background-color: #000;
     color: #fff;
     font-weight: 300;
+    flex: none;
 }
 
 .footer-container {
@@ -34,30 +34,26 @@
     color: #fff;
 }
 
-.icon {
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    margin-right: 10px;
-}
-
-.icon > span > i {
-    display: block;
-}
-
 .location::before {
-    display: block;
+    filter: invert(100%);
     content: url(/svg/location.svg);
+    position: relative;
+    top: 2px;
+    margin: 0 8px 0 0;
 }
 
 .email::before {
-    display: block;
+    filter: invert(100%);
     content: url(/svg/envelope.svg);
+    position: relative;
+    top: 2px;
 }
 
 .phone::before {
-    display: block;
-    content: url(/svg/phone.svg)
+    filter: invert(100%);
+    content: url(/svg/phone.svg);
+    position: relative;
+    top: 2px;
 }
 
 @media only screen and (max-width: 360px) {

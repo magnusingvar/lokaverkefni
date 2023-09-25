@@ -1,4 +1,4 @@
-<div id="navbar">
+<div class="navbar">
     <!-- Navbar Desktop Start -->
     <div class="navbar-desktop">
         <div class="logo">
@@ -10,54 +10,31 @@
         <ul class="nav">
             <!-- <li><a href="/">Home</a></li> -->
             <!-- <li><a href="/rooms">Rooms</a></li> -->
-            <li><a href="/menu">Menu</a></li>
+            <li class="nav-item"><a href="/restaurant">Restaurant</a></li>
+            <% if (user != 'none') { %>
+                <li class="nav-item"><a href="/bookings">Bookings</a></li>
+            <% } %>
+            <li class="nav-item"><a href="/contact">Contact</a></li>
         </ul>
 
-        <ul class="right">
-            <!-- <div class="item">
-                <select>
-                    <option class="test">
-                        <p>
-                            &#127470;&#127480; 
-                        </p>
-                    </option>
-                </select>
-            </div> -->
+        <ul class="right">        
             <div class="item">
                 <% if (user == 'none') { %>
                     <div class="icon">
-                        <span>
-                            <i class="i user"></i>
-                        </span>
+                        <div class="i user"></div>
                     </div>
                     <a href="/login">Login</a>
                 <% } else { %>
                     <div class="icon">
-                        <span>
-                            <i class="i user"></i>
-                        </span>
+                        <div class="i user"></div>
                     </div>
                     <a href="/account">My account</a>
                 <% } %>
             </div>
         </ul>
         
-        <!-- <div class="dropdown">
-            <p class="dropbtn" onclick="myFunction()"> My Account </p>
-            <div class="dropdown-content" id="myDropdown">
-                <% if (user == 'none') { %>
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
-                <% } else { %>
-                <a href="/account">Settings</a>
-                <a href="/logout">Logout</a>
-                <% } %>
-            </div>
-            <script src="js/dropdown.js"></script>
-        </div> -->
-        <!-- <a href="/account">My account</a> -->
     </div>
-    <% try { if (userPrivilege == 1) { %>
+    <% try { if (userPrivilege == "administrator") { %>
     <div class="sub-nav">
         <ul id="sub-nav">
             <li><a href="/create">Create Room</a></li>

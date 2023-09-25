@@ -11,10 +11,17 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <title><%= title %></title>
+        <% if (userPrivilege == "administrator") { %>
+        <style>
+        .container {
+            height: calc(100vh - 203px);
+        }
+        </style>
+        <% } %>
 </head>
 <body>
     <%- include('../includes/navbar') %> 
-
+    <div class="container">
         <% if (bookings.length > 0) { %>
             <table>
                 <thead>
@@ -41,8 +48,12 @@
                 <% } %>
             </table>
         <% } else { %>
-            <%= msg %> <a href="/login">login</a>
+            <% if (user = 'none') { %>
+                Please login to view bookings
+            <% } %>
+            <%= msg %>
         <% } %>
+    </div>
     <%- include('../includes/footer') %>
 </body>
 </html>

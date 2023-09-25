@@ -1,30 +1,25 @@
-    <form action="/account" method="POST" id="form">
+<div class="container">
+<div id="account">
+    <form action="/updateAccount" method="GET" id="form">
         <div id="accountInfo">
-            <h3 class="header"><%= header %></h3>
-            <div id="userInfo">
-                <div id="name">
-                    <input
-                        type="text"
-                        value="<%= account.firstName %>"
-                        class="firstName"
-                    />
-                    <input
-                        type="text"
-                        value="<%= account.lastName %>"
-                        class="lastName"
-                    />
-                </div>
-
-                <input
-                    type="email"
-                    value="<%= account.email %>"
-                    class="email"
-                />
-                <a href="/logout">Logout</a>
-                <button>
-                    <a href="/deleteAccount">Delete account</a>                    
-                </button>
-
+            <div id="name">
+                <input type="text" value="<%= account.firstName %>" name="firstName">
+                <input type="text" value="<%= account.lastName %>" name="lastName">
             </div>
+            
+            <div id="email">
+                <input type="text" value="<%= account.email %>" name="email" class="email">
+            </div>
+
+            <input type="hidden" value="<%= account.id %>" name="userId">
+            <input type="submit" value="Update account">
         </div>
     </form>
+    
+    <div id="logoutDelete">
+        <a href="/logout">Logout</a>
+
+        <a href="/deleteAccount" class="delete">Delete account</a>                    
+    </div>
+</div>
+</div>

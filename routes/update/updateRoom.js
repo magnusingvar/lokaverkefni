@@ -12,12 +12,12 @@ router.get('/', (req, res) => {
     const user = validSession(req.session);
     try {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        if (userPrivilege == 1) {
+        if (userPrivilege == "administrator") {
             const room = readRoom(dbFile, req.query.id);
             const types = readRoomTypes(dbFile);
             res.render('roomCreatorEditor/roomCreatorEditor', { title: 'Create Room', operation: 'update', user, userPrivilege, room, types});
         } else {
-            res.send('test');
+            res.render('error', { title: 'Error', status: 403, msg: `Access denied.`, username });
         }
     } catch (e) {
         res.redirect('/');

@@ -14,9 +14,10 @@ CREATE TABLE users (
     lastName TEXT NOT NULL,
     email TEXT NOT NULL,
     password TEXT NOT NULL,
-    userPrivilege INTEGER NOT NULL DEFAULT 0
+    userPrivilege INTEGER NOT NULL DEFAULT 'user'
 );
 
+DROP TABLE users
 SELECT * FROM users
 
 CREATE TABLE rooms (
@@ -61,17 +62,17 @@ CREATE TABLE bookings (
     idUser INTEGER,
     checkin TEXT NOT NULL,
     checkout TEXT NOT NULL,
-    FOREIGN KEY (idRoom) REFERENCES rooms (id),
-    FOREIGN KEY (idUser) REFERENCES users (id),
+    FOREIGN KEY (idRoom) REFERENCES rooms (id) ON DELETE CASCADE,
+    FOREIGN KEY (idUser) REFERENCES users (id) ON DELETE CASCADE,
     UNIQUE (idRoom, idUser, checkin, checkout)
 );
 
 SELECT * FROM bookings
 
 DROP TABLE images;
-DROP TABLE roomsImages;
+DROP TABLE bookings;
 
-UPDATE users SET userPrivilege = 1
+UPDATE users SET userPrivilege = "administrator"
 WHERE id = 1
 
 UPDATE users SET firstName = 'Test' WHERE id = 1

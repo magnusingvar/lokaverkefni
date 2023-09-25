@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 // post login page
 router.post('/', (req, res) => {
     const header = 'Login';
-
+    
     /* Keep the form data to use when
 	an error is thrown so the user
 	does not have to retype it */
@@ -57,7 +57,7 @@ router.post('/', (req, res) => {
             res.render('login', { title: 'Login', user, header, form: form, error: 'Password incorrect' });
         }
     } catch (e) {
-        res.render('login', { title: 'Login', user: '', header, form: form, error: 'User does not exist' });
+        res.render('login', { title: 'Login', user: 'none', header, form: form, error: 'User does not exist' });
     }
 });
 // try {

@@ -8,10 +8,17 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/footer.css" />
     <title><%= title %></title>
+    <% if (userPrivilege == "administrator") { %>
+    <style>
+    .container {
+        height: calc(100vh - 203px);
+    }
+    </style>
+    <% } %>
 </head>
 <body>
 <%- include ('../includes/navbar') -%>
-    <div class="main">
+    <div class="container">
         <% if (operation == 'create') { %> 
             <form action="/create" method="POST">
                 <label for="type">Room type: </label>

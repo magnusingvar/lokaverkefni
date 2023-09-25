@@ -7,7 +7,7 @@ const frontPage = require('./routes/');
 
 const readRooms = require('./routes/read/readRooms');
 const readRoom = require('./routes/read/readRoom');
-const readMenu = require('./routes/read/readMenu');
+const readRestaurant = require('./routes/read/readMenu');
 
 const booking = require('./routes/create/createBooking');
 const userBooking = require('./routes/read/userBooking');
@@ -57,7 +57,7 @@ app.use('/deleteAccount', deleteAccount);
 app.use('/create', createRoom);
 app.use('/rooms', readRooms);
 app.use('/room', readRoom);
-app.use('/menu', readMenu);
+app.use('/restaurant', readRestaurant);
 // app.use('/edit-menu', edit);
 app.use('/book', booking);
 app.use('/bookings', userBooking);

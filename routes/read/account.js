@@ -10,8 +10,9 @@ router.get('/', (req, res) => {
     const header = 'My account';
     const user = validSession(req.session);
     if (req.session.validSession) {
+        const userPrivilege = readUser(dbFile, user).userPrivilege;
         const account = readUser(dbFile, user);
-        res.render('read/account', { title: 'Homepage', account, user, header });
+        res.render('read/account', { title: 'My account', account, user, userPrivilege, header });
     } else {
         res.redirect('/login');
     }
