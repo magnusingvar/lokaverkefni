@@ -1,0 +1,10 @@
+.container {
+    height: calc(100vh - 173px);
+}
+
+#contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

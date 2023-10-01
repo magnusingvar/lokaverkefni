@@ -4,34 +4,81 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatile" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/navbar.css" />
-    <link rel="stylesheet" type="text/css" href="css/footer.css" />
-    <link rel="stylesheet" type="text/css" href="css/rooms.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
+    <link rel="stylesheet" type="text/css" href="/css/footer.css" />
+    <link rel="stylesheet" type="text/css" href="/css/rooms.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
-    <% if (userPrivilege == "administrator") { %>
+    <!-- <% if (userPrivilege == "administrator") { %>
     <style>
     .container {
-         height: calc(100vh - 203px);
+         height: calc(100vh - 220px);
     }
     </style>
-    <% } %>
+    <% } %> -->
 </head>
 <body>
 <%- include('../includes/navbar') %>
 <div class="container">
     <% if (operation != 'edit') { %>
         <% if (checkin != '' && checkout != '' && checkin != checkout && checkin >= formattedToday && !(checkout <= checkin)) { %>
-            <%- include('../includes/rooms') %>
+            <h2 class="header"><%= header %></h2>
+            <form action="/rooms" id="form">
+                <label for="orderby">Sort by:</label>
+                <select id="orderby">
+                    <option value="" title="default">Default</option>
+                    <option value="asc" title="price" <% if(priceSortBy == "asc") {%> selected <% } %>>Price Low - High</option>
+                    <option value="desc" title="price" <% if(priceSortBy == "desc") {%> selected <% } %>>Price High - Low</option>
+                    <option value="asc" title="occupancy" <% if(occupancySortBy == "asc") {%> selected <% } %>>Occupancy Low - High</option>
+                    <option value="desc" title="occupancy" <% if(occupancySortBy == "desc") {%> selected <% } %>>Occupancy High - Low</option>
+                </select>
+            </form>
+
+            <script src="js/orderby.js"></script>
+            <div class="rooms">
+            <% if (rooms.length > 0) { %>
+                <% for (let i = 0; i < rooms.length; i += 1){ %>
+                    <div class="room">
+                        <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>">
+                            <div id="room">
+                                <div class="image" <% if (rooms[i].type == "Standard") { %> style="background-image: url('images/rooms/standard/room.webp');" <% } %> else { style="background-image: url('images/rooms/deluxe/room.webp');" %> }></div>
+                                <div class="title">
+                                        <%= rooms[i].type %> Room
+                                </div>
+
+                                <div class="info">
+                                    <div id="price" title="Total price">
+                                        $<%= rooms[i].ppn * nights %>
+                                    </div>
+                                    <div id="guests" title="Maximum room occupancy capacity">
+                                        <div class="icon">
+                                            <span class="i guests"></span>
+                                        </div>
+                                        <span>
+                                            <%= rooms[i].occupancy %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>     
+                        </a>   
+                    </div>
+                <% } %>  
+            <% } else { %>
+                No rooms available
+            <% } %>
+        </div>
         <% } else { %>
-            <h2>Invalid search</h2>
-            <%- include('../includes/forms/roomSearch') %>
+            <h2 class="header">Invalid search</h2>
+            <%- include('../includes/roomSearch') %>
                 <div class="msg">
                     <p>
                         <%= msg %>
                     </p>
                 </div>
-            <script src="js/test.js"></script>
+            <script src="js/checkIfBookingDatesValid.js"></script>
         <% } %>
     <% } else { %>
         <%- include('../includes/updateRooms') %>

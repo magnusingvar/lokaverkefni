@@ -7,6 +7,8 @@
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <link rel="stylesheet" type="text/css" href="css/navbar.css" />
         <link rel="stylesheet" type="text/css" href="css/footer.css" />
+        <link rel="stylesheet" type="text/css" href="css/bookingCheckout.css" />
+
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -14,7 +16,7 @@
         <% if (userPrivilege == "administrator") { %>
         <style>
         .container {
-            height: calc(100vh - 203px);
+            height: calc(100vh - 220px);
         }
         </style>
         <% } %>
@@ -23,24 +25,29 @@
     <%- include('../includes/navbar') %> 
     <div class="container">
         <% if (bookings.length > 0) { %>
-            <table>
-                <thead>
+            <h1 class="header">My bookings</h1>
+            <table class="table">
+                <tr>
+                    <th>Room type</th>
                     <th>Checkin</th>
                     <th>Checkout</th>
-                </thead>
+                    <th class="hidden">View</th>
+                    <th class="hidden">Cancel</th>
+                </tr>
                 <% for (let i = 0; i < bookings.length; i += 1){ %>
                     <tr>
+                        <td><%= bookings[i].type %> Room</td>
                         <td><%= bookings[i].checkin %></td>
                         <td><%= bookings[i].checkout %></td>
                         <td>
                             <form action="/room" method="GET">
-                                <button>View</button>
+                                <input type="submit" value="View" class="btn">
                                 <input type="hidden" name="id" value="<%= bookings[i].idRoom %>">
                             </form>
                         </td>
                         <td>
                             <form action="/cancel" method="POST">
-                                <button>Cancel</button>
+                                <input type="submit" value="Cancel" class="btn danger">
                                 <input type="hidden" name="id" value="<%= bookings[i].id %>">
                             </form>
                         </td>
@@ -48,10 +55,11 @@
                 <% } %>
             </table>
         <% } else { %>
-            <% if (user = 'none') { %>
-                Please login to view bookings
+            <% if (user == 'none') { %>
+                <p style="margin-top: 10rem;">Please login to view bookings</p>
+            <% } else { %>
+                <p style="margin-top: 10rem;"><%= msg %></p>
             <% } %>
-            <%= msg %>
         <% } %>
     </div>
     <%- include('../includes/footer') %>

@@ -1,24 +1,29 @@
-<div class="navbar">
+<div id="navbar">
     <!-- Navbar Desktop Start -->
-    <div class="navbar-desktop">
-        <div class="logo">
+    <div id="navbar-desktop">
+        <div id="logo">
             <a href="/">
-                <img src="svg/logo.svg" />
+                <img src="/svg/logo.svg" />
             </a>
         </div>
 
-        <ul class="nav">
-            <!-- <li><a href="/">Home</a></li> -->
-            <!-- <li><a href="/rooms">Rooms</a></li> -->
+        <ul id="nav">
             <li class="nav-item"><a href="/restaurant">Restaurant</a></li>
-            <% if (user != 'none') { %>
-                <li class="nav-item"><a href="/bookings">Bookings</a></li>
-            <% } %>
+            <li class="nav-item"><a href="/bookings">Bookings</a></li>
             <li class="nav-item"><a href="/contact">Contact</a></li>
         </ul>
 
-        <ul class="right">        
+        <ul class="right">    
             <div class="item">
+                <a href="/checkout">
+                    <div class="icon">
+                        <div class="i basket"></div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item">
+                
                 <% if (user == 'none') { %>
                     <div class="icon">
                         <div class="i user"></div>
@@ -35,36 +40,37 @@
         
     </div>
     <% try { if (userPrivilege == "administrator") { %>
-    <div class="sub-nav">
-        <ul id="sub-nav">
+    <div id="sub-nav">
+        <ul id="sub-navigation">
             <li><a href="/create">Create Room</a></li>
             <li><a href="/edit">Edit Rooms</a></li>
             <li><a href="/add">Add to Menu</a></li>
-
             <li><a href="/edit-menu">Edit Menu</a></li>
         </ul>
     </div>
     <% }} catch (e) {} %>
-
     <!-- Navbar Desktop End -->
 
     <!-- Navbar Mobile Start -->
-    <div class="navbar-mobile">
-        <div class="logo-mobile">
+    <div id="navbar-mobile">
+        <div id="logo-mobile">
             <a href="/">
-                <img src="svg/logo.svg" />
+                <img src="/svg/logo.svg"/>
             </a>
         </div>
 
-        <!-- <div class="hamburger-menu">
-            <img src="hamburger.svg" />
-        </div> -->
-
-        <ul class="nav-mobile">
-            <!-- <li><a href="/">Home</a></li> -->
-            <!-- <li>Rooms</li> -->
-            <li><a href="/menu">Menu</a></li>
+        <ul id="nav-mobile">
+            <li><a href="/restaurant">Restaurant</a></li>
+            <li><a href="/bookings">Bookings</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/checkout">Basket</a></li>
+            <% if (user == 'none') { %>
+                <li><a href="/login">Login</a></li>
+            <% } else { %>
+                <li><a href="/account">My account</a></li>
+            <% } %>
         </ul>
+
 
     </div>
     <!-- Navbar Mobile End -->

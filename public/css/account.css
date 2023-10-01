@@ -1,6 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    height: calc(100vh - 173px);
 }
 
 #account {
@@ -19,24 +20,29 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-bottom: 1px solid black;
+    padding: 0 0 10px 0;
 }
 
-#userInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+#accountInfo > #firstName, #lastName,
+#email > #accEmail {
+    width: 100%;
+    padding: 10px 5px;
 }
 
+#email {
+    width: 100%;
+    margin: 0 0 10px 0;
+}
 
 #name {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    margin: 0 0 10px 0;
 }
 
-#email, .email {
-    width: 100%;
-}
+
 
 #logoutDelete {
     margin: 0 auto;
@@ -45,16 +51,17 @@
     flex-direction: column;
 }
 
+
 .delete {
     position: relative;
     bottom: 0;
     color: #ffffff;
-    background: #f32013;
+    background: #BF0603;
     border: 2px solid #000;
     margin: 10px 0;
     padding: 15px 10px;
 }
 
 .delete:hover {
-    background: #ca0b00;
+    background: #A30000;
 }

@@ -1,38 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 
+:root {
+    --primary-color: #f2eee7 ;
+    --secondary-color: #fbfaf8;
+    --btn-primary: #004485;
+    --btn-secondary: #004e98;
+    --text-primary: #221e22;
+    --text-secondary: #F7F7FF;
+
+    --danger: #f32013;
+}
+
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     font-family: 'Oxygen', Arial, Helvetica, sans-serif;
-}
-
-/* Custom scrollbar start */
-::-webkit-scrollbar {
-    width: 10px;
-}
-  
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px rgb(97, 97, 97);
-}
-  
-::-webkit-scrollbar-thumb {
-    background: #575656;
-    border-radius: 10px;
-}
-/* Custom scrollbar end */
-
-:root {
-    --bg-color: #f3f3f3 ;
-    --text-white: #ffffff;
-    --text-black: #000000;
-    --nav-bg: #ffffff;
-    --btn-bg-color: #dfdfe8;
-    --btn-bg-hover: #bebec9;
-}
-
-html, body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 html {
@@ -40,15 +23,28 @@ html {
 }
 
 body {
-    margin: 0;
-    background: var(--bg-color);
+    background: var(--primary-color);
+}
+
+a {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.header {
+    margin: 20px 0 20px 0;
 }
 
 .hero {
     width: 100%;
     height: calc(100vh - 73px);
-    color: var(--text-white);
+    color: var(--text-secondary);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url('/images/hero.webp');
@@ -58,10 +54,10 @@ body {
     background-attachment: fixed;
 }
 
-.more{
+.more {
+    padding: 0 0 12px 0;
     position: absolute;
     bottom: 0;
-    margin: 20px 0 20px 0;
 }
 
 .mouse::before {
@@ -77,10 +73,6 @@ body {
     flex-direction: column;
     align-items: center;
     scale: 1.2;
-}
-
-.book-now > h2 {
-    margin: 0;
 }
 
 #booking {
@@ -110,22 +102,27 @@ body {
     padding: 14px 8px;
     height: 100%;
     border: 1px solid #000;
-    border-radius: 3px;
+    border-radius: 4px;
     background: #f1f1f1;
 }
 
 .btn {
     border: 1px solid #000;
-    border-radius: 3px;
-    background: var(--btn-bg-color);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    background: var(--btn-primary);
     margin-top: auto;
-    padding: 15px 12px;
+    padding: 15px 20px;
     cursor: pointer;
 }
 
 .btn:hover {
     cursor: pointer;
-    background: var(--btn-bg-hover);
+    background: var(--btn-secondary);
+}
+
+.danger {
+    background: var(--danger) !important;
 }
 
 #main {
@@ -136,61 +133,66 @@ body {
     margin: 0 1.5rem;
 }
 
-.row {
+.section {
     width: auto;
     display: flex;
     margin: 20px;
-    /* padding: 0 20px 0 20px; */
     align-items: center;
-    line-height: 3.8rem;
 }
 
-.row > .image {
-    padding: 0 25px 25px 0;
+.section > .image-left {
+    padding: 0 0 0 25px;
+}
+
+.section > .image-right {
+    padding: 0 25px 0 0;
 }
 
 .img {
-    max-width: 450px;
-    min-width: auto;
+    max-width: 80vw;
+    min-width: 100%;
+    width: auto; 
 }
 
-#content {
-    display: flex;
-    align-items: center;
-    height: calc(100vh - 173px);
-}
-
-.msg {
-    max-width: 50vw;
-}
-
-/* @media only screen and (max-width: 750px) {
-    .img {
-        width: 200px;
+/* responsive media queries */
+@media only screen and (max-width: 1100px) {
+    #main > .section {
+        flex-direction: column;
     }
-} */
 
-@media only screen and (max-width: 650px) {
+    .section > .image-left {
+        padding: 0;
+        width: auto;
+    }
+
+    .section > .image-right {
+        padding: 0;
+    }
+}
+
+@media only screen and (max-width: 670px) {
+    .hero {
+        justify-content: space-evenly;
+    }
+
+    .book-now {
+        padding-top: 4rem;
+    }
+    
+
     .booking {
         flex-direction: column;
     }
-}
 
-@media only screen and (max-width: 550px) {
-    #main {
-        height: 100%;
+    .more {
+        position: relative;
     }
 }
 
-@media only screen and (max-width: 400px) {
-    .row {
+@media only screen and (max-width: 200px) {
+    .book-now {
         display: flex;
-        flex-direction: column;
-    }
-}
-
-@media only screen and (max-width: 300px) {
-    #content {
-        height: auto;
+        width: auto;
+        scale: 0.9;
     }
 }

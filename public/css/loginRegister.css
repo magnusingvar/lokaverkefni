@@ -1,5 +1,13 @@
-.header {
-    display: inline-block;
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - 173px);
+}
+
+.email, .password{
+    border: 1px solid #808080;
+    border-radius: 4px;
 }
 
 #register, #login {
@@ -34,6 +42,7 @@
     width: 30px;
     padding: 0;
     border: 0;
+    user-select: none;
 }
 
 .eye-show {
@@ -70,14 +79,18 @@ input[type=email]:focus {
     /* max-width: calc(100vw/3);
     min-width: calc(100vw/4); */
     padding: 10px 0;
-    background-color: #f2f3f4;
-    border: 1px solid gray;
+    background-color: var(--btn-primary);
+    color: white;
+    font-weight: bold;
+    /* border: 1px solid #808080; */
     font-size: 16px;
+    border: none;
+    border-radius: 4px;
 }
 
 .btn:hover {
     cursor: pointer;
-    background-color: #dde1e5;
+    background-color: var(--btn-secondary);
 }
 
 #content {

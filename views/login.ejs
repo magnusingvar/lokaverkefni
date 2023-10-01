@@ -8,13 +8,45 @@
     <link rel="stylesheet" type="text/css" href="css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="css/footer.css" />
     <link rel="stylesheet" type="text/css" href="css/loginRegister.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
 </head>
 <body>
 <%- include('includes/navbar') %> 
-    <div class="container">
-        <%- include('includes/forms/loginForm') %> 
+<div class="container">
+    <div id="login">
+        <h3 class="header"><%= header %></h3>
+        <form action="/login" method="POST" id="form">
+            <!-- <input type="text" name="firstName" id="firstName" placeholder="First Name">
+            <input type="text" name="lastName" id="lastName" placeholder="Last Name"> -->
+            <div id="email">
+                <input type="email" name="email" id="email" class="email" placeholder="Email" value="<%= form.email %>" autocomplete="email" />
+            </div>
+    
+            <div id="password">
+                <input type="password" name="password" class="password" placeholder="Password" value="<%= form.password %>" />
+                    
+                <div class="pswd-show-btn">
+                    <span class="i eye-show" id="showPswdBtn"></span>
+                </div>
+            </div>
+    
+            <input type="submit" value="Login" id="button" class="btn" />
+    
+            <div><% if (error) { %> <%= error %> <% } %></div>
+    
+            <script src="js/script.js" type="module"></script>
+        </form>
+        <div class="container-register">
+            <p>
+                Don't have an account?
+                <a href="/register" class="link">Register</a>
+            </p>
+        </div>
     </div>
+</div>
 <%- include('includes/footer') %>
 </body>
 </html>

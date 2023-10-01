@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatile" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/navbar.css" />
+    <link rel="stylesheet" type="text/css" href="css/footer.css" />
+    <link rel="stylesheet" type="text/css" href="css/bookingCheckout.css" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <title><%= title %></title>
+</head>
+<body>
+<%- include('../includes/navbar') %> 
+<div class="container">
+    <% if (room.length < 1) { %>
+        You don't have any unpaid bookings
+    <% } else { %>
+    <h3 class="header">Checkout</h3>
+    <div class="order">
+    
+        <form action="checkout" method="post" id="test">
+            <input type="text" placeholder="Name on card">
+            <input type="tel" placeholder="Card number">
+            <input type="cvc" placeholder="CVC">
+            <input type="text" id="expiration-date" maxlength="5" placeholder="MM/YY">
+            <input type="submit" value="Pay">
+        </form>
+
+        <script>
+            const expirationDateInput = document.getElementById('expiration-date');
+    
+            expirationDateInput.addEventListener('input', function () {
+                // Remove any non-digit characters
+                let sanitizedInput = expirationDateInput.value.replace(/\D/g, '');
+    
+                // Check if the input length is greater than 2, and if so, insert a "/"
+                if (sanitizedInput.length > 2) {
+                    sanitizedInput = sanitizedInput.slice(0, 2) + '/' + sanitizedInput.slice(2);
+                }
+    
+                // Update the input field with the formatted value
+                expirationDateInput.value = sanitizedInput;
+            });
+        </script>
+
+        <div class="order-info">
+            Your order:
+            <p><%= room.type %> Room</p>
+            <p>Total: $<%= room.price %></p>
+        </div>
+    
+    </div>
+    <!-- <form action="/remove" method="POST">
+        <button>X</button>
+    </form> -->
+    <% } %>
+
+</div>
+<%- include('../includes/footer') %> 
+</body>
+</html>

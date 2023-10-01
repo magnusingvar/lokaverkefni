@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
         const userId = readUser(dbFile, user).id; 
         const bookings = getBooking(dbFile, userId);
+        console.log(bookings)
         res.render('read/bookings', { title: 'My Bookings', user, userPrivilege, bookings, msg: `You have not made any bookings`} );
     } else {
         const userPrivilege = readUser(dbFile, user);

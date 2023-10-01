@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 173px);
+    align-items: center;
+}
+
+tr > td {
+    padding: 10px;
+    border: 1px solid red;
+}
+
+.order {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.order-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 0 0 0 20px;
+}
+
+#test {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+    margin: 0 40px 0 0;
+}
+
+.order-info > p {
+    margin: 0;
+}

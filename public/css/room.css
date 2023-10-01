@@ -1,4 +1,5 @@
 form {
+    position: relative;
     display: flex;
     justify-content: center;
     margin: 14px 0 13px 0;
@@ -12,7 +13,7 @@ form {
 }
 
 .stay {
-    background: var(--btn-bg-color);
+    background: #dfdfe8;
     font-size: calc(1rem / 1.2);
     padding: 5px 20px 5px 20px;
     display: flex;
@@ -77,7 +78,8 @@ form {
 }
 
 .images {
-    max-width: fit-content;
+    max-width: 560px;
+    /* height: 100%; */
     position: relative;
     margin: 0 auto;
 }
@@ -85,11 +87,14 @@ form {
 .image {    
     display: none;
     margin: 0;
+    max-height: 370px;
 }
 
 .img {
     width: 100%;
-    height: 320px;
+    height: inherit;
+    /* height: 320px; */
+    border-radius: 0.8rem;
 }
 
 .prev, .next {
@@ -154,9 +159,9 @@ form {
         margin: 0 auto;
     } */
 
-    .images {
+    /* .images {
         margin: 15px;
-    }
+    } */
 
     .images, .image, .img {
         width: 100%;

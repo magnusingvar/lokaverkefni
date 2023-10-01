@@ -17,9 +17,6 @@ const createRoom = require('./routes/create/createRoom');
 const updateRoom = require('./routes/update/updateRoom');
 const deleteRoom = require('./routes/delete/deleteRoom');
 
-const updateAccount = require('./routes/update/updateAccount');
-const deleteAccount = require('./routes/delete/deleteAccount');
-
 const registerPage = require('./routes/functions/register');
 const loginPage = require('./routes/functions/login');
 const logout = require('./routes/functions/logout');
@@ -27,15 +24,39 @@ const logout = require('./routes/functions/logout');
 const accountPage = require('./routes/read/account');
 const validSession = require('./routes/functions/userSession');
 
+const checkout = require('./routes/functions/checkout');
+const checkUnpaid = require('./routes/functions/checkUnpaidBookings');
+
+const contactPage = require('./routes/contact');
+
+const autoRemoveBookings = require('./routes/functions/autoRemoveBookings');
+
+const cron = require('node-cron');
+
+const cookieParser = require('cookie-parser');
+const dbFile = path.join(__dirname, './db/database.db');
 const app = express();
 
+/* run cron schedule every minute that 
+auto remove bookings that have exceed 
+the 10 minute limit */
+cron.schedule('* * * * *', () => {
+    autoRemoveBookings(dbFile);
+});
+
+// cookie parser
+app.use(cookieParser());
+
 // session
-app.use( session({
-        secret: 'secret',
-        resave: true,
-        saveUninitialized: true,
-    })
-);
+app.use(session({    
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+        secure: false,
+        maxAge: ((60000 * 60) * 24) * 30
+    }
+}));  
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -52,8 +73,6 @@ app.use('/login', loginPage);
 app.use('/logout', logout);
 app.use('/register', registerPage);
 app.use('/account', accountPage);
-app.use('/updateAccount', updateAccount);
-app.use('/deleteAccount', deleteAccount);
 app.use('/create', createRoom);
 app.use('/rooms', readRooms);
 app.use('/room', readRoom);
@@ -65,7 +84,9 @@ app.use('/edit', readRooms);
 app.use('/update', updateRoom);
 app.use('/delete', deleteRoom);
 app.use('/cancel', cancelBooking);
-
+app.use('/checkout', checkout);
+app.use('/checkUnpaidBookings', checkUnpaid);
+app.use('/contact', contactPage);
 // app.use('/upload', uploadImage);
 // app.use('/update', updateRoom);
 // app.use('/room', readRoom);

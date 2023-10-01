@@ -8,13 +8,18 @@
     <link rel="stylesheet" href="/css/navbar.css" />
     <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/room.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
     <% if (userPrivilege == "administrator") { %>
-    <style>
-    .container {
-        height: calc(100vh - 203px);
-    }
-    </style>
+        <% if (operation == "view") { %>
+            <style>
+            .container {
+                height: calc(100vh - 220px);
+            }
+            </style>
+        <% } %> 
     <% } %>
 </head>
 <body>
@@ -32,16 +37,16 @@
             <div class="room-info">
                 <div id="guests">
                     <div class="icon">
-                        <i class="i guests"></i>
+                        <span class="i guests"></span>
                     </div>
                     <%= room.occupancy %>
                 </div>
 
                 <div id="beds">
                     <div class="icon">
-                        <i class="i beds"></i>
+                        <span class="i beds"></span>
                     </div>
-                    <%= room.beds %>
+                    <%= room.beds %> (<%= room.bedType %> Bed)
                 </div>
 
                 <div id="price">
@@ -111,7 +116,7 @@
                 <div class="icon">
                     <div class="i beds"></div>
                 </div>
-                <%= room.beds %>
+                <%= room.beds %> (<%= room.bedType %>)
             </div>
 
             <div id="price">
@@ -135,12 +140,17 @@
         </div>
             
         <% if (userBooking) { %>
-        <form action="/book?id=<%= room.id %>&checkin=<%= checkin %>&checkout=<%= checkout %>" method="POST">
-            <input type="submit" class="btn" id="signup-btn" value="Book Room">
-        </form>
+            <form action="/checkout/booking?id=<%= room.id %>&type=<%= room.type %>&checkin=<%= checkin %>&checkout=<%= checkout %>&price=<%= totalPrice %>" method="GET" class="checkout">
+                <input type="submit" class="btn" id="signup-btn" value="Book Room">
+                <input type="hidden" name="id" value="<%= room.id %>">
+                <input type="hidden" name="type" value="<%= room.type %>">
+                <input type="hidden" name="checkin" value="<%= checkin %>">
+                <input type="hidden" name="checkout" value="<%= checkout %>">
+                <input type="hidden" name="price" value="<%= totalPrice %>">
+            </form>
         <% } else { %>
             test
-        <% } %>
+        <% } %> 
     <% } %> 
 </div>
 

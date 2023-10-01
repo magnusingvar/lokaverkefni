@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatile" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
+    <link rel="stylesheet" type="text/css" href="/css/footer.css" />
+    <link rel="stylesheet" type="text/css" href="/css/contactForm.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <title><%= title %></title>
+</head>
+<body>
+<%- include('includes/navbar') %> 
+<div class="container">
+    <form action="/contact" method="POST" id="contact">
+        <input type="text" name="name" id="name" placeholder="Name">
+        <input type="email" name="email" id="email" <% if(user != "none") { %> value="<%= user %>" disabled <% } else { %> placeholder="Email" <% } %>>
+    
+        <input type="submit" class="btn" value="Send">
+        <!-- <input type="text" name="subject" placeholder="Subject"> -->
+    </form>
+</div>
+<%- include('includes/footer') %>
+</body>
+</html>

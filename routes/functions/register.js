@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 const readUser = require('../../db/read/readUser');
 const validSession = require('../functions/userSession');
 const registerUser = require('../../db/functions/registerFunction');
 const dbFile = path.join(__dirname, '../../db/database.db');
+require('dotenv').config()
 
 // get register page
 router.get('/', (req, res) => {
@@ -30,10 +33,21 @@ router.get('/', (req, res) => {
 
 // post register page
 router.post('/', (req, res) => {
-    try {
-        const user = validSession(req.session);
-        const header = 'Register';
+    const user = validSession(req.session);
+    const header = 'Register';
 
+    /* Keep the form data to use when
+	an error is thrown so the user
+	does not have to retype it */
+    const form = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        password2: req.body.verifyPassword
+    };
+    
+    try {
         // request register inputs
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
@@ -41,29 +55,49 @@ router.post('/', (req, res) => {
         const password = req.body.password;
         const password2 = req.body.verifyPassword;
 
-        /* Keep the form data to use when
-		an error is thrown so the user
-		does not have to retype it */
-        const form = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: req.body.password,
-            password2: req.body.verifyPassword
-        };
-
         /* if the verify password field matches
 		the password field run the registerUser function
 		else throw an error message with the message :
-		'Passwords do not match' */
+		'Passwords do not match' and if they match
+        register the user and send them a confirmation
+        email to verify their account */
         if (password !== password2) {	
             res.render('register', { title: 'Register', user, header, form: form, error: 'Passwords do not match' });
         } else {
             registerUser(dbFile, firstName, lastName, email, password);
-            res.redirect('/');
+
+            const EMAIL_SECRET = 'supersecrettoken'
+
+            let emailToken = jwt.sign(
+                {
+                    user: readUser(dbFile, email).id,
+                },
+                EMAIL_SECRET,
+                {
+                    expiresIn: '1d',
+                },
+            );
+            
+            const url = `http://localhost:3000/account/confirmation/${emailToken}`
+
+            let transport = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.PASSWORD
+                }
+            });
+
+            transport.sendMail({
+                to: email,
+                subject: 'Confirm your account',
+                html: `Use the following link to confirm your account: <a href="${url}">Confirm</a>`
+            });
+
+            res.redirect('/login');
         }
     } catch (e) {
-        res.render('error', { title: 'Error', status: '403', msg: 'User already exists!'});
+        res.render('register', { title: 'Register', user, header, form: form, error: 'Email is already associated with an account' });
     }
 });
 

@@ -38,9 +38,13 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => { 
     try {
-        if (userPrivilege == "administrator") {
-            createRoom(dbFile, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
-            res.redirect('/create');
+        if (userPrivilege = "administrator") {
+            if (req.body.ppn != 0) {
+                createRoom(dbFile, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
+                res.redirect('/create');
+            } else {
+                res.redirect('/create?error=1');
+            }
         } else {
             res.redirect('/');
         }

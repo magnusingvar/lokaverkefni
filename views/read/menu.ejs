@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatile" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/navbar.css" />
-    <link rel="stylesheet" type="text/css" href="css/footer.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
+    <link rel="stylesheet" type="text/css" href="/css/footer.css" />
+    <link rel="stylesheet" type="text/css" href="/css/menu.css" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -14,17 +15,31 @@
     <% if (userPrivilege == "administrator") { %>
     <style>
     .container {
-        height: calc(100vh - 203px);
+        height: calc(100vh - 220px);
     }
     </style>
     <% } %>
 </head>
 <body>
  <%- include('../includes/navbar') %>
-<div class="container">
-    <a href="restaurant?menu=breakfast">Breakfast menu</a><br>
-    <a href="restaurant?menu=dinner">Dinner menu</a>
-</div>
+ <% if (menu == 'none') { %>
+    <div class="container">
+        <a href="/restaurant/breakfast">Breakfast menu</a><br>
+        <a href="/restaurant/dinner">Dinner menu</a>
+    </div>
+
+<% } else { %>
+    <div class="container">
+        <h1><%= menu.type %> Menu</h1>
+        <% for (let i = 0; i < menu.length; i += 1) { %>
+            <div class="menu-item">
+                <%= menu[i].name %>    
+            </div>
+        <% } %>
+    </div>
+<% } %>
+
+
 <%- include('../includes/footer') %>
 </body>
 </html>

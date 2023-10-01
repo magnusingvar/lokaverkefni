@@ -49,34 +49,21 @@ router.post('/', (req, res) => {
 		user to the homepage else render login
 		form with the error message : 
 		'Password incorrect'  */
-        if (validPass) {
-            req.session.validSession = true;
-            req.session.email = email;
-            res.redirect('/');
+        if (user.verifiedEmail != 0) {
+            if (validPass) {
+                req.session.validSession = true;
+                req.session.email = req.body.email;
+
+                res.redirect('/')
+            } else {
+                res.render('login', { title: 'Login', user, header, form: form, error: 'Password incorrect' });
+            }
         } else {
-            res.render('login', { title: 'Login', user, header, form: form, error: 'Password incorrect' });
+            res.render('login', { title: 'Login', user, header, form: form, error: 'Please verify your account, check your email' });
         }
     } catch (e) {
         res.render('login', { title: 'Login', user: 'none', header, form: form, error: 'User does not exist' });
     }
 });
-// try {
-// 	const email = req.body.email;
-// 	const password = req.body.password;
-// 	const user = loginUser(dbFile, email, password);
-// 	const validPass = bcrypt.compareSync(password, user.password);
-// 	if (validPass) {
-//         req.session.validSession = true;
-//         req.session.email = email;
-// 		res.redirect('/');
-// 	} else {
-// 		const msg = 'Email and or password is incorrect'
-// 		res.render('login', { title: 'Login', user, header, msg });
-// 		// res.render('error', { title: 'Error', status: '', msg: 'Username and or password is incorrect!', user: 'none'});
-// 	}
-// } catch (e) {
-// 	res.render('error', { title: 'Error', status: '404', msg: 'User not found!', user: 'none'});
-// 	// res.render('index', { title: 'Error', status: '404', msg: 'User not found!', username: 'none'});
-// }
 
 module.exports = router;

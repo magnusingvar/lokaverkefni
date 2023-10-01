@@ -15,9 +15,15 @@ router.get('/', (req, res) => {
         if (userPrivilege == "administrator") {
             const room = readRoom(dbFile, req.query.id);
             const types = readRoomTypes(dbFile);
-            res.render('roomCreatorEditor/roomCreatorEditor', { title: 'Create Room', operation: 'update', user, userPrivilege, room, types});
+
+            if (room != undefined) {
+                res.render('roomCreatorEditor/roomCreatorEditor', { title: 'Create Room', operation: 'update', user, userPrivilege, room, types});
+            } else {
+                res.status(404);
+                res.redirect('/error');
+            }
         } else {
-            res.render('error', { title: 'Error', status: 403, msg: `Access denied.`, username });
+            res.redirect('/');
         }
     } catch (e) {
         res.redirect('/');
@@ -25,8 +31,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    updateRoom(dbFile, req.body.id, req.body.occupancy, req.body.beds, req.body.ppn, req.body.description);
-    res.redirect('/edit');
+    updateRoom(dbFile, req.body.id, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
+    res.redirect('/edit/rooms');
 });
 
 module.exports = router;

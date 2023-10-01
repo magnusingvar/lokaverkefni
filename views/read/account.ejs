@@ -8,18 +8,45 @@
     <link rel="stylesheet" type="text/css" href="css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="css/footer.css" />
     <link rel="stylesheet" type="text/css" href="css/account.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
     <% if (userPrivilege == "administrator") { %>
     <style>
     .container {
-        height: calc(100vh - 203px);
+        height: calc(100vh - 220px);
     }
     </style>
     <% } %>
 </head>
 <body>
-	<%- include('../includes/navbar') %>
-    <%- include('../includes/account') %>
-    <%- include('../includes/footer') %>
+<%- include('../includes/navbar') %>
+<div class="container">
+    <div id="account">
+        <form action="account/update" method="GET" id="form">
+            <h2 class="header">My account</h2>
+            <div id="accountInfo">
+                <div id="name">
+                    <input type="text" value="<%= account.firstName %>" name="firstName" id="firstName">
+                    <input type="text" value="<%= account.lastName %>" name="lastName" id="lastName">
+                </div>
+
+                <div id="email">
+                    <input type="text" value="<%= account.email %>" name="email" id="accEmail">
+                </div>
+
+                <input type="hidden" value="<%= account.id %>" name="userId">
+                <input type="submit" value="Update account" class="btn">
+            </div>
+        </form>
+    
+        <div id="logoutDelete">
+            <a href="/logout">Logout</a>
+            <a href="account/delete" class="delete" onclick="return confirm('Are you sure?')">Delete account</a>                    
+        </div>
+    </div>
+</div>
+<%- include('../includes/footer') %>
 </body>
 </html>

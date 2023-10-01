@@ -1,20 +1,67 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatile" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/navbar.css" />
-        <link rel="stylesheet" type="text/css" href="css/footer.css" />
-        <link rel="stylesheet" type="text/css" href="css/loginRegister.css" />
-        <title><%= title %></title>
-    </head>
-    <body>
-        <div class="container">
-            <%- include('includes/navbar') %> 
-            <%- include('includes/forms/registerForm') %>
-            <%- include('includes/footer') %>
-        </div>
-    </body>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatile" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/navbar.css" />
+    <link rel="stylesheet" type="text/css" href="css/footer.css" />
+    <link rel="stylesheet" type="text/css" href="css/loginRegister.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <title><%= title %></title>
+</head>
+<body>
+<%- include('includes/navbar') %> 
+<div class="container">
+    <div id="register">
+        <h3 class="header"><%= header %></h3>
+        <form action="/register" method="post" id="form">
+            <div id="firstName">
+                <input type="text" name="firstName" id="firstName" placeholder="First Name" value="<%= form.firstName %>" required />
+            </div>
+    
+            <div id="lastName">
+                <input type="text" name="lastName" id="lastName" placeholder="Last Name" value="<%= form.lastName %>" required />
+            </div>
+    
+            <div id="email">
+                <input type="email" name="email" id="email" placeholder="Email" value="<%= form.email %>" required autocomplete="email" />
+            </div>
+    
+            <div id="password">
+                <input type="password" name="password" class="password" placeholder="Password" value="<%= form.password %>" required />
+    
+                <div class="pswd-show-btn">
+                    <span class="i eye-show" id="showPswdBtn"></span>
+                </div>
+            </div>
+    
+            <div id="password">
+                <input type="password" name="verifyPassword" class="password verify" placeholder="Verify Password" value="<%= form.password2 %>" required />
+    
+                <div class="pswd-show-btn">
+                    <span class="i eye-show" id="showVrfyPswdBtn"></span>
+                </div>
+            </div>
+    
+            <input type="submit" value="Register" id="button" class="btn" />
+    
+            <div><% if (error) { %> <%= error %> <% } %></div>
+    
+            <script src="js/script.js" type="module"></script>
+    
+            <div class="container-login">
+                <p>
+                    Already have an account?
+                    <a href="/login" class="link">Login</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+<%- include('includes/footer') %>
+</body>
 </html>

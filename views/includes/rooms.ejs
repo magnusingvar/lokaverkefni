@@ -1,17 +1,16 @@
-<div class="container">
-    <h2><%= header %></h2>
-    <form action="/rooms" id="form">
-        <label for="orderby">Sort by:</label>
-        <select id="orderby">
-            <option value="" title="default">Default</option>
-            <option value="asc" title="price" <% if(priceSortBy == "asc") {%> selected <% } %>>Price Low - High</option>
-            <option value="desc" title="price" <% if(priceSortBy == "desc") {%> selected <% } %>>Price High - Low</option>
-            <option value="asc" title="occupancy" <% if(occupancySortBy == "asc") {%> selected <% } %>>Occupancy Low - High</option>
-            <option value="desc" title="occupancy" <% if(occupancySortBy == "desc") {%> selected <% } %>>Occupancy High - Low</option>
-        </select>
-    </form>
+<h2><%= header %></h2>
+<form action="/rooms" id="form">
+    <label for="orderby">Sort by:</label>
+    <select id="orderby">
+        <option value="" title="default">Default</option>
+        <option value="asc" title="price" <% if(priceSortBy == "asc") {%> selected <% } %>>Price Low - High</option>
+        <option value="desc" title="price" <% if(priceSortBy == "desc") {%> selected <% } %>>Price High - Low</option>
+        <option value="asc" title="occupancy" <% if(occupancySortBy == "asc") {%> selected <% } %>>Occupancy Low - High</option>
+        <option value="desc" title="occupancy" <% if(occupancySortBy == "desc") {%> selected <% } %>>Occupancy High - Low</option>
+    </select>
+</form>
 
-    <script>
+<script>
     const url = new URL(window.location.href);  
     const urlParams = new URLSearchParams(url.search);
     const select = document.getElementById("orderby");
@@ -35,16 +34,17 @@
             window.location.search = urlParams;   
         }
     });
-    </script>
+</script>
 
-    <div class="grid">
-        <% for (let i = 0; i < rooms.length; i += 1){ %>
-        <div class="grid-item">
+<div class="rooms">
+    <% for (let i = 0; i < rooms.length; i += 1){ %>
+        <div class="room">
             <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>">
-                <div class="room">
+                <div id="room">
                     <div class="title">
                         <%= rooms[i].type %> Room
                     </div>
+
                     <div class="info">
                         <div id="price" title="Total price">
                             $<%= rooms[i].ppn * nights %>
@@ -58,9 +58,8 @@
                             </span>
                         </div>
                     </div>
-                </div>
-            </a>
+                </div>     
+            </a>   
         </div>
-        <% } %>
-    </div> 
+    <% } %>  
 </div>

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const readRooms = require('../../db/read/readRooms');
-const readUser = require('../../db/read/readUser');
-const validSession = require('../functions/userSession');
-const dbFile = path.join(__dirname, '../../db/database.db');
+const readRooms = require('../db/read/readRooms');
+const readUser = require('../db/read/readUser');
+const validSession = require('./functions/userSession');
+const dbFile = path.join(__dirname, '../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
@@ -86,17 +86,6 @@ router.get('/', (req, res) => {
 
     let rooms = readRoom();
 
-    if (url == '/') {
-        if (req.session.validSession) {
-            const rooms = readRooms(dbFile, '', '', '', '');
-            const userPrivilege = readUser(dbFile, user).userPrivilege;
-            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'edit'});
-        } else {
-            res.redirect('/');
-            // const userPrivilege = readUser(dbFile, user);
-            // res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'edit'});
-        }    
-    } else {
         if (req.session.validSession) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
             res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy});
@@ -104,7 +93,6 @@ router.get('/', (req, res) => {
             const userPrivilege = readUser(dbFile, user);
             res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy});
         }    
-    }
 });
 
 module.exports = router;
