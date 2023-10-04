@@ -1,0 +1,36 @@
+<% if (menu.length > 0) { %>
+<div class="table-container">
+    <table class="table">
+        <tr>
+            <th>id</th>
+            <th>Item name</th>
+            <th>Menu</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        <% for (let i = 0; i < menu.length; i += 1){ %>
+            <tr>
+                <td><%= menu[i].id %></td>
+                <td><%= menu[i].name %></td>
+                <td><%= menu[i].menuType %></td>
+                <td>
+                    <form action="/updateMenuItem" method="GET">
+                        <input type="submit" value="Update" class="btn">
+                        <input type="hidden" name="id" value="<%= menu[i].id %>">
+                    </form>
+                </td>
+                <td>
+                    <form action="/deleteMenuItem" method="POST">
+                        <input type="submit" value="Delete" class="btn danger">
+                        <input type="hidden" name="id" value="<%= menu[i].id %>">
+                    </form>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+</div>
+<% } else { %>
+    <div class="msg">
+        <p>No menu items exist,</p><a href="/createMenuItem" class="link">Create menu item</a>
+    </div>
+<% } %>

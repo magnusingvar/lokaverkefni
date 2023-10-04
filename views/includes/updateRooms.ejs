@@ -17,13 +17,13 @@
                     </form>
                 </td>
                 <td>
-                    <form action="/update" method="GET">
+                    <form action="/updateRoom" method="GET">
                         <input type="submit" value="Update" class="btn">
                         <input type="hidden" name="id" value="<%= rooms[i].id %>">
                     </form>
                 </td>
                 <td>
-                    <form action="/delete" method="POST">
+                    <form action="/deleteRoom" method="POST">
                         <input type="submit" value="Delete" class="btn danger">
                         <input type="hidden" name="id" value="<%= rooms[i].id %>">
                     </form>
@@ -31,9 +31,22 @@
             </tr>
         <% } %>
     </table>
+
+    <% if (totalPages > 1) { %>
+        <div class="pagination">
+            <% for (let i = 1; i < totalPages + 1; i += 1) {%>
+                <div class="page">
+                    <a class="link <% if (page === i) { %>active<%}%>" href="?page=<%= i %>">
+                        <%= i %>
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
 </div>
+
 <% } else { %>
-    <div>
-        No rooms exist, <a href="/create" class="link">Create room</a>
+    <div class="msg">
+        <p>No rooms exist,</p><a href="/createRoom" class="link">Create room</a>
     </div>
 <% } %>

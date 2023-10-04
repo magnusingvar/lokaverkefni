@@ -16,10 +16,9 @@ router.get('/', (req, res) => {
 
     const ciDate = new Date(checkin)
     const coDate = new Date(checkout)
-    
+
     const checkinDate = ciDate.getTime();
     const checkoutDate = coDate.getTime();
-
 
     const nights = Math.round(checkoutDate - checkinDate)/one_day
 
@@ -46,64 +45,70 @@ router.get('/', (req, res) => {
     out correctly. Also make sure that the checkout
     date is not the same as the checkin date.`
 
-    const url = req.url;
+    const url = req.baseUrl;
+    const urlParamsFull = req.url;
+    const urlParams = urlParamsFull.slice(1);
     const price = req.query.price;
     const occupancy = req.query.occupancy;
     let priceSortBy = req.query.price;
     let occupancySortBy = req.query.occupancy;
 
-
     function orderRooms() {
-        // if (priceSortBy === undefined || priceSortBy === '') {
-        //     let orderby = `ORDER BY rooms.id`
-        //     let rooms = readRooms(dbFile, checkin, checkout, people, orderby);
-        //     return rooms;
-        // } else 
         if (priceSortBy === 'asc' || priceSortBy === 'desc') {
-            let orderby = `ORDER BY rooms.ppn ${priceSortBy}`
-            let rooms = readRooms(dbFile, checkin, checkout, people, orderby, '1', );
+            let orderby = `ORDER BY rooms.ppn ${priceSortBy}`;
+            let rooms = readRooms.readRooms(dbFile, checkin, checkout, people, orderby, '1');
             return rooms;
         } else  {
-            let orderby = `ORDER BY rooms.occupancy ${occupancySortBy}`
-            let rooms = readRooms(dbFile, checkin, checkout, people, orderby);
+            let orderby = `ORDER BY rooms.occupancy ${occupancySortBy}`;
+            let rooms = readRooms.readRooms(dbFile, checkin, checkout, people, orderby, '1');
             return rooms;
         }
     }
 
+    const page = parseInt(req.query.page) || 1;
+    const total = readRooms.totalRooms(dbFile);
+    const itemsPerPage = 5;
+    const totalPages = Math.ceil(total / itemsPerPage);
+    
     function readRoom() {
-        if (url.includes('price')) {
+        if (urlParams.includes('price')) {
             let rooms = orderRooms(priceSortBy);
             return rooms;
-        } else if(url.includes('occupancy')) {
+        } else if(urlParams.includes('occupancy')) {
             let rooms = orderRooms(occupancySortBy);
             return rooms;
         } else {
-            let orderby = `ORDER BY rooms.id ASC`
-            let rooms = readRooms(dbFile, checkin, checkout, people, orderby);
+            let orderby = 'ORDER BY rooms.id ASC';
+            let rooms = readRooms.readRooms(dbFile, checkin, checkout, people, orderby, page);
             return rooms;
         };
     }
 
     let rooms = readRoom();
 
-    if (url == '/') {
+    if (url === '/editRooms') {
         if (req.session.validSession) {
-            const rooms = readRooms(dbFile, '', '', '', '');
             const userPrivilege = readUser(dbFile, user).userPrivilege;
-            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'edit'});
+            if (page > totalPages) {
+                res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg: 'test', form, operation: 'edit', page, totalPages });
+            } else {
+                const rooms = readRooms.readRooms(dbFile, '', '', '', '', page);
+                res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'edit', page, totalPages });
+            }   
         } else {
             res.redirect('/');
-            // const userPrivilege = readUser(dbFile, user);
-            // res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'edit'});
-        }    
+        }
     } else {
-        if (req.session.validSession) {
-            const userPrivilege = readUser(dbFile, user).userPrivilege;
-            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy});
+        if (page > totalPages && rooms.length > 0) {
+            res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user});
         } else {
-            const userPrivilege = readUser(dbFile, user);
-            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy});
-        }    
+            if (req.session.validSession) {
+                const userPrivilege = readUser(dbFile, user).userPrivilege;
+                res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy, urlParams, page, totalPages });
+            } else {
+                res.render('read/rooms', { title: 'Rooms', user, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy, urlParams, page, totalPages });
+            }    
+        }
     }
 });
 

@@ -2,8 +2,8 @@ const Database = require('better-sqlite3');
 
 module.exports = function readRooms(dbFile, where) {
     const db = new Database(dbFile);
-    const sql = db.prepare(
-        `SELECT id, suitableFor, numberOfBeds,
+    const sql = db.prepare(`
+      SELECT id, suitableFor, numberOfBeds, 
       pricePerNight, image
       FROM rooms
       ${where}`);

@@ -3,9 +3,9 @@ const router = express.Router();
 const path = require('path');
 const readUser = require('../../db/read/readUser');
 const validSession = require('../functions/userSession');
-const readRoom = require('../../db/read/readRoom');
-const readRoomTypes = require('../../db/read/readRoomTypes');
-const updateRoom = require('../../db/update/updateRoom');
+const readMenuItem = require('../../db/read/readMenuItem');
+// const readRoomTypes = require('../../db/read/readRoomTypes');
+const updateMenuItem = require('../../db/update/updateMenuItem');
 const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
@@ -13,16 +13,15 @@ router.get('/', (req, res) => {
     try {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
         if (userPrivilege == "administrator") {
-            const room = readRoom(dbFile, req.query.id);
-            const types = readRoomTypes(dbFile);
-
-            if (room != undefined) {
-                res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Update Room', operation: 'updateRoom', user, userPrivilege, room, types});
+            const menuItem = readMenuItem(dbFile, req.query.id);
+            console.log(menuItem)
+            if (menuItem != undefined) {
+                res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Update Menu Item', operation: 'updateMenuItem', user, userPrivilege, menuItem });
             } else {
                 res.status(404).render('error', { title: 'Error', status: 404, msg: 'Page not found', user });
             }
         } else {
-            res.redirect('/');
+            res.send('test');
         }
     } catch (e) {
         res.redirect('/');
@@ -30,8 +29,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    updateRoom(dbFile, req.body.id, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
-    res.redirect('/editRooms');
-});
+    updateMenuItem(dbFile, req.body.menu, req.body.menuitem, req.body.id);
+    res.redirect('/editMenu');
+})
 
 module.exports = router;

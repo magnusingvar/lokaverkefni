@@ -1,7 +1,8 @@
 module.exports = function validSession(session) {
-    let email = 'none';
+    let email = null;
     if (session.validSession) {
         email = session.email;
     }
+
     return email;
 };

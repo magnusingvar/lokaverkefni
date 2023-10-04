@@ -4,6 +4,28 @@
     height: calc(100vh - 173px);
 }
 
+#confirm {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    color: var(--text-primary);
+    background: var(--primary-color-transparent);
+    z-index: 1;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.close {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
 #account {
     display: flex;
     flex-direction: column;
@@ -11,8 +33,11 @@
 }
 
 #form {
-    padding: 10px 0 10px 0;
+    padding: 10px 5px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #accountInfo {
@@ -20,11 +45,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #222;
     padding: 0 0 10px 0;
 }
 
-#accountInfo > #firstName, #lastName,
+#name > #firstName, #lastName,
 #email > #accEmail {
     width: 100%;
     padding: 10px 5px;
@@ -42,8 +67,6 @@
     margin: 0 0 10px 0;
 }
 
-
-
 #logoutDelete {
     margin: 0 auto;
     align-items: center;
@@ -51,17 +74,6 @@
     flex-direction: column;
 }
 
-
-.delete {
-    position: relative;
-    bottom: 0;
-    color: #ffffff;
-    background: #BF0603;
-    border: 2px solid #000;
-    margin: 10px 0;
-    padding: 15px 10px;
-}
-
-.delete:hover {
-    background: #A30000;
+.danger {
+    margin: 10px 0 0 0;
 }

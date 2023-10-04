@@ -1,20 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const readMenu = require('../../db/read/readMenus');
+const readMenu = require('../../db/read/readMenu');
 const readUser = require('../../db/read/readUser');
 const validSession = require('../functions/userSession');
 const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    const menu = 'none';
-    if (req.session.validSession) {
-        const userPrivilege = readUser(dbFile, user).userPrivilege;
-        res.render('read/menu', { title: 'Restaurant', user, userPrivilege, menu } );
+    const menu = readMenu(dbFile, 'none');
+    const url = req.baseUrl;
+
+    if (url === '/editMenu') {
+        const menu = readMenu(dbFile, 'Breakfast', 'Dinner');
+        if (req.session.validSession) {
+            const userPrivilege = readUser(dbFile, user).userPrivilege;
+            res.render('read/menu', { title: 'Edit Menu', user, userPrivilege, menu, operation: 'edit' });
+        } else {
+            res.redirect('/');
+        }
     } else {
-        const userPrivilege = readUser(dbFile, user);
-        res.render('read/menu', { title: 'Restaurant', user, userPrivilege, menu });
+        if (req.session.validSession) {
+            const userPrivilege = readUser(dbFile, user).userPrivilege;
+            res.render('read/menu', { title: 'Restaurant', user, userPrivilege, menu, operation: 'view' });
+        } else {
+            res.render('read/menu', { title: 'Restaurant', user, menu, operation: 'view' });
+        }
     }
 });
 
@@ -23,21 +34,19 @@ router.get('/:menu', (req, res) => {
     const menuName = menuParam.charAt(0).toUpperCase() + menuParam.slice(1);
     const user = validSession(req.session);
     const menu = readMenu(dbFile, menuName);
-    
-    console.log(menu)
     try {
-        if (menu != undefined) {
+        if (menu != '') {
             if (req.session.validSession) {
                 const userPrivilege = readUser(dbFile, user).userPrivilege;
-                res.render('read/menu', { title: `${menu[0].type}`, user, userPrivilege, menu} );
+                res.render('read/menu', { title: `${menu.menuType}`, user, userPrivilege, menu, operation: 'view' });
             } else {
-                const userPrivilege = readUser(dbFile, user);
-                res.render('read/menu', { title: `${menu[0].type}`, user, userPrivilege, menu});
++                res.render('read/menu', { title: `${menu.menuType}`, user, menu, operation: 'view' });
             }
+        } else {
+            res.send('No items in menu')
         }
     } catch (e) {
-        res.status(404);
-        res.redirect('/error');
+        res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user});
     }
 })
 

@@ -12,13 +12,15 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
-    <% if (userPrivilege == "administrator") { %>
-    <style>
-    .container {
-        height: calc(100vh - 220px);
-    }
-    </style>
-    <% } %>
+    <% try{ %>
+        <% if (userPrivilege === "administrator") { %>
+        <style>
+        .container {
+            height: calc(100vh - 220px);
+        }
+        </style>
+        <% } %>
+    <% } catch (e) {} %>
 </head>
 <body>
 <%- include('../includes/navbar') %>
@@ -43,9 +45,55 @@
     
         <div id="logoutDelete">
             <a href="/logout">Logout</a>
-            <a href="account/delete" class="delete" onclick="return confirm('Are you sure?')">Delete account</a>                    
+            <a href="#popup" class="btn danger" id="deleteBtn">Delete account</a>                    
         </div>
     </div>
+
+    <div id="confirm">
+        <h2 class="header">
+            Are you sure you want to delete your account?
+        </h2>
+        <div class="close">
+            <a href="/account/delete" class="btn danger" id="deleteBtn">Yes</a>                    
+            <a class="btn" id="no">No</a>
+        </div>
+    </div>
+
+    <script>
+        const deleteBtn = document.getElementById("deleteBtn");
+        const confirmDiv = document.getElementById("confirm");
+
+        const yes = document.getElementById('yes');
+        const no = document.getElementById('no');
+
+        window.addEventListener('load', () => {
+            closeConfirm();
+        });
+
+        deleteBtn.addEventListener('click', () => {
+            showConfirm();
+        })
+
+        no.addEventListener('click', () => {
+            closeConfirm();
+        })
+
+
+
+
+        function showConfirm() {
+            confirmDiv.style.display = "flex";
+        }
+
+        function closeConfirm() {
+            confirmDiv.style.display = "none";
+            const url = window.location.toString();
+            if (url.indexOf('#') > 0) {
+                const cleanUrl = url.substring(0, url.indexOf('#'));
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+        }
+    </script>
 </div>
 <%- include('../includes/footer') %>
 </body>

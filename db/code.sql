@@ -46,56 +46,16 @@ CREATE TABLE bookings (
     UNIQUE (idRoom, idUser, checkin, checkout)
 );
 
-CREATE TABLE menus (
+CREATE TABLE menu (
     id INTEGER PRIMARY KEY,
-    type TEXT NOT NULL UNIQUE
+    menuType TEXT NOT NULL,
+    name TEXT NOT NULL
 );
 
-DROP TABLE menus
-
-
-CREATE TABLE menuItems (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
-);
-
-CREATE TABLE menusMenuItems (
-    idMenu INTEGER,
-    idMenuItems INTEGER,
-    PRIMARY KEY (idMenu, idMenuItems),
-    FOREIGN KEY (idMenu) REFERENCES menus (id),
-    FOREIGN KEY (idMenuItems) REFERENCES menuItems (id)
-);
-
-INSERT INTO menus (type) VALUES ('Breakfast'), ('Dinner');
-INSERT INTO menuItems (name) VALUES ('test item break 2'), ('test item dinn 2');
-INSERT INTO menusMenuItems (idMenu, idMenuItems) VALUES (1, 3), (2, 4);
-
-DROP TABLE menusMenuItems
-
-SELECT menus.name, menuItems.name FROM menus 
-INNER JOIN menusMenuItems
-ON menus.id = menusMenuItems.idMenu
-INNER JOIN menuItems
-ON menuItems.id = menusMenuItems.idMenuItems
-WHERE menus.name = 'Breakfast'
+INSERT INTO menu (menuType, name) VALUES ('breakfast', 'test');
 
 UPDATE users SET userPrivilege = "administrator"
 WHERE id = 1
-
-SELECT rooms.id, rooms.numberOfBeds,
-rooms.pricePerNight,
-bookings.checkin, bookings.checkout FROM rooms 
-INNER JOIN bookings
-ON bookings.idRoom = rooms.id
-INNER JOIN users
-ON bookings.idUser = users.id
-WHERE bookings.idUser = 1
-
-SELECT * FROM users;
-SELECT * FROM rooms;
-SELECT * FROM roomTypes;
-SELECT * FROM bookings;
 
 SELECT *
 FROM rooms
@@ -116,6 +76,25 @@ AND id NOT IN (
     WHERE checkout <= 2023-09-18
 ) AND suitableFor = 3
 
+SELECT rooms.id, rooms.numberOfBeds,
+rooms.pricePerNight,
+bookings.checkin, bookings.checkout FROM rooms 
+INNER JOIN bookings
+ON bookings.idRoom = rooms.id
+INNER JOIN users
+ON bookings.idUser = users.id
+WHERE bookings.idUser = 1
 
+SELECT * FROM users;
+SELECT * FROM rooms;
+SELECT * FROM roomTypes;
+SELECT * FROM bookings;
+SELECT * FROM menu
+
+DELETE FROM users WHERE id = 1
+
+DROP TABLE users;
+DROP TABLE rooms;
+DROP TABLE roomTypes;
 DROP TABLE bookings;
-DROP TABLE roomUserBookings
+DROP TABLE menu;

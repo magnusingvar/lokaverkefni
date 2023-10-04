@@ -7,4 +7,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 5px;
+}
+
+#firstName, #lastName, 
+#email, #enquiry {
+    max-width: 500px;
+    width: 100%;
+    padding: 10px 5px;
+}
+
+#firstName:read-only, #lastName:read-only,
+#email:read-only {
+    pointer-events:none;
 }

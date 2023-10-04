@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 
 :root {
-    --primary-color: #f2eee7 ;
+    --primary-color: #f0f0f0 ;
+    --primary-color-transparent: #f0f0f0d9;
     --secondary-color: #fbfaf8;
     --btn-primary: #004485;
     --btn-secondary: #004e98;
     --text-primary: #221e22;
-    --text-secondary: #F7F7FF;
-
+    --text-secondary: #f7f7ff;
+    --box-shadow: #292929;
     --danger: #f32013;
 }
 
@@ -33,6 +34,22 @@ a {
 
 .hidden {
     display: none;
+}
+
+.pagination {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin: 40px 0 0 0;
+}
+
+.link {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.active {
+    text-decoration: underline;
 }
 
 .header {
@@ -160,14 +177,19 @@ a {
         flex-direction: column;
     }
 
-    .section > .image-left {
+    .section > .image-left,
+    .section > .image-right {
         padding: 0;
         width: auto;
     }
 
-    .section > .image-right {
-        padding: 0;
+    .section > p {
+        padding: 10px;
     }
+
+    /* .section > .image-right {
+        padding: 0;
+    } */
 }
 
 @media only screen and (max-width: 670px) {

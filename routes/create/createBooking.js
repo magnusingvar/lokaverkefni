@@ -1,10 +1,10 @@
-const express    = require('express');
-const path = require('path');
-const createBooking = require('../../db/create/createBooking');
+const express = require('express');
 const router = express.Router();
+const path = require('path');
 const readUser = require('../../db/read/readUser');
-const dbFile = path.join(__dirname, '../../db/database.db');
 const validSession = require('../functions/userSession');
+const createBooking = require('../../db/create/createBooking');
+const dbFile = path.join(__dirname, '../../db/database.db');
 
 
 router.post('/', async (req, res) => {

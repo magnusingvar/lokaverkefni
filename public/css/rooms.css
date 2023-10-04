@@ -5,10 +5,6 @@
     height: calc(100vh - 173px);
 }
 
-.msg {
-    max-width: 50vw;
-}
-
 #orderby {
     margin: 0 10px;
     padding: 8px 5px;
@@ -28,15 +24,6 @@
     margin: 0 8px 0 0;
 }
 
-.table-container {
-    width: auto;
-    height: 100%;
-}
-
-tr > th, td {
-    padding: 4px 8px;
-}
-
 .rooms {
     margin: 20px 0 0 0;
     padding: 0 20px 0 20px;
@@ -44,20 +31,15 @@ tr > th, td {
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    /* display: grid;
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
-    margin: 1.5rem 0;
-    padding: 0 1rem; */
-    /* display: flex;
-    flex-wrap: wrap; */
 }
 
 .room {
     flex: 0 0 200px;
     margin: 5px;
-    border: 1px solid black;
+    -webkit-box-shadow: 0px 0px 2px 0px red var(--box-shadow);
+    -moz-box-shadow: 0px 0px 2px 0px var(--box-shadow);
+    box-shadow: 0px 0px 2px 0px var(--box-shadow);
+    border-radius: 7px;
 }
 
 .image {
@@ -65,6 +47,7 @@ tr > th, td {
     height: 200px;
     background-size: cover;
     background-position: center;
+    border-radius: 7px 7px 0 0;
 }
 
 #room {
@@ -84,24 +67,14 @@ tr > th, td {
     align-items: center;
 }
 
-.grid {
-    display: grid;
-    flex-wrap: wrap;
-    /* margin: 8px 0;
-    display: grid;
-    grid-template-columns: repeat(4, auto); */
-}
-
-.grid-item {
-    display: flex;
-    flex-grow: 1;
-    /* height: fit-content;
-    margin: 12px; */
-}
-
-
 .msg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    flex-wrap: wrap;
+    max-width: 50vw;
 }
 
 .attention {

@@ -78,21 +78,26 @@ router.post('/', (req, res) => {
                 },
             );
             
-            const url = `http://localhost:3000/account/confirmation/${emailToken}`
-
+            const hostname = req.hostname;
+            const url = `http://${hostname}:3000/account/confirmation/${emailToken}`
+            
             let transport = nodemailer.createTransport({
-                service: 'gmail',
+                host: "sandbox.smtp.mailtrap.io",
+                port: 2525,
                 auth: {
-                    user: process.env.EMAIL,
+                    user: process.env.USER,
                     pass: process.env.PASSWORD
                 }
-            });
-
-            transport.sendMail({
+            });   
+            
+            const mailOptions = {
+                from: '"Lokaverkefni" <magnuslokaverkefni@gmail.com>',
                 to: email,
                 subject: 'Confirm your account',
                 html: `Use the following link to confirm your account: <a href="${url}">Confirm</a>`
-            });
+            };
+
+            transport.sendMail(mailOptions);
 
             res.redirect('/login');
         }

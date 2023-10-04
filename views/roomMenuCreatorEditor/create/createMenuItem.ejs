@@ -1,0 +1,13 @@
+<form action="/createMenuItem" method="POST" id="create">
+    <h2 class="header">Create Menu Item</h2>
+    <select name="menu" class="menu" id="menu">
+        <option value="Breakfast">Breakfast</option>
+        <option value="Dinner">Dinner</option>
+    </select>
+    <input type="text" name="menuitem" class="menuitem" placeholder="Menu item">
+    <input type="submit" value="Create" class="btn">
+</form>
+
+<div id="msg">
+    <%= msg %>   
+</div>

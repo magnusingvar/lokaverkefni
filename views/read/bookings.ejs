@@ -13,13 +13,15 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <title><%= title %></title>
-        <% if (userPrivilege == "administrator") { %>
-        <style>
-        .container {
-            height: calc(100vh - 220px);
-        }
-        </style>
-        <% } %>
+        <% try{ %>
+            <% if (userPrivilege === "administrator") { %>
+            <style>
+            .container {
+                height: calc(100vh - 220px);
+            }
+            </style>
+            <% } %>
+        <% } catch (e) {} %>
 </head>
 <body>
     <%- include('../includes/navbar') %> 
@@ -55,10 +57,10 @@
                 <% } %>
             </table>
         <% } else { %>
-            <% if (user == 'none') { %>
-                <p style="margin-top: 10rem;">Please login to view bookings</p>
+            <% if (user === 'none') { %>
+                <p>Please login to view bookings</p>
             <% } else { %>
-                <p style="margin-top: 10rem;"><%= msg %></p>
+                <p><%= msg %></p>
             <% } %>
         <% } %>
     </div>

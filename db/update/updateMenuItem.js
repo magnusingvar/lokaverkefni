@@ -1,11 +1,10 @@
 const Database = require('better-sqlite3');
 
-module.exports = function confirmAccount(dbFile, id) {
+module.exports = function updateMenuItem(dbFile, type, name, id) {
   const db = new Database(dbFile);
   const sql = db.prepare(`
-  UPDATE users 
-  SET verifiedEmail = 1
+  UPDATE menu SET menuType = ?, name = ?
   WHERE id = ?`);
-  sql.run(id)
+  sql.run(type, name, id);
   db.close();
 }

@@ -9,6 +9,19 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1;
+    let dd = today.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    const formattedToday = yyyy + '-' + mm + '-' + dd;
+
+    const url = req.baseUrl;
+    const urlParams = req.url;
+
     try {
         const userBooking = [];
         const room = readRoom(dbFile, req.query.id);
@@ -23,33 +36,32 @@ router.get('/', (req, res) => {
         const checkoutDate = coDate.getTime();
 
         const price = room.ppn;
-        const nights = Math.round(checkoutDate - checkinDate)/one_day
+        const nights = Math.round(checkoutDate - checkinDate)/one_day;
         const totalPrice = price * nights;
-        
-        if (checkin && checkout != null) {
-            if (room != undefined) {
+
+        if (urlParams.includes('checkin', 'checkout', 'people')) {
+            if (room != undefined && checkin != checkout && checkin >= formattedToday && !(checkout <= checkin) && totalPrice > 0) {
                 if (req.session.validSession) {
                     const userId = readUser(dbFile, user).id; 
                     const userBooking = readUserBooking(dbFile, userId);
                     const userPrivilege = readUser(dbFile, user).userPrivilege;
                     res.render('read/room', { title: 'Room suitable for', user, userPrivilege, room, checkin, checkout, nights, operation: 'book', userBooking, totalPrice});
                 } else {
-                    const userPrivilege = readUser(dbFile, user);
-                    res.render('read/room', { title: 'Room suitable for', user, userPrivilege, room, checkin, checkout, nights, operation: 'book', userBooking, totalPrice});
+                    res.render('read/room', { title: 'Room suitable for', user, room, checkin, checkout, nights, operation: 'book', userBooking, totalPrice});
                 }
-            }
+            } else {
+                res.status(400).render('error', { title:'Error', status: 400, msg: 'Bad Request', user});
+            }  
         } else {
             if (req.session.validSession) {
                 const userPrivilege = readUser(dbFile, user).userPrivilege;
                 res.render('read/room', { title: 'Room suitable for', user, userPrivilege, room, checkin, checkout, nights, operation: 'view', userBooking});
             } else {
-                const userPrivilege = readUser(dbFile, user);
-                res.render('read/room', { title: 'Room suitable for', user, userPrivilege, room, checkin, checkout, nights, operation: 'view', userBooking});        
+                res.render('read/room', { title: 'Room suitable for', user, room, checkin, checkout, nights, operation: 'view', userBooking});        
             }
         }
     } catch (e) {
-        res.status(404);
-        res.redirect('/error');
+        res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user});
     }
 });
 

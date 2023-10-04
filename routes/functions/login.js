@@ -6,6 +6,7 @@ const validSession = require('./userSession');
 const loginUser = require('../../db/functions/loginFunction');
 const bcrypt = require('bcrypt');
 const dbFile = path.join(__dirname, '../../db/database.db');
+const { check, validationResult } = require('express-validator');
 
 // Get login page
 router.get('/', (req, res) => {
@@ -29,7 +30,7 @@ router.get('/', (req, res) => {
 // post login page
 router.post('/', (req, res) => {
     const header = 'Login';
-    
+
     /* Keep the form data to use when
 	an error is thrown so the user
 	does not have to retype it */

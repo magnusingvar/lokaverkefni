@@ -24,7 +24,7 @@
 
             <div class="item">
                 
-                <% if (user == 'none') { %>
+                <% if (user === null) { %>
                     <div class="icon">
                         <div class="i user"></div>
                     </div>
@@ -39,15 +39,16 @@
         </ul>
         
     </div>
-    <% try { if (userPrivilege == "administrator") { %>
-    <div id="sub-nav">
-        <ul id="sub-navigation">
-            <li><a href="/create">Create Room</a></li>
-            <li><a href="/edit">Edit Rooms</a></li>
-            <li><a href="/add">Add to Menu</a></li>
-            <li><a href="/edit-menu">Edit Menu</a></li>
-        </ul>
-    </div>
+    <% try { %>
+        <% if (userPrivilege === "administrator") { %>
+        <div id="sub-nav">
+            <ul id="sub-navigation">
+                <li><a href="/createRoom">Create Room</a></li>
+                <li><a href="/editRooms">Edit Rooms</a></li>
+                <li><a href="/createMenuItem">Create Menu Item</a></li>
+                <li><a href="/editMenu">Edit Menu</a></li>
+            </ul>
+        </div>
     <% }} catch (e) {} %>
     <!-- Navbar Desktop End -->
 
@@ -64,7 +65,7 @@
             <li><a href="/bookings">Bookings</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/checkout">Basket</a></li>
-            <% if (user == 'none') { %>
+            <% if (user === null) { %>
                 <li><a href="/login">Login</a></li>
             <% } else { %>
                 <li><a href="/account">My account</a></li>

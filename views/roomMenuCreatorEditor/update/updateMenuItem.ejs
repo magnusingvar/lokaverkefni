@@ -1,0 +1,11 @@
+<form action="/updateMenuItem" method="POST" id="update">
+    <input type="hidden" name="id" value="<%= menuItem.id %>">
+    <h2>Currently updating</h2> <h3><%= menuItem.name %> (Menu Item id <%= menuItem.id %>)</h3>
+    
+    <select name="menu" class="menu" id="menu">
+        <option value="Breakfast" <% if(menuItem.menuType == "Breakfast") { %> selected <% } %>>Breakfast</option>
+        <option value="Dinner" <% if(menuItem.menuType == "Dinner") { %> selected <% } %>>Dinner</option>
+    </select>
+    <input type="text" name="menuitem" class="menuitem" placeholder="Menu item" value="<%= menuItem.name %>">
+    <input type="submit" value="Update" class="btn">
+</form>

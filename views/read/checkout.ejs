@@ -17,49 +17,53 @@
 <body>
 <%- include('../includes/navbar') %> 
 <div class="container">
-    <% if (room.length < 1) { %>
-        You don't have any unpaid bookings
-    <% } else { %>
-    <h3 class="header">Checkout</h3>
-    <div class="order">
+    <% if (user != null) { %>
+        <% if (room.length < 1) { %>
+            <p>You don't have any unpaid bookings</p>
+        <% } else { %>
+        <h3 class="header">Checkout</h3>
+        <div class="order">
+            <form action="checkout" method="post" id="test">
+                <input type="text" placeholder="Name on card">
+                <input type="tel" placeholder="Card number">
+                <input type="cvc" placeholder="CVC">
+                <input type="text" id="expiration-date" maxlength="5" placeholder="MM/YY">
+                <input type="submit" value="Pay">
+            </form>
     
-        <form action="checkout" method="post" id="test">
-            <input type="text" placeholder="Name on card">
-            <input type="tel" placeholder="Card number">
-            <input type="cvc" placeholder="CVC">
-            <input type="text" id="expiration-date" maxlength="5" placeholder="MM/YY">
-            <input type="submit" value="Pay">
-        </form>
-
-        <script>
-            const expirationDateInput = document.getElementById('expiration-date');
+            <script>
+                const expirationDateInput = document.getElementById('expiration-date');
+        
+                expirationDateInput.addEventListener('input', function () {
+                    // Remove any non-digit characters
+                    let sanitizedInput = expirationDateInput.value.replace(/\D/g, '');
+        
+                    // Check if the input length is greater than 2, and if so, insert a "/"
+                    if (sanitizedInput.length > 2) {
+                        sanitizedInput = sanitizedInput.slice(0, 2) + '/' + sanitizedInput.slice(2);
+                    }
+        
+                    // Update the input field with the formatted value
+                    expirationDateInput.value = sanitizedInput;
+                });
+            </script>
     
-            expirationDateInput.addEventListener('input', function () {
-                // Remove any non-digit characters
-                let sanitizedInput = expirationDateInput.value.replace(/\D/g, '');
-    
-                // Check if the input length is greater than 2, and if so, insert a "/"
-                if (sanitizedInput.length > 2) {
-                    sanitizedInput = sanitizedInput.slice(0, 2) + '/' + sanitizedInput.slice(2);
-                }
-    
-                // Update the input field with the formatted value
-                expirationDateInput.value = sanitizedInput;
-            });
-        </script>
-
-        <div class="order-info">
-            Your order:
-            <p><%= room.type %> Room</p>
-            <p>Total: $<%= room.price %></p>
+            <div class="order-info">
+                Your order:
+                <p><%= room.type %> Room</p>
+                <p>Total: $<%= room.price %></p>
+            </div>
+        
         </div>
-    
-    </div>
-    <!-- <form action="/remove" method="POST">
-        <button>X</button>
-    </form> -->
+        <!-- <form action="/remove" method="POST">
+            <button>X</button>
+        </form> -->
+        <% } %>    
+    <% } else { %>
+        <div>
+            To manage and view bookings, please<a href="/login" class="link">login</a>
+        </div>
     <% } %>
-
 </div>
 <%- include('../includes/footer') %> 
 </body>

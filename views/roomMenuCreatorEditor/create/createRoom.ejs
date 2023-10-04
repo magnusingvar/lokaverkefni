@@ -1,0 +1,56 @@
+<form action="/createRoom" method="POST" id="create">
+    <h2 class="header">Create Room</h2>
+    <div id="type">
+        <label for="t">Room type: </label>
+        <select name="type" class="type" id="t">
+            <% for (let i = 0; i < types.length; i += 1) { %>
+                <option value="<%= types[i].type %>"><%= types[i].type %></option>
+            <% } %> 
+        </select>
+    </div>
+    
+    <div id="occupancy">
+        <label for="o">Room occupancy: </label>
+        <select name="occupancy" class="occupancy" id="o">
+            <% for (let i = 1; i < 5; i += 1) { %>
+                <option value="<%= i %>">
+                    <% if (i < 2) { %>
+                        <%= i %> Person
+                    <% } else { %>
+                        <%= i %> People
+                    <% } %>
+                </option>
+            <% } %>
+        </select>
+    </div>
+    
+    <div id="beds">
+        <label for="b">Number of beds: </label>
+        <select name="beds" class="beds" id="b">
+            <% for (let i = 1; i < 3; i +=1) { %>
+                <option value="<%= i %>">
+                    <% if (i < 2) { %>
+                        <%= i %> Bed
+                    <% } else { %>
+                        <%= i %> Beds
+                    <% } %>
+                </option>
+            <%} %>
+        </select>
+        
+        <label for="bt">Bed type: </label>
+        <select name="bedType" class="bedType" id="bt">
+            <option value="Double">Double</option>
+            <option value="Queen">Queen</option>
+            <option value="King">King</option>
+        </select>
+    </div>
+
+    <input type="number" name="ppn" class="price" placeholder="Price per night">
+    <input type="text" name="description" placeholder="Description" maxlength="200">
+    <input type="submit" value="Create" class="btn">
+</form>
+    
+<div id="msg">
+    <%= msg %>            
+</div>

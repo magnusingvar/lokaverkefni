@@ -3,10 +3,9 @@
     min-height: 100px;
     display: flex;
     align-items: center;
-    background-color: #000;
-    color: #fff;
+    background-color: #030303;
+    color: var(--text-secondary);
     font-weight: 300;
-    flex: none;
 }
 
 .footer-container {

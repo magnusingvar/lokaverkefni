@@ -8,38 +8,46 @@
     <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="/css/footer.css" />
     <link rel="stylesheet" type="text/css" href="/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="/css/editTable.css" />
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
-    <% if (userPrivilege == "administrator") { %>
-    <style>
-    .container {
-        height: calc(100vh - 220px);
-    }
-    </style>
-    <% } %>
+    <% try{ %>
+        <% if (userPrivilege === "administrator") { %>
+        <style>
+        .container {
+            height: calc(100vh - 220px);
+        }
+        </style>
+        <% } %>
+    <% } catch (e) {} %>
 </head>
 <body>
  <%- include('../includes/navbar') %>
- <% if (menu == 'none') { %>
-    <div class="container">
-        <a href="/restaurant/breakfast">Breakfast menu</a><br>
-        <a href="/restaurant/dinner">Dinner menu</a>
-    </div>
+ <div class="container">
+    <% if (operation != 'edit') { %>
+        <% if (menu == '') { %>
+            <h2 class="header">Menus</h2>
 
-<% } else { %>
-    <div class="container">
-        <h1><%= menu.type %> Menu</h1>
-        <% for (let i = 0; i < menu.length; i += 1) { %>
-            <div class="menu-item">
-                <%= menu[i].name %>    
+            <div id="menus">
+                <a href="/restaurant/breakfast" class="breakfast">Breakfast menu</a><br>
+                <a href="/restaurant/dinner" class="dinner">Dinner menu</a>
             </div>
+        <% } else { %>
+            <h1><%= menu[0].menuType %> Menu</h1>
+            <%= menu.name %>    
+            <% for (let i = 0; i < menu.length; i += 1) { %>
+                <div class="menu-item">
+                    <%= menu[i].name %>    
+                </div>
+            <% } %>
         <% } %>
-    </div>
-<% } %>
-
-
+    <% } else { %>
+        <%- include('../includes/updateMenu') %>
+    <% } %>
+</div>
 <%- include('../includes/footer') %>
 </body>
 </html>
