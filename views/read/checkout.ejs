@@ -8,63 +8,69 @@
     <link rel="stylesheet" type="text/css" href="css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="css/footer.css" />
     <link rel="stylesheet" type="text/css" href="css/bookingCheckout.css" />
-
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
+    <% try{ %>
+        <% if (user != null) { %>
+            <% if (userPrivilege === 'administrator') { %>
+                <style>
+                    .container {
+                        min-height: calc(100vh - 224px);
+                    }
+                </style>
+            <% } %>
+        <% } %>
+    <% } catch (e) {} %>
 </head>
 <body>
-<%- include('../includes/navbar') %> 
-<div class="container">
-    <% if (user != null) { %>
-        <% if (room.length < 1) { %>
-            <p>You don't have any unpaid bookings</p>
-        <% } else { %>
-        <h3 class="header">Checkout</h3>
-        <div class="order">
-            <form action="checkout" method="post" id="test">
-                <input type="text" placeholder="Name on card">
-                <input type="tel" placeholder="Card number">
-                <input type="cvc" placeholder="CVC">
-                <input type="text" id="expiration-date" maxlength="5" placeholder="MM/YY">
-                <input type="submit" value="Pay">
+<div id="wrapper">
+    <%- include('../includes/navbar') %> 
+    <div class="container">
+        <% if (user != null) { %>
+            <% if (room.length < 1) { %>
+                <div class="msg">
+                    <p>You don't have any unpaid bookings</p>
+                </div>
+            <% } else { %>
+            <h3 class="header">Checkout</h3>
+            <div class="order">
+                <form action="checkout" method="POST" id="order">
+                    <input type="text" placeholder="Name on card">
+                    <input type="tel" maxlength="16" placeholder="Card number" readonly value="5063516945005047">
+                    <input type="cvc" maxlength="4" placeholder="CVC">
+                    <input type="text" id="expiration-date" maxlength="4" placeholder="MM/YY">
+                    <input type="submit" value="Pay" class="btn">
+                </form>
+                
+                <div class="order-info">
+                    <span>Order Summary:</span>
+                    <span><%= room.type %> Room</span>
+                    <span>Total: $<%= room.price %></span>
+    
+                    
+                    <div class="email-sent-to">
+                        <span>An email will be sent to: </span>
+                        <span><%= user %></span>
+                    </div>
+                </div>
+            </div>
+            
+            <form action="/cancel" method="POST" id="cancel">
+                <input type="hidden" name="id" value="<%= room.idBooking %>">
+                <input type="submit" value="Cancel" class="btn danger">
             </form>
     
-            <script>
-                const expirationDateInput = document.getElementById('expiration-date');
-        
-                expirationDateInput.addEventListener('input', function () {
-                    // Remove any non-digit characters
-                    let sanitizedInput = expirationDateInput.value.replace(/\D/g, '');
-        
-                    // Check if the input length is greater than 2, and if so, insert a "/"
-                    if (sanitizedInput.length > 2) {
-                        sanitizedInput = sanitizedInput.slice(0, 2) + '/' + sanitizedInput.slice(2);
-                    }
-        
-                    // Update the input field with the formatted value
-                    expirationDateInput.value = sanitizedInput;
-                });
-            </script>
-    
-            <div class="order-info">
-                Your order:
-                <p><%= room.type %> Room</p>
-                <p>Total: $<%= room.price %></p>
+            <% } %>    
+        <% } else { %>
+            
+            <div class="msg">
+                <p>To manage and view bookings, please</p><a href="/login" class="link">login</a>
             </div>
-        
-        </div>
-        <!-- <form action="/remove" method="POST">
-            <button>X</button>
-        </form> -->
-        <% } %>    
-    <% } else { %>
-        <div>
-            To manage and view bookings, please<a href="/login" class="link">login</a>
-        </div>
-    <% } %>
+        <% } %>
+    </div>
+    <%- include('../includes/footer') %> 
 </div>
-<%- include('../includes/footer') %> 
 </body>
 </html>

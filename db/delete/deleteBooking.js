@@ -6,7 +6,7 @@ module.exports = function deleteBooking(dbFile, idBooking, idUser) {
   DELETE FROM bookings 
   WHERE id = ? 
   AND idUser = ?`);
-  const test = sql.run(idBooking, idUser);
+  const booking = sql.run(idBooking, idUser);
   db.close();
-  return test;
+  return booking;
 };

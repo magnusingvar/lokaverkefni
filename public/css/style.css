@@ -1,22 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
 
 :root {
-    --primary-color: #f0f0f0 ;
-    --primary-color-transparent: #f0f0f0d9;
-    --secondary-color: #fbfaf8;
+    --primary-color: #fbfaf8;
+    --secondary-color: #f0f0f0 ;
+    --secondary-color-transparent: #f0f0f0d9;
     --btn-primary: #004485;
     --btn-secondary: #004e98;
     --text-primary: #221e22;
     --text-secondary: #f7f7ff;
-    --box-shadow: #292929;
+    --box-shadow: 0 2px 4px 0 #29292933;
     --danger: #f32013;
+    --max-width: calc(100vw - 15%);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Oxygen', Arial, Helvetica, sans-serif;
+    font-family: inherit;
+    font-size: inherit;
 }
 
 html {
@@ -24,7 +26,9 @@ html {
 }
 
 body {
-    background: var(--primary-color);
+    background: var(--secondary-color);
+    font-family: 'Oxygen', Arial, Helvetica, sans-serif;
+    font-size: calc(16px + 0.33vw);
 }
 
 a {
@@ -40,7 +44,7 @@ a {
     display: flex;
     gap: 12px;
     justify-content: center;
-    margin: 40px 0 0 0;
+    margin: 20px 0;
 }
 
 .link {
@@ -53,12 +57,20 @@ a {
 }
 
 .header {
-    margin: 20px 0 20px 0;
+    font-size: calc(28px + 0.3vw);
+    margin: 20px 0;
+    text-align: center;
+}
+
+.hero-wrapper {
+    max-width: var(--max-width);
+    padding: 16px 0 0 0;
+    margin: auto;
 }
 
 .hero {
-    width: 100%;
-    height: calc(100vh - 73px);
+    border-radius: 7px;
+    min-height: calc(100vh - 103px);
     color: var(--text-secondary);
     display: flex;
     flex-direction: column;
@@ -68,7 +80,73 @@ a {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+}
+
+.book-now {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#booking {
+    padding: 5vh 0 0 0;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+
+.booking { 
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin: 0 0 30px 0;
+    padding: 0 10px;
+}
+
+.booking > * {
+    max-width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1 100px;
+}
+
+.label {
+    width: 100%;
+    margin: 0 0 8px 0;
+}
+
+.datepicker, .peoplepicker {
+    max-width: 80vw;
+    min-width: 100%;
+    padding: 14px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.datepicker:focus, .peoplepicker:focus {
+    outline: none;
+    border: 1px solid var(--btn-primary);
+    background: #f1f1f1;
+}
+
+.btn {
+    min-width: 100px;
+    width: 100%;
+    border: 1px solid #000;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    background: var(--btn-primary);
+    padding: 15px 20px;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background: var(--btn-secondary);
 }
 
 .more {
@@ -85,76 +163,23 @@ a {
     top: 2px;
 }
 
-.book-now {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    scale: 1.2;
-}
-
-#booking {
-    padding: 5vh 0 0 0;
-    display: flex;
-    justify-content: center;  
-}
-
-.booking { 
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    margin: 0 0 30px 0;
-}
-
-.booking > div {
-    display: flex;
-    flex-direction: column;
-}
-
-.label {
-    margin: 0 0 4px 0;
-}
-
-.datepicker, .peoplepicker{
-    min-width: 100%;
-    padding: 14px 8px;
-    height: 100%;
-    border: 1px solid #000;
-    border-radius: 4px;
-    background: #f1f1f1;
-}
-
-.btn {
-    border: 1px solid #000;
-    border-radius: 4px;
-    color: var(--text-secondary);
-    background: var(--btn-primary);
-    margin-top: auto;
-    padding: 15px 20px;
-    cursor: pointer;
-}
-
-.btn:hover {
-    cursor: pointer;
-    background: var(--btn-secondary);
-}
-
 .danger {
     background: var(--danger) !important;
 }
 
 #main {
-    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 1.5rem;
+    margin: 16px auto;
+    max-width: var(--max-width);
+    height: auto;
 }
 
 .section {
-    width: auto;
     display: flex;
-    margin: 20px;
     align-items: center;
+    margin: 20px;
 }
 
 .section > .image-left {
@@ -167,13 +192,33 @@ a {
 
 .img {
     max-width: 80vw;
-    min-width: 100%;
-    width: auto; 
+    border-radius: 7px;
 }
 
+/* Edit table start */
+.table-container {
+    overflow-x: auto;
+    margin: 30px 0;
+}
+
+tr > th, td {
+    padding: 4px 8px;
+    text-align: center;
+}
+/* Edit table end */
+
 /* responsive media queries */
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1300px) {
+    .hero-wrapper {
+        max-width: none;
+    }
+
+    .hero {
+        border-radius: 0;
+    }
+
     #main > .section {
+        margin: 0;
         flex-direction: column;
     }
 
@@ -184,37 +229,21 @@ a {
     }
 
     .section > p {
-        padding: 10px;
+        padding: 5px;
     }
-
-    /* .section > .image-right {
-        padding: 0;
-    } */
 }
 
-@media only screen and (max-width: 670px) {
-    .hero {
-        justify-content: space-evenly;
-    }
-
-    .book-now {
-        padding-top: 4rem;
+@media only screen and (max-width: 550px) {
+    .booking {
+        padding: 0;
     }
     
-
-    .booking {
-        flex-direction: column;
+    .booking > * {
+        flex: 1 1 400px;
     }
 
     .more {
         position: relative;
-    }
-}
-
-@media only screen and (max-width: 200px) {
-    .book-now {
-        display: flex;
-        width: auto;
-        scale: 0.9;
+        bottom: 0;
     }
 }

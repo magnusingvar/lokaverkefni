@@ -8,105 +8,107 @@
     <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="/css/footer.css" />
     <link rel="stylesheet" type="text/css" href="/css/rooms.css" />
-    <link rel="stylesheet" type="text/css" href="/css/editTable.css" />
-
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
     <% try{ %>
-        <% if (userPrivilege === "administrator") { %>
-        <style>
-        .container {
-            height: calc(100vh - 220px);
-        }
-        </style>
+        <% if (user != null) { %>
+            <% if (userPrivilege === 'administrator') { %>
+                <style>
+                    .container {
+                        min-height: calc(100vh - 224px);
+                    }
+                </style>
+            <% } %>
         <% } %>
     <% } catch (e) {} %>
 </head>
 <body>
-<%- include('../includes/navbar') %>
-<div class="container">
-    <% if (operation != 'edit') { %>
-        <% if (checkin != '' && checkout != '' && checkin != checkout && checkin >= formattedToday && !(checkout <= checkin)) { %>
-            <h2 class="header"><%= header %></h2>
-            <form action="/rooms" id="form">
-                <label for="orderby">Sort by:</label>
-                <select id="orderby">
-                    <option value="" title="default">Default</option>
-                    <option value="asc" title="price" <% if(priceSortBy == "asc") {%> selected <% } %>>Price Low - High</option>
-                    <option value="desc" title="price" <% if(priceSortBy == "desc") {%> selected <% } %>>Price High - Low</option>
-                    <option value="asc" title="occupancy" <% if(occupancySortBy == "asc") {%> selected <% } %>>Occupancy Low - High</option>
-                    <option value="desc" title="occupancy" <% if(occupancySortBy == "desc") {%> selected <% } %>>Occupancy High - Low</option>
-                </select>
-            </form>
+<div id="wrapper">
+    <%- include('../includes/navbar') %>
+    <div class="container">
+        <% if (operation != 'edit') { %>
+            <% if (checkin != '' && checkout != '' && checkin != checkout && checkin >= formattedToday && !(checkout <= checkin)) { %>
+                <h2 class="header"><%= header %></h2>
+                <form action="/rooms" id="form">
+                    <label for="orderby">Sort by:</label>
+                    <select id="orderby">
+                        <option value="" title="default">Default</option>
+                        <option value="asc" title="price" <% if(priceSortBy == "asc") {%> selected <% } %>>Price Low - High</option>
+                        <option value="desc" title="price" <% if(priceSortBy == "desc") {%> selected <% } %>>Price High - Low</option>
+                        <option value="asc" title="occupancy" <% if(occupancySortBy == "asc") {%> selected <% } %>>Occupancy Low - High</option>
+                        <option value="desc" title="occupancy" <% if(occupancySortBy == "desc") {%> selected <% } %>>Occupancy High - Low</option>
+                    </select>
+                </form>
 
-            <script src="js/orderby.js"></script>
-            <div class="rooms">
-                <% if (rooms.length > 0) { %>
-                    <% for (let i = 0; i < rooms.length; i += 1){ %>
-                        <div class="room">
-                            <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>">
-                                <div id="room">
-                                    <div class="image" <% if (rooms[i].type == "Standard") { %> style="background-image: url('images/rooms/standard/room.webp');" <% } %> else { style="background-image: url('images/rooms/deluxe/room.webp');" %> }></div>
-                                    <div class="title">
-                                            <%= rooms[i].type %> Room
-                                    </div>
-
-                                    <div class="info">
-                                        <div id="price" title="Total price">
-                                            $<%= rooms[i].ppn * nights %>
+                <script src="js/orderby.js"></script>
+                <div id="rooms">
+                    <% if (rooms.length > 0) { %>
+                        <% for (let i = 0; i < rooms.length; i += 1){ %>
+                            <div class="room">
+                                <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>">
+                                    <div id="room">
+                                        <div class="image" <% if (rooms[i].type == "Standard") { %> style="background-image: url('images/rooms/standard/room.webp');" <% } %> else { style="background-image: url('images/rooms/deluxe/room.webp');" %> }></div>
+                                        <div class="title">
+                                                <%= rooms[i].type %> Room
                                         </div>
-                                        <div id="guests" title="Maximum room occupancy capacity">
-                                            <div class="icon">
-                                                <span class="i guests"></span>
+
+                                        <div class="info">
+                                            <div id="price" title="Total price">
+                                                $<%= rooms[i].ppn * nights %>
                                             </div>
-                                            <span>
-                                                <%= rooms[i].occupancy %>
-                                            </span>
+                                            <div id="guests" title="Maximum room occupancy capacity">
+                                                <div class="icon">
+                                                    <span class="i guests"></span>
+                                                </div>
+                                                <span>
+                                                    <%= rooms[i].occupancy %>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>     
-                            </a>   
-                        </div>
-                    <% } %>  
-                <% } else { %>
-                    No rooms available
-                    <style>
-                        #form {
-                            display: none;
-                        }
-                    </style>
-                <% } %>
-            </div>
-            <% if (totalPages > 1) { %>
-                <div class="pagination">        
-                    <% for (let i = 1; i < totalPages + 1; i += 1) {%>
-                        <div class="page">
-                            <a class="link <% if (page == i) { %>active<%}%>" 
-                            onclick="queryParams = new URLSearchParams(window.location.search) 
-                            queryParams.set('page', '<%= i %>')
-                            window.location.replace('?'+queryParams.toString());">
-                                <%= i %>
-                            </a>
-                        </div>
+                                    </div>     
+                                </a>   
+                            </div>
+                        <% } %>  
+                    <% } else { %>
+                        <p>No rooms available</p>
+                        <style>
+                            #form {
+                                display: none;
+                            }
+                        </style>
                     <% } %>
                 </div>
+                <% if (totalPages > 1) { %>
+                    <div class="pagination">        
+                        <% for (let i = 1; i < totalPages + 1; i += 1) {%>
+                            <div class="page">
+                                <a class="link <% if (page == i) { %>active<%}%>" 
+                                onclick="queryParams = new URLSearchParams(window.location.search) 
+                                queryParams.set('page', '<%= i %>')
+                                window.location.replace('?'+queryParams.toString());">
+                                    <%= i %>
+                                </a>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <h2 class="header">Invalid search</h2>
+                <%- include('../includes/roomSearch') %>
+                    <div class="msg">
+                        <p>
+                            <%= msg %>
+                        </p>
+                    </div>
+                <script src="/js/checkIfBookingDatesValid.js"></script>
             <% } %>
         <% } else { %>
-            <h2 class="header">Invalid search</h2>
-            <%- include('../includes/roomSearch') %>
-                <div class="msg">
-                    <p>
-                        <%= msg %>
-                    </p>
-                </div>
-            <script src="js/checkIfBookingDatesValid.js"></script>
+            <%- include('../includes/updateRooms') %>
         <% } %>
-    <% } else { %>
-        <%- include('../includes/updateRooms') %>
-    <% } %>
+    </div>
+    <%- include('../includes/footer') %>
 </div>
-<%- include('../includes/footer') %>
 </body>
 </html>

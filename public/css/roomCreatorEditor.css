@@ -9,6 +9,15 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    margin: 20px 0;
+    max-width: 470px;
+}
+
+#create > .header,
+#update > .header {
+    display: flex;
+    justify-content: left;
+    margin: 5px 0;
 }
 
 select {
@@ -22,8 +31,3 @@ input[type="text"], input[type="number"] {
 #msg {
     margin: 10px 0;
 }
-
-
-/* #type, #occupancy, #beds {
-
-} */

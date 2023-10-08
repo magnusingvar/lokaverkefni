@@ -1,7 +1,8 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 173px);
+    min-height: calc(100vh - 173px);
+    /* padding: 10px 0; */
 }
 
 #confirm {
@@ -10,7 +11,7 @@
     width: 100vw;
     height: 100vh;
     color: var(--text-primary);
-    background: var(--primary-color-transparent);
+    background: var(--secondary-color-transparent);
     z-index: 1;
     display: none;
     flex-direction: column;
@@ -24,6 +25,10 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
+}
+
+.close > a {
+    text-align: center;
 }
 
 #account {
@@ -76,4 +81,10 @@
 
 .danger {
     margin: 10px 0 0 0;
+}
+
+@media only screen and (max-width: 430px) {
+    #name {
+        flex-direction: column;
+    }
 }

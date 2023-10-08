@@ -3,9 +3,6 @@ const router = express.Router();
 const path = require('path');
 const readUser = require('../db/read/readUser');
 const validSession = require('./functions/userSession');
-// const getRooms = require('../db/read/readRooms');
-// const readUser = require('../db/read/readUser');
-// const userLoggedIn = require('./functions/userSession');
 const dbFile = path.join(__dirname, '../db/database.db');
 
 router.get('/', (req, res) => {    
@@ -17,9 +14,9 @@ router.get('/', (req, res) => {
 
     if(req.session.validSession) {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        res.render('index', { title: 'Homepage', user, userPrivilege, form});
+        res.render('index', { title: 'Homepage', user, userPrivilege, form });
     } else {
-        res.render('index', { title: 'Homepage', user, form});
+        res.render('index', { title: 'Homepage', user, form });
     }
 });
 

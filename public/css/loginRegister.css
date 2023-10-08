@@ -2,26 +2,23 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: calc(100vh - 173px);
+    min-height: calc(100vh - 173px);
 }
 
-.email, .password{
-    border: 1px solid #808080;
+.email, .password {
+    border: 1px solid var(--secondary-color);
     border-radius: 4px;
 }
 
 #register, #login {
-    margin: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
 #form {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 10px;
 }
 
@@ -31,26 +28,17 @@
     align-items: center;
 }
 
-.pswd-show-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
+#showPswdBtn, #showVrfyPswdBtn {
+    float: right;
     position: absolute;
-    margin-right: 6px;
-    height: 30px;
     width: 30px;
-    padding: 0;
-    border: 0;
+    margin: 0 10px 0 0;
     user-select: none;
+    cursor: pointer;
 }
 
 .eye-show {
-    position: relative;
-    width: 85%;
-    height: auto;
     content: url(/svg/eye.svg);
-    cursor: pointer;
 }
 
 .eye-hide {
@@ -60,29 +48,29 @@
 
 input#firstName, input#lastName, 
 input#email, input.password {
-    width: 100vw;
-    max-width: calc(100vw/4);
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+    width: 100%;
     padding: 12px 14px;
 }
 
 input.password {
-    padding-right: 38px;
+    padding-right: 44px;
 }
 
 input[type=text]:focus, input[type=password]:focus,
 input[type=email]:focus {
-    background-color: #f2f3f4;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--btn-primary) !important;
+    outline: none !important;
 }
 
 .btn {
     width: 100%;
-    /* max-width: calc(100vw/3);
-    min-width: calc(100vw/4); */
     padding: 10px 0;
     background-color: var(--btn-primary);
     color: white;
     font-weight: bold;
-    /* border: 1px solid #808080; */
     font-size: 16px;
     border: none;
     border-radius: 4px;
@@ -93,10 +81,24 @@ input[type=email]:focus {
     background-color: var(--btn-secondary);
 }
 
-#content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
+.error, .container-register,
+.container-login {
+    width: 100%;
+    text-align: center;
+}
+
+@media only screen and (max-width: 900px) {
+    .container {
+        justify-content: flex-start;
+    }
+
+    .container > #login,
+    .container > #register {
+        margin: 30px 0 0 0;
+    }
+
+    #form,
+    #form > * {
+        width: 100%;
+    }
 }

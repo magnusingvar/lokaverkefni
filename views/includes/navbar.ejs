@@ -1,78 +1,99 @@
 <div id="navbar">
-    <!-- Navbar Desktop Start -->
-    <div id="navbar-desktop">
-        <div id="logo">
-            <a href="/">
-                <img src="/svg/logo.svg" />
-            </a>
-        </div>
-
-        <ul id="nav">
-            <li class="nav-item"><a href="/restaurant">Restaurant</a></li>
-            <li class="nav-item"><a href="/bookings">Bookings</a></li>
-            <li class="nav-item"><a href="/contact">Contact</a></li>
-        </ul>
-
-        <ul class="right">    
-            <div class="item">
-                <a href="/checkout">
-                    <div class="icon">
-                        <div class="i basket"></div>
-                    </div>
+    <nav>
+        <!-- Navbar Desktop Start -->
+        <div id="navbar-desktop">
+            <div id="logo">
+                <a href="/">
+                    <img src="/svg/logo.svg" />
                 </a>
             </div>
+            <ul id="nav">
+                <li class="nav-item"><a href="/restaurant">Restaurant</a></li>
+                <li class="nav-item"><a href="/bookings">Bookings</a></li>
+                <li class="nav-item"><a href="/contact">Contact</a></li>
+            </ul>
+            <ul class="right">    
+                <div class="item">
+                    <a href="/checkout">
+                        <div class="icon">
+                            <div class="i basket"></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">     
+                    <% if (user === null) { %>
+                        <div class="icon">
+                            <div class="i user"></div>
+                        </div>
+                        <a href="/login">Login</a>
+                    <% } else { %>
+                        <div class="icon">
+                            <div class="i user"></div>
+                        </div>
+                        <a href="/account">My account</a>
+                    <% } %>
+                </div>
+            </ul>     
+        </div>
+        <% try { %>
+            <% if (user != null && userPrivilege === 'administrator') { %>
+                <div id="sub-nav">
+                    <ul id="sub-navigation">
+                        <li><a href="/createRoom">Create Room</a></li>
+                        <li><a href="/editRooms">Edit Rooms</a></li>
+                        <li><a href="/createMenuItem">Create Menu Item</a></li>
+                        <li><a href="/editMenu">Edit Menu</a></li>
+                    </ul>
+                </div>
+            <% }
+        } catch (e) {} %>
+        <!-- Navbar Desktop End -->
 
-            <div class="item">
-                
+        <!-- Navbar Mobile Start -->
+        <div id="navbar-mobile">
+            <div id="logo-mobile">
+                <a href="/">
+                    <img src="/svg/logo.svg"/>
+                </a>
+            </div>   
+
+            <ul id="nav-mobile">
+                <li><a href="/restaurant">Restaurant</a></li>
+                <li><a href="/bookings">Bookings</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li class="hidden"><a href="/checkout">Basket</a></li>
                 <% if (user === null) { %>
-                    <div class="icon">
-                        <div class="i user"></div>
-                    </div>
-                    <a href="/login">Login</a>
+                    <li class="hidden"><a href="/login">Login</a></li>
                 <% } else { %>
-                    <div class="icon">
-                        <div class="i user"></div>
-                    </div>
-                    <a href="/account">My account</a>
+                    <li class="hidden"><a href="/account">My account</a></li>
                 <% } %>
-            </div>
-        </ul>
-        
-    </div>
-    <% try { %>
-        <% if (userPrivilege === "administrator") { %>
-        <div id="sub-nav">
-            <ul id="sub-navigation">
-                <li><a href="/createRoom">Create Room</a></li>
-                <li><a href="/editRooms">Edit Rooms</a></li>
-                <li><a href="/createMenuItem">Create Menu Item</a></li>
-                <li><a href="/editMenu">Edit Menu</a></li>
+
+                <div class="right">
+                    <div class="item">
+                        <a href="/checkout">
+                            <div class="icon">
+                                <div class="i basket"></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <% if (user === null) { %>
+                            <a href="/login">
+                                <div class="icon">
+                                    <div class="i user"></div>
+                                </div>
+                            </a>
+                        <% } else { %>
+                            <a href="/account">
+                                <div class="icon">
+                                    <div class="i user"></div>
+                                </div>
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
             </ul>
         </div>
-    <% }} catch (e) {} %>
-    <!-- Navbar Desktop End -->
-
-    <!-- Navbar Mobile Start -->
-    <div id="navbar-mobile">
-        <div id="logo-mobile">
-            <a href="/">
-                <img src="/svg/logo.svg"/>
-            </a>
-        </div>
-
-        <ul id="nav-mobile">
-            <li><a href="/restaurant">Restaurant</a></li>
-            <li><a href="/bookings">Bookings</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/checkout">Basket</a></li>
-            <% if (user === null) { %>
-                <li><a href="/login">Login</a></li>
-            <% } else { %>
-                <li><a href="/account">My account</a></li>
-            <% } %>
-        </ul>
-
-
-    </div>
-    <!-- Navbar Mobile End -->
+        <!-- Navbar Mobile End -->
+    </nav>
 </div>

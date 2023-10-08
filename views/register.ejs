@@ -14,54 +14,50 @@
     <title><%= title %></title>
 </head>
 <body>
-<%- include('includes/navbar') %> 
-<div class="container">
-    <div id="register">
-        <h3 class="header"><%= header %></h3>
-        <form action="/register" method="post" id="form">
-            <div id="firstName">
-                <input type="text" name="firstName" id="firstName" placeholder="First Name" value="<%= form.firstName %>" required />
-            </div>
-    
-            <div id="lastName">
-                <input type="text" name="lastName" id="lastName" placeholder="Last Name" value="<%= form.lastName %>" required />
-            </div>
-    
-            <div id="email">
-                <input type="email" name="email" id="email" placeholder="Email" value="<%= form.email %>" required autocomplete="email" />
-            </div>
-    
-            <div id="password">
-                <input type="password" name="password" class="password" placeholder="Password" value="<%= form.password %>" required />
-    
-                <div class="pswd-show-btn">
+<div id="wrapper">
+    <%- include('includes/navbar') %> 
+    <div class="container">
+        <div id="register">
+            <h3 class="header"><%= header %></h3>
+            <form action="/register" method="post" id="form">
+                <div id="firstName">
+                    <input type="text" name="firstName" id="firstName" placeholder="First Name" value="<%= form.firstName %>" required />
+                </div>
+        
+                <div id="lastName">
+                    <input type="text" name="lastName" id="lastName" placeholder="Last Name" value="<%= form.lastName %>" required />
+                </div>
+        
+                <div id="email">
+                    <input type="email" name="email" id="email" placeholder="Email" value="<%= form.email %>" required autocomplete="email" />
+                </div>
+        
+                <div id="password">
+                    <input type="password" name="password" class="password" placeholder="Password" value="<%= form.password %>" required />                
                     <span class="i eye-show" id="showPswdBtn"></span>
                 </div>
-            </div>
-    
-            <div id="password">
-                <input type="password" name="verifyPassword" class="password verify" placeholder="Verify Password" value="<%= form.password2 %>" required />
-    
-                <div class="pswd-show-btn">
+        
+                <div id="password">
+                    <input type="password" name="verifyPassword" class="password verify" placeholder="Verify Password" value="<%= form.password2 %>" required />
                     <span class="i eye-show" id="showVrfyPswdBtn"></span>
                 </div>
-            </div>
-    
-            <input type="submit" value="Register" id="button" class="btn" />
-    
-            <div><% if (error) { %> <%= error %> <% } %></div>
-    
-            <script src="js/script.js" type="module"></script>
-    
-            <div class="container-login">
-                <p>
-                    Already have an account?
-                    <a href="/login" class="link">Login</a>
-                </p>
-            </div>
-        </form>
+        
+                <input type="submit" value="Register" id="button" class="btn" />
+        
+                <div class="error"><% if (error) { %> <%= error %> <% } %></div>
+        
+                <script src="js/script.js" type="module"></script>
+        
+                <div class="container-login">
+                    <p>
+                        Already have an account?
+                        <a href="/login" class="link">Login</a>
+                    </p>
+                </div>
+            </form>
+        </div>
     </div>
+    <%- include('includes/footer') %>
 </div>
-<%- include('includes/footer') %>
 </body>
 </html>

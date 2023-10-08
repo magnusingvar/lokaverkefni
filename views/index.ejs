@@ -7,48 +7,48 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="/css/footer.css" />
-
-    <script src="js/fetchUserUnpaid.js"></script>
-
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-
     <title><%= title %></title>
 </head>
 <body>
-<%- include('includes/navbar') %> 
-<div class="container">
-    <div class="hero">
-        <div class="book-now">
-            <h2 class="header">Book now</h2>
-            <%- include('includes/roomSearch') %>
-        </div>
-
-        <div class="more">
-            <a href="#main">
-                <div class="icon">
-                    <div class="i mouse"></div>
+<div id="wrapper">
+    <%- include('includes/navbar') %> 
+    <div class="container">
+        <div class="hero-wrapper">
+            <div class="hero">
+                <div class="book-now">
+                    <h2 class="header">Book now</h2>
+                    <%- include('includes/roomSearch') %>
                 </div>
-            </a>
-        </div>
-    </div>
-    <div id="main">
-        <div class="section">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec nibh molestie, efficitur leo sed, viverra nunc. Donec vehicula accumsan erat facilisis ullamcorper. Donec commodo quis dui nec placerat. Donec mi orci, scelerisque eget nisl ac, hendrerit condimentum odio. Nam dictum odio eget quam tempus, a mattis odio ornare. Nullam auctor libero ut libero suscipit, ut accumsan nunc condimentum. Donec ullamcorper maximus sapien quis egestas.</p>
-            <div class="image-left">
-                <img src="images/img.webp" class="img">        
+        
+                <div class="more">
+                    <a href="#main">
+                        <div class="icon">
+                            <div class="i mouse"></div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-
-        <div class="section">
-            <div class="image-right">
-                <img src="images/image.webp" class="img">
+        <div id="main">
+            <div class="section">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec nibh molestie, efficitur leo sed, viverra nunc. Donec vehicula accumsan erat facilisis ullamcorper. Donec commodo quis dui nec placerat. Donec mi orci, scelerisque eget nisl ac, hendrerit condimentum odio. Nam dictum odio eget quam tempus, a mattis odio ornare. Nullam auctor libero ut libero suscipit, ut accumsan nunc condimentum. Donec ullamcorper maximus sapien quis egestas.</p>
+                <div class="image-left">
+                    <img src="images/img.webp" class="img">        
+                </div>
             </div>
-            <p>Mauris viverra scelerisque lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce ultrices enim sit amet elit tincidunt maximus. Suspendisse vitae pellentesque lectus. Duis commodo leo suscipit augue mollis, non venenatis dolor ullamcorper. Duis tincidunt scelerisque lacus, vel vehicula leo consectetur vel. Duis posuere nisl non odio consequat ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div> 
+        
+            <div class="section">
+                <div class="image-right">
+                    <img src="images/image.webp" class="img">
+                </div>
+                <p>Mauris viverra scelerisque lobortis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce ultrices enim sit amet elit tincidunt maximus. Suspendisse vitae pellentesque lectus. Duis commodo leo suscipit augue mollis, non venenatis dolor ullamcorper. Duis tincidunt scelerisque lacus, vel vehicula leo consectetur vel. Duis posuere nisl non odio consequat ultrices. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div> 
+        </div>
     </div>
+    <%- include('includes/footer') %>
 </div>
-<%- include('includes/footer') %>
 </body>
 </html>

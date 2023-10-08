@@ -1,12 +1,8 @@
-const path = require('path');
-const cron = require('node-cron');
 const Database = require('better-sqlite3');
 
 module.exports = function checkAndRemoveUnpaid(dbFile) {
-  const db = new Database(dbFile);
-
+    const db = new Database(dbFile);
     const currTime = new Date();
-
     const sql = db.prepare('SELECT * FROM bookings WHERE isPaid = 0');
     const unpaidBookings = sql.all();
 
@@ -23,4 +19,4 @@ module.exports = function checkAndRemoveUnpaid(dbFile) {
     });
 
     db.close();
-}
+};

@@ -22,7 +22,6 @@ const logout = require('./routes/functions/logout');
 const accountPage = require('./routes/read/account');
 const validSession = require('./routes/functions/userSession');
 const checkout = require('./routes/functions/checkout');
-const checkUnpaid = require('./routes/functions/checkUnpaidBookings');
 const contactPage = require('./routes/contact');
 const autoRemoveBookings = require('./routes/functions/autoRemoveBookings');
 const dbFile = path.join(__dirname, './db/database.db');
@@ -78,7 +77,6 @@ app.use('/createMenuItem', createMenuItem);
 app.use('/editMenu', readRestaurant);
 app.use('/updateMenuItem', updateMenuItem);
 app.use('/deleteMenuItem', deleteMenuItem);
-app.use('/checkUnpaidBookings', checkUnpaid);
 app.use('/contact', contactPage);
 
 // errors : page not found
@@ -98,4 +96,3 @@ app.use((err, req, res) => {
 app.listen(3000, () => {
     console.log(colors.green('Server is running on port 3000.....'));
 });
-

@@ -45,9 +45,9 @@ router.get('/', (req, res) => {
                     const userId = readUser(dbFile, user).id; 
                     const userBooking = readUserBooking(dbFile, userId);
                     const userPrivilege = readUser(dbFile, user).userPrivilege;
-                    res.render('read/room', { title: 'Room suitable for', user, userPrivilege, room, checkin, checkout, nights, operation: 'book', userBooking, totalPrice});
+                    res.render('read/room', { title: `${room.type} Room`, user, userPrivilege, room, checkin, checkout, nights, operation: 'book', userBooking, totalPrice });
                 } else {
-                    res.render('read/room', { title: 'Room suitable for', user, room, checkin, checkout, nights, operation: 'book', userBooking, totalPrice});
+                    res.render('read/room', { title: `${room.type} Room`, user, room, checkin, checkout, nights, operation: 'book', userBooking, totalPrice });
                 }
             } else {
                 res.status(400).render('error', { title:'Error', status: 400, msg: 'Bad Request', user});
@@ -55,13 +55,13 @@ router.get('/', (req, res) => {
         } else {
             if (req.session.validSession) {
                 const userPrivilege = readUser(dbFile, user).userPrivilege;
-                res.render('read/room', { title: 'Room suitable for', user, userPrivilege, room, checkin, checkout, nights, operation: 'view', userBooking});
+                res.render('read/room', { title: `${room.type} Room`, user, userPrivilege, room, checkin, checkout, nights, operation: 'view', userBooking });
             } else {
-                res.render('read/room', { title: 'Room suitable for', user, room, checkin, checkout, nights, operation: 'view', userBooking});        
+                res.render('read/room', { title: `${room.type} Room`, user, room, checkin, checkout, nights, operation: 'view', userBooking });        
             }
         }
     } catch (e) {
-        res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user});
+        res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user });
     }
 });
 

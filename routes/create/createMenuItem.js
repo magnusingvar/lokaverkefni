@@ -13,9 +13,9 @@ router.get('/', (req, res) => {
     try {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
         if (error != 1) {
-            res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Update Room', operation: 'createMenuItem', user, userPrivilege, msg: '' });
+            res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Menu Item', operation: 'createMenuItem', user, userPrivilege, msg: '' });
         } else {
-            res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Update Room', operation: 'createMenuItem', user, userPrivilege, msg: 'Item creation failed.' });
+            res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Menu Item', operation: 'createMenuItem', user, userPrivilege, msg: 'Item creation failed.' });
         }
     } catch (e) {
         res.redirect('/');
@@ -23,22 +23,16 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    // try {
-        if (userPrivilege = 'administrator') {
-            if (req.body.menuitem != '' || req.body.menuitem != ' ') {
-                console.log(req.body.menuitem)
-                const test = createMenuItem(dbFile, req.body.menu, req.body.menuitem);
-                console.log('success', test)
-                // const lastId = createMenuItem.createMenuItem(dbFile, req.body.menuitem);
-                // createMenuItem.insertIntoMenuMenuItems(dbFile, req.body.menu, lastId);
-                res.redirect('/createMenuItem');
-            } else {
-                res.redirect('/createMenuItem?error=1');
-            }
+    if (userPrivilege = 'administrator') {
+        if (req.body.menuitem || !(req.body.menuitem.trim() === '')) {
+            createMenuItem(dbFile, req.body.menu, req.body.menuitem);
+            res.redirect('/createMenuItem');
         } else {
-            res.send('not authorized');
+            res.redirect('/createMenuItem?error=1');
         }
+    } else {
+        res.send('not authorized');
     }
-);
+});
 
 module.exports = router;

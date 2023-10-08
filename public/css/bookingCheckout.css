@@ -1,8 +1,8 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 173px);
     align-items: center;
+    min-height: calc(100vh - 173px);
 }
 
 tr > td {
@@ -13,6 +13,7 @@ tr > td {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin: 0 0 10px 0;
 }
 
 .order-info {
@@ -22,7 +23,7 @@ tr > td {
     padding: 0 0 0 20px;
 }
 
-#test {
+#order {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -30,6 +31,57 @@ tr > td {
     margin: 0 40px 0 0;
 }
 
-.order-info > p {
-    margin: 0;
+#order > input {
+    padding: 10px;
+    min-width: 100px;
+    max-width: 200px;
+    width: 100%;
+}
+
+
+.order-info > .email-sent-to {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#cancel {
+    margin: 20px 0 0 0;
+}
+
+.msg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+    max-width: 50vw;
+    margin: auto 0;
+}
+
+@media only screen and (max-width: 500px) {
+    .order {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .order-info {
+        padding: 0;
+        margin: 16px 0;
+        align-items: center;
+    }
+
+    .email-sent-to {
+        margin: 16px 0 !important;
+    }
+
+    #order {
+        margin: 0;
+        align-items: center;
+    }
+
+    #cancel {
+        margin: 0 0 20px 0;
+    }
 }

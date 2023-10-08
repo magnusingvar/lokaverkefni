@@ -8,46 +8,57 @@
     <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="/css/footer.css" />
     <link rel="stylesheet" type="text/css" href="/css/menu.css" />
-    <link rel="stylesheet" type="text/css" href="/css/editTable.css" />
-
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
     <% try{ %>
-        <% if (userPrivilege === "administrator") { %>
-        <style>
-        .container {
-            height: calc(100vh - 220px);
-        }
-        </style>
+        <% if (user != null) { %>
+            <% if (userPrivilege === 'administrator') { %>
+                <style>
+                    .container {
+                        min-height: calc(100vh - 224px);
+                    }
+                </style>
+            <% } %>
         <% } %>
     <% } catch (e) {} %>
 </head>
 <body>
- <%- include('../includes/navbar') %>
- <div class="container">
-    <% if (operation != 'edit') { %>
-        <% if (menu == '') { %>
-            <h2 class="header">Menus</h2>
-
-            <div id="menus">
-                <a href="/restaurant/breakfast" class="breakfast">Breakfast menu</a><br>
-                <a href="/restaurant/dinner" class="dinner">Dinner menu</a>
-            </div>
-        <% } else { %>
-            <h1><%= menu[0].menuType %> Menu</h1>
-            <%= menu.name %>    
-            <% for (let i = 0; i < menu.length; i += 1) { %>
-                <div class="menu-item">
-                    <%= menu[i].name %>    
-                </div>
-            <% } %>
-        <% } %>
-    <% } else { %>
-        <%- include('../includes/updateMenu') %>
-    <% } %>
+<div id="wrapper">
+    <%- include('../includes/navbar') %>
+    <div class="container">
+       <% if (operation != 'edit') { %>
+           <% if (menu == '') { %>
+               <h1 class="header">Menus</h1>
+   
+               <div id="menus">
+                   <a href="/restaurant/breakfast" class="breakfast">Breakfast menu</a><br>
+                   <a href="/restaurant/dinner" class="dinner">Dinner menu</a>
+               </div>
+           <% } else { %>
+               <% if (menu == 'none' && msg) { %>
+                   <div class="msg">
+                       <p>
+                           <%= msg %>
+                       </p>
+                   </div>
+               <% } else { %>
+                   <div id="menu-container">
+                       <h1 class="header"><%= menu[0].menuType %> Menu</h1>
+                       <% for (let i = 0; i < menu.length; i += 1) { %>
+                           <div class="menu-item">
+                               <%= menu[i].name %>    
+                           </div>
+                       <% } %>
+                   </div>
+               <% } %>
+           <% } %>
+       <% } else { %>
+           <%- include('../includes/updateMenu') %>
+       <% } %>
+   </div>
+   <%- include('../includes/footer') %>
 </div>
-<%- include('../includes/footer') %>
 </body>
 </html>

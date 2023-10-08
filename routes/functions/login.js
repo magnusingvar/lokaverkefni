@@ -57,13 +57,13 @@ router.post('/', (req, res) => {
 
                 res.redirect('/')
             } else {
-                res.render('login', { title: 'Login', user, header, form: form, error: 'Password incorrect' });
+                res.render('login', { title: 'Login', user: null, header, form: form, error: 'Password incorrect' });
             }
         } else {
             res.render('login', { title: 'Login', user, header, form: form, error: 'Please verify your account, check your email' });
         }
     } catch (e) {
-        res.render('login', { title: 'Login', user: 'none', header, form: form, error: 'User does not exist' });
+        res.render('login', { title: 'Login', user: null, header, form: form, error: 'User does not exist' });
     }
 });
 

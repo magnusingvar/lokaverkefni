@@ -38,15 +38,15 @@ router.get('/:menu', (req, res) => {
         if (menu != '') {
             if (req.session.validSession) {
                 const userPrivilege = readUser(dbFile, user).userPrivilege;
-                res.render('read/menu', { title: `${menu.menuType}`, user, userPrivilege, menu, operation: 'view' });
+                res.render('read/menu', { title: `${menu[0].menuType}`, user, userPrivilege, menu, operation: 'view' });
             } else {
-+                res.render('read/menu', { title: `${menu.menuType}`, user, menu, operation: 'view' });
+                res.render('read/menu', { title: `${menu[0].menuType}`, user, menu, operation: 'view' });
             }
         } else {
-            res.send('No items in menu')
+            res.render('read/menu', { title: 'Restaurant', user, menu: 'none', msg: 'Menu is empty', operation: 'view' });
         }
     } catch (e) {
-        res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user});
+        res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user });
     }
 })
 

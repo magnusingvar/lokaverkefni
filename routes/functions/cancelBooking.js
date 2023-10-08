@@ -8,9 +8,19 @@ const validSession = require('./userSession');
 
 router.post('/', (req, res) => {
   const user = validSession(req.session);
-  const userId = readUser(dbFile, user).id;
-  cancel(dbFile, req.body.id, userId);
-  res.redirect(`/bookings`)
+  if (req.session.validSession) {
+    const userId = readUser(dbFile, user).id;
+    const cookie = req.cookies['basket'];
+
+    if (cookie != null) {
+      res.clearCookie('basket');
+    }
+
+    cancel(dbFile, req.body.id, userId);
+    res.redirect(`/bookings`);
+  } else {
+    res.redirect('/');
+  }
 });
 
 module.exports = router;

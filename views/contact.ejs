@@ -12,20 +12,33 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
+    <% try{ %>
+        <% if (user != null) { %>
+            <% if (userPrivilege === 'administrator') { %>
+                <style>
+                    .container {
+                        min-height: calc(100vh - 224px);
+                    }
+                </style>
+            <% } %>
+        <% } %>
+    <% } catch (e) {} %>
 </head>
 <body>
-<%- include('includes/navbar') %> 
-<div class="container">
-    <form action="/contact" method="POST" id="contact">
-        <h2 class="header">Contact us</h2>
-        <input type="text" name="firstName" id="firstName" <% if (user != null) { %> value="<%= account.firstName %>" readonly tabindex="-1" <% } %>  placeholder="First Name" required>
-        <input type="text" name="lastName" id="lastName" <% if (user != null) { %> value="<%= account.lastName %>" readonly tabindex="-1" <% } %>  placeholder="Last Name" required>
-        <input type="email" name="email" id="email" <% if(user != null) { %> value="<%= user %>" readonly tabindex="-1" <% } else { %> placeholder="Email" <% } %> required>
-        <textarea name="enquiry" id="enquiry" placeholder="Enquiry" required></textarea>
-
-        <input type="submit" class="btn" value="Send">
-    </form>
+<div id="wrapper">
+    <%- include('includes/navbar') %> 
+    <div class="container">
+        <form action="/contact" method="POST" id="contact">
+            <h2 class="header">Contact us</h2>
+            <input type="text" name="firstName" id="firstName" <% if (user != null) { %> value="<%= account.firstName %>" readonly tabindex="-1" <% } %>  placeholder="First Name" required>
+            <input type="text" name="lastName" id="lastName" <% if (user != null) { %> value="<%= account.lastName %>" readonly tabindex="-1" <% } %>  placeholder="Last Name" required>
+            <input type="email" name="email" id="email" <% if(user != null) { %> value="<%= user %>" readonly tabindex="-1" <% } else { %> placeholder="Email" <% } %> required>
+            <textarea name="enquiry" id="enquiry" placeholder="Enquiry" required></textarea>
+    
+            <input type="submit" class="btn" value="Send">
+        </form>
+    </div>
+    <%- include('includes/footer') %>
 </div>
-<%- include('includes/footer') %>
 </body>
 </html>

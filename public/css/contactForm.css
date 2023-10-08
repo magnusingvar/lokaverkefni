@@ -1,5 +1,5 @@
 .container {
-    height: calc(100vh - 173px);
+    min-height: calc(100vh - 184px);
 }
 
 #contact {
@@ -7,17 +7,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    margin: 10px 0;
 }
 
 #firstName, #lastName, 
-#email, #enquiry {
+#email, #enquiry, .btn {
     max-width: 500px;
     width: 100%;
-    padding: 10px 5px;
+    padding: 15px 8px;
 }
 
 #firstName:read-only, #lastName:read-only,
 #email:read-only {
-    pointer-events:none;
+    pointer-events: none;
 }

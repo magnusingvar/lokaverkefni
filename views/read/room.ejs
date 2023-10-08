@@ -12,156 +12,162 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <title><%= title %></title>
+    <% try{ %>
+        <% if (user != null) { %>
+            <% if (userPrivilege === 'administrator') { %>
+                <style>
+                    .container {
+                        min-height: calc(100vh - 224px);
+                    }
+                </style>
+            <% } %>
+        <% } %>
+    <% } catch (e) {} %>
 </head>
 <body>
-<%- include ('../includes/navbar') -%>
-<div class="container">
-<% if (operation === "view") { %>
-    <h3 class="room-title">
-        <%= room.type %> Room
-    </h3>
-                       
-    <div id="description">
-        <p><%= room.description %></p>
-    </div>
-
-    <div class="room-info">
-        <div id="guests">
-            <div class="icon">
-                <span class="i guests"></span>
+<div id="wrapper">
+    <%- include ('../includes/navbar') -%>
+    <div class="container">
+    <% if (operation === "view") { %>
+        <h3 class="room-title">
+            <%= room.type %> Room
+        </h3>
+                 
+        <div class="room-info">
+            <div id="guests">
+                <div class="icon">
+                    <span class="i guests"></span>
+                </div>
+                <%= room.occupancy %>
             </div>
-            <%= room.occupancy %>
-        </div>
-
-        <div id="beds">
-            <div class="icon">
-                <span class="i beds"></span>
-            </div>
-            <%= room.beds %> (<%= room.bedType %> Bed)
-        </div>
-
-        <div id="price">
-            Price per night: $<%= room.ppn %>
-        </div>
-    </div>
-
-    <div class="images">
-        <% if (room.type === "Standard") { %>
-            <%- include ('../includes/images/standard.ejs') %>
-        <% } else { %>
-            <%- include ('../includes/images/deluxe.ejs') %>
-        <% } %>
-    </div>
     
-    <% if (userBooking != '') { %>
-        <form action="/cancel" method="POST">
-            <button>Cancel</button>
-            <input type="hidden" name="id" value="<%= room.id %>">
-        </form>
-    <% } %>
-<% } else { %>
-    <div class="stay">
-        <div class="icon">
-            <div class="i stay-time"></div>
+            <div id="beds">
+                <div class="icon">
+                    <span class="i beds"></span>
+                </div>
+                <%= room.beds %> (<%= room.bedType %> Bed)
+            </div>
+    
+            <div id="price">
+                Price per night: $<%= room.ppn %>
+            </div>
         </div>
-        <% if (nights > 1) { %>
-            <div class="nights">
-                You have selected this room for <%= nights %> nights.
-            </div>
-            <div class="timeframe">
-                From <%= checkin %> to <%= checkout %>
-            </div>
-        <% } else { %>
-            <div class="nights">
-                You have selected this room for <%= nights %> night.
-            </div>
-            <div class="timeframe">
-                From <%= checkin %> to <%= checkout %>
-            </div>
-        <% } %> 
-    </div>
-            
-    <h3 class="room-title">
-        <%= room.type %> Room
-    </h3>
-                   
-    <div id="description">
-        <%= room.description %>
-    </div>
-
-    <div class="room-info">
-        <div id="guests">
-            <div class="icon">
-                <div class="i guests"></div>
-            </div>
-            <%= room.occupancy %>
+    
+        <div id="description">
+            <p><%= room.description %></p>
         </div>
-
-        <div id="beds">
-            <div class="icon">
-                <div class="i beds"></div>
-            </div>
-            <%= room.beds %> (<%= room.bedType %>)
+    
+        <div class="images">
+            <% if (room.type === "Standard") { %>
+                <%- include ('../includes/images/standard.ejs') %>
+            <% } else { %>
+                <%- include ('../includes/images/deluxe.ejs') %>
+            <% } %>
         </div>
-
-        <div id="price">
-            <p class="p">Price: $<%= totalPrice %></p> 
-            <p class="ppn">(<%= nights %> x $<%= room.ppn %>)</p>
-        </div>
-    </div>
-
-    <div class="images">
-        <% if (room.type === "Standard") { %>
-            <%- include ('../includes/images/standard.ejs') %>
-        <% } else { %>
-            <%- include ('../includes/images/deluxe.ejs') %>
+        
+        <% if (userBooking != '') { %>
+            <form action="/cancel" method="POST">
+                <button>Cancel</button>
+                <input type="hidden" name="id" value="<%= room.id %>">
+            </form>
         <% } %>
-    </div>
-
-    <% if (userBooking) { %>
-        <form action="/checkout/booking?id=<%= room.id %>&type=<%= room.type %>&checkin=<%= checkin %>&checkout=<%= checkout %>&price=<%= totalPrice %>" method="GET" class="checkout">
-            <input type="submit" class="btn" id="signup-btn" value="Book Room">
-            <input type="hidden" name="id" value="<%= room.id %>">
-            <input type="hidden" name="type" value="<%= room.type %>">
-            <input type="hidden" name="checkin" value="<%= checkin %>">
-            <input type="hidden" name="checkout" value="<%= checkout %>">
-            <input type="hidden" name="price" value="<%= totalPrice %>">
-        </form>
-
-        <!-- <style>
-            .container {
-                height: calc(100vh - 100px);
-            }
-        </style> -->
-
     <% } else { %>
-        test
+        <div class="stay">
+            <div class="icon">
+                <div class="i stay-time"></div>
+            </div>
+            <% if (nights > 1) { %>
+                <div class="nights">
+                    You have selected this room for <%= nights %> nights.
+                </div>
+                <div class="timeframe">
+                    From <%= checkin %> to <%= checkout %>
+                </div>
+            <% } else { %>
+                <div class="nights">
+                    You have selected this room for <%= nights %> night.
+                </div>
+                <div class="timeframe">
+                    From <%= checkin %> to <%= checkout %>
+                </div>
+            <% } %> 
+        </div>
+                
+        <h3 class="room-title">
+            <%= room.type %> Room
+        </h3>
+    
+        <div class="room-info">
+            <div id="guests">
+                <div class="icon">
+                    <div class="i guests"></div>
+                </div>
+                <%= room.occupancy %>
+            </div>
+    
+            <div id="beds">
+                <div class="icon">
+                    <div class="i beds"></div>
+                </div>
+                <%= room.beds %> (<%= room.bedType %>)
+            </div>
+    
+            <div id="price">
+                <p class="p">Price: $<%= totalPrice %></p> 
+                <p class="ppn">(<%= nights %> x $<%= room.ppn %>)</p>
+            </div>
+        </div>
+                       
+        <div id="description">
+            <%= room.description %>
+        </div>
+    
+        <div class="images">
+            <% if (room.type === "Standard") { %>
+                <%- include ('../includes/images/standard.ejs') %>
+            <% } else { %>
+                <%- include ('../includes/images/deluxe.ejs') %>
+            <% } %>
+        </div>
+    
+        <% if (userBooking) { %>
+            <form action="/checkout/booking?id=<%= room.id %>&type=<%= room.type %>&checkin=<%= checkin %>&checkout=<%= checkout %>&price=<%= totalPrice %>" method="GET" class="checkout">
+                <input type="submit" class="btn" id="signup-btn" value="Book Room">
+                <input type="hidden" name="id" value="<%= room.id %>">
+                <input type="hidden" name="type" value="<%= room.type %>">
+                <input type="hidden" name="checkin" value="<%= checkin %>">
+                <input type="hidden" name="checkout" value="<%= checkout %>">
+                <input type="hidden" name="price" value="<%= totalPrice %>">
+            </form>
+        <% } else { %>
+            test
+        <% } %> 
     <% } %> 
-<% } %> 
-</div>
-<script>
-let imageIndex = 1;
-showImages(imageIndex);
-        
-function plusImages(n) {
-    showImages(imageIndex += n);
-}
-        
-function currentImage(n) {
-    showSlides(imageIndex = n);
-}
-        
-function showImages(n) {
-    let i;
-    let images = document.getElementsByClassName("image");
-    if (n > images.length) {imageIndex = 1}
-        if (n < 1) {imageIndex = images.length}
-            for (i = 0; i < images.length; i++) {
-                images[i].style.display = "none";
-            }
-        images[imageIndex-1].style.display = "block";
+    </div>
+    <script>
+    let imageIndex = 1;
+    showImages(imageIndex);
+            
+    function plusImages(n) {
+        showImages(imageIndex += n);
     }
-</script>        
-<%- include ('../includes/footer') -%>
+            
+    function currentImage(n) {
+        showSlides(imageIndex = n);
+    }
+            
+    function showImages(n) {
+        let i;
+        let images = document.getElementsByClassName("image");
+        if (n > images.length) {imageIndex = 1}
+            if (n < 1) {imageIndex = images.length}
+                for (i = 0; i < images.length; i++) {
+                    images[i].style.display = "none";
+                }
+            images[imageIndex-1].style.display = "flex";
+        }
+    </script>        
+    <%- include ('../includes/footer') -%>
+</div>
 </body>
 </html>

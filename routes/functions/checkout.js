@@ -56,56 +56,66 @@ router.get('/:booking', (req, res) => {
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    
-    if (req.session.validSession) {
-        const userPrivilege = readUser(dbFile, user).userPrivilege;
-        const cookie = req.cookies['basket'];
-        if (cookie != undefined) {
-            const room = jwt.verify(cookie, 'token');
-            const bookingId = room.idBooking;
-            res.render('read/checkout', {title: 'Basket', user, userPrivilege, room, bookingId});
+    try { 
+        if (req.session.validSession) {
+            const userPrivilege = readUser(dbFile, user).userPrivilege;
+            const cookie = req.cookies['basket'];
+            if (cookie != undefined) {
+                const room = jwt.verify(cookie, 'token');
+                const bookingId = room.idBooking;
+                res.render('read/checkout', {title: 'Basket', user, userPrivilege, room, bookingId});
+            } else {
+                res.render('read/checkout', {title: 'Basket', user, userPrivilege, room: ''});
+            }
         } else {
-            res.render('read/checkout', {title: 'Basket', user, userPrivilege, room: ''});
+            res.render('read/checkout', {title: 'Basket', user, room: ''});
         }
-    } else {
-        res.render('read/checkout', {title: 'Basket', user, room: ''});
+    } catch (e) {
+        res.clearCookie('basket');
+        res.redirect('/checkout');
     }
 });
 
 router.post('/', (req, res) => {
     const user = validSession(req.session);
-  
-    if (req.session.validSession) {
-        const userId = readUser(dbFile, user);
-        const cookie = req.cookies['basket'];
-        const room = jwt.verify(cookie, 'token');
-        const bookingId = room.idBooking;
-
-        booking.markAsPaid(dbFile, bookingId);
-        
-        let transport = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-                user: process.env.USER,
-                pass: process.env.PASSWORD
-            }
-        });
-
-        const mailOptions = {
-            from: '"Lokaverkefni" <magnuslokaverkefni@gmail.com>',
-            to: userId.email,
-            subject: 'Your booking',
-            text: 'Your booking was successful',
-            html: `You have booked the ${room.type} Room for $${room.price} from ${room.checkin} to ${room.checkout}`
-        };
-        
-        transport.sendMail(mailOptions);
-        
+    try {
+        if (req.session.validSession) {
+            const userId = readUser(dbFile, user);
+            const cookie = req.cookies['basket'];
+            const room = jwt.verify(cookie, 'token');
+            const bookingId = room.idBooking;
+    
+            console.log(room)
+    
+            booking.markAsPaid(dbFile, bookingId);
+            
+            let transport = nodemailer.createTransport({
+                host: "sandbox.smtp.mailtrap.io",
+                port: 2525,
+                auth: {
+                    user: process.env.USER,
+                    pass: process.env.PASSWORD
+                }
+            });
+    
+            const mailOptions = {
+                from: '"Lokaverkefni" <magnuslokaverkefni@gmail.com>',
+                to: userId.email,
+                subject: 'Your booking',
+                text: 'Your booking was successful',
+                html: `You have booked the ${room.type} Room for $${room.price} from ${room.checkin} to ${room.checkout}`
+            };
+            
+            transport.sendMail(mailOptions);
+            
+            res.clearCookie('basket');
+            res.redirect('/');
+        } else {
+            res.redirect('/');
+        }
+    } catch (e) {
         res.clearCookie('basket');
-        res.redirect('/');
-    } else {
-        res.redirect('/');
+        res.redirect('/checkout');
     }
 });
 

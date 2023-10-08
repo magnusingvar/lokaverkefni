@@ -1,9 +1,0 @@
-.table-container {
-    width: auto;
-    height: 100%;
-}
-
-tr > th, td {
-    padding: 4px 8px;
-    text-align: center;
-}
