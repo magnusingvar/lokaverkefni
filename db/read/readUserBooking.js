@@ -16,4 +16,4 @@ module.exports = function readUserBooking(dbFile, id) {
   const bookings = sql.all(id);
   db.close();
   return bookings;
-}
+};

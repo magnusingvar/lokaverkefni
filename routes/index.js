@@ -9,7 +9,8 @@ router.get('/', (req, res) => {
     const user = validSession(req.session);
     const form = {
         checkin: '',
-        checkout: ''
+        checkout: '',
+        people: ''
     }
 
     if(req.session.validSession) {

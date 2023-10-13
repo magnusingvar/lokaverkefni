@@ -5,32 +5,29 @@ const checkinDate = checkin.value;
 const checkoutDate = checkout.value;
 
 let today = new Date();
-const yyyy = today.getFullYear();
-let mm = today.getMonth() + 1;
-let dd = today.getDate();
+const formattedToday = today.toISOString().split('T')[0];
 
-if (dd < 10) dd = '0' + dd;
-if (mm < 10) mm = '0' + mm;
-
-const formattedToday = yyyy + '-' + mm + '-' + dd;
-
-if (checkinDate === '' && checkinDate === '') {
-    checkin.classList.add('attention');
-    checkout.classList.add('attention');
-} else {
-    if(checkinDate === '') {
+switch (true) {
+    case checkinDate === '' && checkoutDate === '':
         checkin.classList.add('attention');
-    };
-
-    if (checkoutDate === '') {
         checkout.classList.add('attention');
-    }
-
-    if (checkinDate < formattedToday) {
+        break;
+    case checkinDate === '':
         checkin.classList.add('attention');
-    }
-
-    if (checkoutDate <= formattedToday) {
+        break;
+    case checkoutDate === '':
         checkout.classList.add('attention');
-    }
+        break;
+    case checkoutDate < formattedToday:
+        checkout.classList.add('attention');
+        break;
+    case checkinDate > checkoutDate:
+        checkin.classList.add('attention');
+        break;
+    case checkinDate < formattedToday:
+        checkin.classList.add('attention');
+        break;
+    case checkoutDate === checkoutDate:
+        checkout.classList.add('attention');
+        break;
 }

@@ -26,39 +26,46 @@
 </head>
 <body>
 <div id="wrapper">
-    <%- include('../includes/navbar') %>
-    <div class="container">
-       <% if (operation != 'edit') { %>
-           <% if (menu == '') { %>
-               <h1 class="header">Menus</h1>
-   
-               <div id="menus">
-                   <a href="/restaurant/breakfast" class="breakfast">Breakfast menu</a><br>
-                   <a href="/restaurant/dinner" class="dinner">Dinner menu</a>
+<%- include('../includes/navbar') %>
+<div class="container">
+    <% if (operation != 'edit') { %>
+        <% if (menu == '') { %>
+            <div id="menu-container">
+                <div class="page-header">
+                    <h1 class="header">Menus</h1>
                </div>
+               <div id="menus">
+                    <span class="menu">
+                        <a href="/restaurant/breakfast">Breakfast menu</a>
+                    </span>
+                    <span class="menu">
+                        <a href="/restaurant/dinner">Dinner menu</a>
+                    </span>
+               </div>
+            </div>
            <% } else { %>
-               <% if (menu == 'none' && msg) { %>
-                   <div class="msg">
-                       <p>
-                           <%= msg %>
-                       </p>
-                   </div>
-               <% } else { %>
-                   <div id="menu-container">
-                       <h1 class="header"><%= menu[0].menuType %> Menu</h1>
-                       <% for (let i = 0; i < menu.length; i += 1) { %>
-                           <div class="menu-item">
-                               <%= menu[i].name %>    
-                           </div>
-                       <% } %>
-                   </div>
-               <% } %>
-           <% } %>
-       <% } else { %>
-           <%- include('../includes/updateMenu') %>
-       <% } %>
-   </div>
-   <%- include('../includes/footer') %>
+            <% if (menu == 'none' && msg) { %>
+                <div class="msg">
+                    <span><%= msg %></span>
+                </div>
+            <% } else { %>
+                <div id="menu-container">
+                    <div class="page-header<% if (menu[0].menuType === 'Breakfast') { %> breakfast <% } else { %> dinner <% } %>">
+                        <h1 class="header"><%= menu[0].menuType %> Menu</h1>
+                    </div>
+                    <% for (let i = 0; i < menu.length; i += 1) { %>
+                        <div class="menu-item">
+                            <span><%= menu[i].name %></span>   
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+        <% } %>
+    <% } else { %>
+        <%- include('../includes/updateMenu') %>
+    <% } %>
+</div>
+<%- include('../includes/footer') %>
 </div>
 </body>
 </html>

@@ -14,11 +14,11 @@
             <label for="people" class="label">Guests: </label>
             <select name="people" class="peoplepicker" id="people">
                 <% for (let i = 1; i < 5; i += 1) { %>
-                    <option name="<%= i %>" value="<%= i %>"><%= i %></option>
+                    <option name="<%= i %>" value="<%= i %>" <% if(form.people == i) { %>selected <% } %>><%= i %></option>
                 <% } %>
             </select>
         </div>
-        <input type="submit" value="Search" class="btn">
+        <input type="submit" value="Search" class="btn" id="btn">
     </div>
 </form>
 <script src="/js/toggleDatePicker.js"></script>

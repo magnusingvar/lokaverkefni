@@ -26,79 +26,44 @@
 </head>
 <body>
 <div id="wrapper">
-    <%- include('../includes/navbar') %>
-    <div class="container">
-        <div id="account">
-            <form action="account/update" method="GET" id="form">
-                <h2 class="header">My account</h2>
-                <div id="accountInfo">
-                    <div id="name">
-                        <input type="text" value="<%= account.firstName %>" name="firstName" id="firstName">
-                        <input type="text" value="<%= account.lastName %>" name="lastName" id="lastName">
-                    </div>
-    
-                    <div id="email">
-                        <input type="text" value="<%= account.email %>" name="email" id="accEmail">
-                    </div>
-    
-                    <input type="hidden" value="<%= account.id %>" name="userId">
-                    <input type="submit" value="Update account" class="btn">
+<%- include('../includes/navbar') %>
+<div class="container">
+    <div id="account">
+        <form action="account/update" method="GET" id="form">
+            <h2 class="header">My account</h2>
+            <div id="accountInfo">
+                <div id="name">
+                    <input type="text" value="<%= account.firstName %>" name="firstName" id="firstName">
+                    <input type="text" value="<%= account.lastName %>" name="lastName" id="lastName">
                 </div>
-            </form>
+    
+                <div id="email">
+                    <input type="text" value="<%= account.email %>" name="email" id="accEmail">
+                </div>
+    
+                <input type="hidden" value="<%= account.id %>" name="userId">
+                <input type="submit" value="Update account" class="btn">
+            </div>
+        </form>
         
-            <div id="logoutDelete">
-                <a href="/logout">Logout</a>
-                <a href="#popup" class="btn danger" id="deleteBtn">Delete account</a>                    
-            </div>
+        <div id="logoutDelete">
+            <a href="/logout">Logout</a>
+            <a href="#popup" class="btn danger" id="deleteBtn">Delete account</a>                    
         </div>
-    
-        <div id="confirm">
-            <h2 class="header">
-                Are you sure you want to delete your account?
-            </h2>
-            <div class="close">
-                <a href="/account/delete" class="btn danger" id="deleteBtn">Yes</a>                    
-                <a class="btn" id="no">No</a>
-            </div>
-        </div>
-    
-        <script>
-            const deleteBtn = document.getElementById("deleteBtn");
-            const confirmDiv = document.getElementById("confirm");
-    
-            const yes = document.getElementById('yes');
-            const no = document.getElementById('no');
-    
-            window.addEventListener('load', () => {
-                closeConfirm();
-            });
-    
-            deleteBtn.addEventListener('click', () => {
-                showConfirm();
-            })
-    
-            no.addEventListener('click', () => {
-                closeConfirm();
-            })
-    
-    
-    
-    
-            function showConfirm() {
-                confirmDiv.style.display = "flex";
-            }
-    
-            function closeConfirm() {
-                confirmDiv.style.display = "none";
-                const url = window.location.toString();
-                if (url.indexOf('#') > 0) {
-                    const cleanUrl = url.substring(0, url.indexOf('#'));
-                    window.history.replaceState({}, document.title, cleanUrl);
-                }
-            }
-        </script>
     </div>
-    <%- include('../includes/footer') %>
+    
+    <div id="confirm">
+        <h2 class="header">
+            Are you sure you want to delete your account?
+        </h2>
+        <div class="close">
+            <a href="/account/delete" class="btn danger" id="deleteBtn">Yes</a>                    
+            <a class="btn" id="no">No</a>
+        </div>
+    </div>
+    <script src="/js/confirmationWindow.js"></script>
+</div>
+<%- include('../includes/footer') %>
 </div>
 </body>
 </html>

@@ -9,4 +9,4 @@ module.exports = function updateAccount(dbFile, firstName, lastName, email, id) 
   WHERE id = ?`);
   sql.run(firstName, lastName, email, id)
   db.close();
-}
+};

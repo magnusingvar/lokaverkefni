@@ -8,4 +8,4 @@ module.exports = function confirmAccount(dbFile, id) {
   WHERE id = ?`);
   sql.run(id)
   db.close();
-}
+};

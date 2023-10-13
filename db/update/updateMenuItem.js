@@ -7,4 +7,4 @@ module.exports = function updateMenuItem(dbFile, type, name, id) {
   WHERE id = ?`);
   sql.run(type, name, id);
   db.close();
-}
+};

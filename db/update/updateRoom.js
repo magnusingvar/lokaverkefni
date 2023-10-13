@@ -10,4 +10,4 @@ module.exports = function updateRoom(dbFile, id, type, occupancy, beds, bedType,
   WHERE id = ?`);
   sql.run(type, occupancy, beds, bedType, ppn, description, id);
   db.close();
-}
+};

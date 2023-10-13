@@ -6,7 +6,6 @@ const validSession = require('./userSession');
 const loginUser = require('../../db/functions/loginFunction');
 const bcrypt = require('bcrypt');
 const dbFile = path.join(__dirname, '../../db/database.db');
-const { check, validationResult } = require('express-validator');
 
 // Get login page
 router.get('/', (req, res) => {
@@ -42,26 +41,42 @@ router.post('/', (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
+
+        // Check if email is empty
+        if (!email || /^\s*$/.test(email)) {
+            res.render('login', { title: 'Login', user: null, header, form: form, error: 'Email cannot be empty' });
+            return;
+        }
+
         const user = loginUser(dbFile, email, password);
         const validPass = bcrypt.compareSync(password, user.password);
+        let errorMessage = '';
 
-        /* If password matches a user then 
-		set valid session and redirect the
-		user to the homepage else render login
-		form with the error message : 
-		'Password incorrect'  */
-        if (user.verifiedEmail != 0) {
-            if (validPass) {
+        /* Switch statement that checks if:
+        - User has verified email
+        - Password field is not empty
+        - Password is correct
+        - User exists 
+        
+        and if all criteria is met then logs in user */
+        switch (true) {
+            case user.verifiedEmail === 0:
+                errorMessage = 'Please verify your account, check your email';
+                break;
+            case !/\S/.test(password):
+                errorMessage = 'Password cannot be empty';
+                break;
+            case !validPass:
+                errorMessage = 'Password incorrect';
+                break;
+            default:
                 req.session.validSession = true;
                 req.session.email = req.body.email;
-
-                res.redirect('/')
-            } else {
-                res.render('login', { title: 'Login', user: null, header, form: form, error: 'Password incorrect' });
-            }
-        } else {
-            res.render('login', { title: 'Login', user, header, form: form, error: 'Please verify your account, check your email' });
+                res.redirect('/');
+                return;
         }
+        
+        res.render('login', { title: 'Login', user: null, header, form: form, error: errorMessage });
     } catch (e) {
         res.render('login', { title: 'Login', user: null, header, form: form, error: 'User does not exist' });
     }

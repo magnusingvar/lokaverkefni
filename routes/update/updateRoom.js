@@ -15,9 +15,8 @@ router.get('/', (req, res) => {
         if (userPrivilege == "administrator") {
             const room = readRoom(dbFile, req.query.id);
             const types = readRoomTypes(dbFile);
-
             if (room != undefined) {
-                res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Update Room', operation: 'updateRoom', user, userPrivilege, room, types});
+                res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Update Room', operation: 'updateRoom', user, userPrivilege, room, types });
             } else {
                 res.status(404).render('error', { title: 'Error', status: 404, msg: 'Page not found', user });
             }

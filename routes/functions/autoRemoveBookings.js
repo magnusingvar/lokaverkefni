@@ -14,7 +14,7 @@ module.exports = function checkAndRemoveUnpaid(dbFile) {
       // if 10 minutes have passed, delete the booking
       if (timeDifference > 10 * 60 * 1000) {
         const sql = db.prepare('DELETE FROM bookings WHERE id = ?')
-        console.log(sql.run(idBooking));
+        sql.run(idBooking);
       }
     });
 

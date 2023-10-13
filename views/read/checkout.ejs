@@ -26,51 +26,51 @@
 </head>
 <body>
 <div id="wrapper">
-    <%- include('../includes/navbar') %> 
-    <div class="container">
-        <% if (user != null) { %>
-            <% if (room.length < 1) { %>
-                <div class="msg">
-                    <p>You don't have any unpaid bookings</p>
-                </div>
-            <% } else { %>
-            <h3 class="header">Checkout</h3>
-            <div class="order">
-                <form action="checkout" method="POST" id="order">
-                    <input type="text" placeholder="Name on card">
-                    <input type="tel" maxlength="16" placeholder="Card number" readonly value="5063516945005047">
-                    <input type="cvc" maxlength="4" placeholder="CVC">
-                    <input type="text" id="expiration-date" maxlength="4" placeholder="MM/YY">
-                    <input type="submit" value="Pay" class="btn">
-                </form>
-                
-                <div class="order-info">
-                    <span>Order Summary:</span>
-                    <span><%= room.type %> Room</span>
-                    <span>Total: $<%= room.price %></span>
-    
-                    
-                    <div class="email-sent-to">
-                        <span>An email will be sent to: </span>
-                        <span><%= user %></span>
-                    </div>
-                </div>
+<%- include('../includes/navbar') %> 
+<div class="container">
+    <% if (user != null) { %>
+        <% if (room.length < 1) { %>
+            <div class="msg" style="margin: 12px 0 0 0;">
+                <span>You don't have any unpaid bookings</span>
             </div>
-            
-            <form action="/cancel" method="POST" id="cancel">
-                <input type="hidden" name="id" value="<%= room.idBooking %>">
-                <input type="submit" value="Cancel" class="btn danger">
-            </form>
-    
-            <% } %>    
         <% } else { %>
-            
-            <div class="msg">
-                <p>To manage and view bookings, please</p><a href="/login" class="link">login</a>
+        <h3 class="header">Checkout</h3>
+        <div class="order">
+            <form action="checkout" method="POST" id="order">
+                <input type="text" name="name" placeholder="Name on card">
+                <input type="tel" name="ccn" maxlength="16" placeholder="Card number" readonly value="5063516945005047">
+                <input type="cvc" name="cvc" maxlength="4" placeholder="CVC">
+                <input type="text" name="expire" id="expiration-date" maxlength="4" placeholder="MM/YY">
+                <input type="submit" value="Pay" class="btn">
+            </form>
+                
+            <div class="order-info">
+                <span>Order Summary:</span>
+                <span><%= room.type %> Room</span>
+                <span>Total: $<%= room.price %></span>
+    
+                <div class="email-sent-to">
+                    <span>An email will be sent to: </span>
+                    <span><%= user %></span>
+                </div>
             </div>
-        <% } %>
-    </div>
-    <%- include('../includes/footer') %> 
+        </div>
+
+        <div class="msg"><% if (error) { %> <%= error %> <% } %></div>
+
+        <form action="/cancel" method="POST" id="cancel">
+            <input type="hidden" name="id" value="<%= room.idBooking %>">
+            <input type="submit" value="Cancel" class="btn danger">
+        </form>
+    
+        <% } %>    
+     <% } else { %> 
+        <div class="msg" style="margin: 12px 0 0 0;">
+            <span>To manage and view bookings, please<a href="/login" class="link">login</a></span>
+        </div>
+     <% } %>
+</div>
+<%- include('../includes/footer') %> 
 </div>
 </body>
 </html>

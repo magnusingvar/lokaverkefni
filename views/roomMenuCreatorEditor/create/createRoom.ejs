@@ -1,4 +1,4 @@
-<form action="/createRoom" method="POST" id="create">
+<form action="/createRoom" method="POST" class="form">
     <h2 class="header">Create Room</h2>
     <div id="type">
         <label for="t">Room type: </label>
@@ -51,6 +51,6 @@
     <input type="submit" value="Create" class="btn">
 </form>
     
-<div id="msg">
-    <%= msg %>            
+<div class="msg">
+    <span><%= error %></span>
 </div>

@@ -26,11 +26,11 @@
 </head>
 <body>
 <div id="wrapper">
-    <%- include ('../includes/navbar') -%>
-    <div class="container">
-    <% if (operation === "view") { %>
+<%- include ('../includes/navbar') -%>
+<div class="container">
+    <% if (operation === 'view') { %>
         <h3 class="room-title">
-            <%= room.type %> Room
+            <span><%= room.type %> Room</span>
         </h3>
                  
         <div class="room-info">
@@ -38,18 +38,18 @@
                 <div class="icon">
                     <span class="i guests"></span>
                 </div>
-                <%= room.occupancy %>
+                <span><%= room.occupancy %></span>
             </div>
     
             <div id="beds">
                 <div class="icon">
                     <span class="i beds"></span>
                 </div>
-                <%= room.beds %> (<%= room.bedType %> Bed)
+                <span><%= room.beds %> (<%= room.bedType %> Bed)</span>
             </div>
     
             <div id="price">
-                Price per night: $<%= room.ppn %>
+                <span>Price per night: $<%= room.ppn %></span>
             </div>
         </div>
     
@@ -58,19 +58,12 @@
         </div>
     
         <div class="images">
-            <% if (room.type === "Standard") { %>
+            <% if (room.type === 'Standard') { %>
                 <%- include ('../includes/images/standard.ejs') %>
             <% } else { %>
                 <%- include ('../includes/images/deluxe.ejs') %>
             <% } %>
         </div>
-        
-        <% if (userBooking != '') { %>
-            <form action="/cancel" method="POST">
-                <button>Cancel</button>
-                <input type="hidden" name="id" value="<%= room.id %>">
-            </form>
-        <% } %>
     <% } else { %>
         <div class="stay">
             <div class="icon">
@@ -78,23 +71,23 @@
             </div>
             <% if (nights > 1) { %>
                 <div class="nights">
-                    You have selected this room for <%= nights %> nights.
+                    <span>You have selected this room for <%= nights %> nights.</span>
                 </div>
                 <div class="timeframe">
-                    From <%= checkin %> to <%= checkout %>
+                    <span>From <%= checkin %> to <%= checkout %></span>
                 </div>
             <% } else { %>
                 <div class="nights">
-                    You have selected this room for <%= nights %> night.
+                    <span>You have selected this room for <%= nights %> night.</span>
                 </div>
                 <div class="timeframe">
-                    From <%= checkin %> to <%= checkout %>
+                    <span>From <%= checkin %> to <%= checkout %></span>
                 </div>
             <% } %> 
         </div>
                 
         <h3 class="room-title">
-            <%= room.type %> Room
+            <span><%= room.type %> Room</span>
         </h3>
     
         <div class="room-info">
@@ -102,36 +95,49 @@
                 <div class="icon">
                     <div class="i guests"></div>
                 </div>
-                <%= room.occupancy %>
+                <span><%= room.occupancy %></span>
             </div>
     
             <div id="beds">
                 <div class="icon">
                     <div class="i beds"></div>
                 </div>
-                <%= room.beds %> (<%= room.bedType %>)
+                <span><%= room.beds %> (<%= room.bedType %>)</span>
             </div>
     
             <div id="price">
-                <p class="p">Price: $<%= totalPrice %></p> 
-                <p class="ppn">(<%= nights %> x $<%= room.ppn %>)</p>
+                <span>Price: $<%= totalPrice %></span>
+                <span class="ppn">(<%= nights %> x $<%= room.ppn %>)</span>
             </div>
         </div>
                        
         <div id="description">
-            <%= room.description %>
+            <p><%= room.description %></p>
         </div>
     
         <div class="images">
-            <% if (room.type === "Standard") { %>
+            <% if (room.type === 'Standard') { %>
                 <%- include ('../includes/images/standard.ejs') %>
             <% } else { %>
                 <%- include ('../includes/images/deluxe.ejs') %>
             <% } %>
         </div>
-    
-        <% if (userBooking) { %>
-            <form action="/checkout/booking?id=<%= room.id %>&type=<%= room.type %>&checkin=<%= checkin %>&checkout=<%= checkout %>&price=<%= totalPrice %>" method="GET" class="checkout">
+
+        <% if (people < room.occupancy || isNaN(people)) { %>
+            <div class="msg">
+                <span>
+                    Please be aware that this room does not meet the guest count you specified.
+                </span>
+            </div>
+        <% } else { %>
+            <% if (people > room.occupancy) { %>
+                <div class="msg">
+                    <span>
+                        This room meets your specified guest count but might exceed your requirements
+                    </span>
+                </div>
+            <% } %>
+            <form action="/checkout/booking?id=<%= room.id %>&type=<%= room.type %>&checkin=<%= checkin %>&checkout=<%= checkout %>&people=<%= people %>&price=<%= totalPrice %>" method="GET" class="checkout">
                 <input type="submit" class="btn" id="signup-btn" value="Book Room">
                 <input type="hidden" name="id" value="<%= room.id %>">
                 <input type="hidden" name="type" value="<%= room.type %>">
@@ -139,35 +145,11 @@
                 <input type="hidden" name="checkout" value="<%= checkout %>">
                 <input type="hidden" name="price" value="<%= totalPrice %>">
             </form>
-        <% } else { %>
-            test
-        <% } %> 
+        <% } %>
     <% } %> 
-    </div>
-    <script>
-    let imageIndex = 1;
-    showImages(imageIndex);
-            
-    function plusImages(n) {
-        showImages(imageIndex += n);
-    }
-            
-    function currentImage(n) {
-        showSlides(imageIndex = n);
-    }
-            
-    function showImages(n) {
-        let i;
-        let images = document.getElementsByClassName("image");
-        if (n > images.length) {imageIndex = 1}
-            if (n < 1) {imageIndex = images.length}
-                for (i = 0; i < images.length; i++) {
-                    images[i].style.display = "none";
-                }
-            images[imageIndex-1].style.display = "flex";
-        }
-    </script>        
-    <%- include ('../includes/footer') -%>
+</div>
+<script src="/js/imageDisplay.js"></script>       
+<%- include ('../includes/footer') -%>
 </div>
 </body>
 </html>

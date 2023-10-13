@@ -5,7 +5,7 @@
     align-items: center;
 }
 
-#create, #update {
+.form {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -13,8 +13,7 @@
     max-width: 470px;
 }
 
-#create > .header,
-#update > .header {
+.header {
     display: flex;
     justify-content: left;
     margin: 5px 0;
@@ -28,6 +27,8 @@ input[type="text"], input[type="number"] {
     padding: 6px 12px;
 }
 
-#msg {
-    margin: 10px 0;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -29,32 +29,7 @@ function getUnpaidBookings(dbFile, idUser) {
   db.close();
 
   return unpaidBookings;
-}
-
-// function checkAndRemoveUnpaid(dbFile) {
-//   const db = new Database(dbFile);
-//   cron.schedule('0 * * * *', () => {
-//     const currTime = new Date();
-//     const tenMinutesAgo = new Date(currTime - 10 * 60 * 1000);
-
-//     const unpaid = db.prepare('SELECT id, userBooked FROM bookings WHERE isPaid = 0 AND userBooked <= ?').all(tenMinutesAgo);
-
-//     unpaid.forEach((booking) => {
-//       const bookingTime = new Date(booking.userBooked);
-//       const timeDifference = currTime - bookingTime;
-
-//       if (timeDifference >= 10 * 60 * 1000) { // Check if 10 minutes have passed (in milliseconds)
-//         db.prepare('DELETE FROM bookings WHERE id = ?').run(booking.id);
-//         console.log(`Removed booking with ID ${booking.id} due to exceeding 10 minutes.`);
-//       }
-//     });
-
-//     db.close();
-//   });
-// }
-
-
-
+};
 
 module.exports = {
   createBooking,

@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 173px);
-    /* padding: 10px 0; */
 }
 
 #confirm {
@@ -34,22 +33,18 @@
 #account {
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 #form {
-    padding: 10px 5px;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    padding: 10px 5px;
+    margin: 0 auto;
 }
 
 #accountInfo {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     border-bottom: 1px solid #222;
     padding: 0 0 10px 0;
 }
@@ -67,16 +62,15 @@
 
 #name {
     display: flex;
-    flex-direction: row;
     gap: 10px;
     margin: 0 0 10px 0;
 }
 
 #logoutDelete {
-    margin: 0 auto;
-    align-items: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .danger {

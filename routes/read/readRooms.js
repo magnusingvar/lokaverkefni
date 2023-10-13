@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     const user = validSession(req.session);
     const checkin = req.query.checkin;
     const checkout = req.query.checkout;
-    const people = req.query.people;
+    const people = parseInt(req.query.people);
 
     let one_day = 1000 * 60 * 60 * 24
 
@@ -23,27 +23,54 @@ router.get('/', (req, res) => {
     const nights = Math.round(checkoutDate - checkinDate)/one_day
 
     const header = 'Rooms';
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1;
-    let dd = today.getDate();
-
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
-
-    const formattedToday = yyyy + '-' + mm + '-' + dd;
-
+    let today = new Date();
+    const formattedToday = today.toISOString().split('T')[0];
+    
     const form = {
-        checkin: req.query.checkin,
-        checkout: req.query.checkout
+        checkin: checkin,
+        checkout: checkout,
+        people: people
     };
 
-    // Message for when room search query is invalid
-    const msg = `Please try again,
-    make sure the checkin date is not in the past and 
-    that both the checkin and checkout field are filled 
-    out correctly. Also make sure that the checkout
-    date is not the same as the checkin date.`
+    let errorMessage = '';
+
+    /* Switch statement that checks if:
+    - Checkin date or checkout date is empty
+    - Checkin date or checkout date is in the past
+    - Checkin date is not more than checkout date
+    - Checkin date and checkout date is the same date 
+    
+    and if all criteria is met then run code outside of 
+    switch statement */
+    if (!/\S/.test(checkin) && !/\S/.test(checkout)) {
+        errorMessage = 'Both checkin and checkout date cannot be empty';
+    } else {
+        switch(true) {
+            case !/\S/.test(checkin):
+                errorMessage = 'Checkin date cannot be empty';
+                break;
+            case !/\S/.test(checkout):
+                errorMessage = 'Checkout date cannot be empty';
+                break;
+            case checkin < formattedToday:
+                errorMessage = 'Checkin date cannot be in the past';
+                break;
+            case checkout < formattedToday:
+                errorMessage = 'Checkout date cannot be in the past';
+                break;
+            case checkin > checkout:
+                errorMessage = 'Checkin date cannot be before checkout date';
+                break;
+            case checkout === checkin:
+                errorMessage = 'Checkout date cannot be the same as the checkin date';
+                break;
+        }
+    }
+
+    const page = parseInt(req.query.page) || 1;
+    const itemsPerPage = 5;
+    let total = readRooms.totalRooms(dbFile, checkin, checkout, people);
+    let totalPages = Math.ceil(total / itemsPerPage);
 
     const url = req.baseUrl;
     const urlParamsFull = req.url;
@@ -56,20 +83,15 @@ router.get('/', (req, res) => {
     function orderRooms() {
         if (priceSortBy === 'asc' || priceSortBy === 'desc') {
             let orderby = `ORDER BY rooms.ppn ${priceSortBy}`;
-            let rooms = readRooms.readRooms(dbFile, checkin, checkout, people, orderby, '1');
+            let rooms = readRooms.readRooms(dbFile, checkin, checkout, people, orderby, page);
             return rooms;
         } else  {
             let orderby = `ORDER BY rooms.occupancy ${occupancySortBy}`;
-            let rooms = readRooms.readRooms(dbFile, checkin, checkout, people, orderby, '1');
+            let rooms = readRooms.readRooms(dbFile, checkin, checkout, people, orderby, page);
             return rooms;
         }
     }
 
-    const page = parseInt(req.query.page) || 1;
-    const total = readRooms.totalRooms(dbFile);
-    const itemsPerPage = 5;
-    const totalPages = Math.ceil(total / itemsPerPage);
-    
     function readRoom() {
         if (urlParams.includes('price')) {
             let rooms = orderRooms(priceSortBy);
@@ -78,7 +100,7 @@ router.get('/', (req, res) => {
             let rooms = orderRooms(occupancySortBy);
             return rooms;
         } else {
-            let orderby = 'ORDER BY rooms.id ASC';
+            let orderby = 'ORDER BY rooms.occupancy, rooms.id';
             let rooms = readRooms.readRooms(dbFile, checkin, checkout, people, orderby, page);
             return rooms;
         };
@@ -89,26 +111,28 @@ router.get('/', (req, res) => {
     if (url === '/editRooms') {
         if (req.session.validSession) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
+            /* change room checkin, checkout and guest count to 0 
+            so it will return all rooms even if they are booked */
+            let rooms = readRooms.readRooms(dbFile, '0', '0', '0', '', page);
+            let total = readRooms.totalRooms(dbFile, '0', '0', '0');
+            let totalPages = Math.ceil(total / itemsPerPage);
+            let header = 'Edit Rooms';
             if (page > totalPages) {
-                res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg: 'test', form, operation: 'edit', page, totalPages });
+                res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages });
             } else {
-                const rooms = readRooms.readRooms(dbFile, '', '', '', '', page);
-                res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'edit', page, totalPages });
+                res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages });
             }   
         } else {
             res.redirect('/');
         }
     } else {
-        if (page > totalPages && rooms.length > 0) {
-            res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user});
+        if (req.session.validSession) {
+            const userPrivilege = readUser(dbFile, user).userPrivilege;
+            res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, people, formattedToday, form, error: errorMessage, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy, urlParams, page, total, totalPages });
         } else {
-            if (req.session.validSession) {
-                const userPrivilege = readUser(dbFile, user).userPrivilege;
-                res.render('read/rooms', { title: 'Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy, urlParams, page, totalPages });
-            } else {
-                res.render('read/rooms', { title: 'Rooms', user, header, rooms, checkin, checkout, formattedToday, error: 'Please try again', msg, form, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy, urlParams, page, totalPages });
-            }    
-        }
+            res.render('read/rooms', { title: 'Rooms', user, header, rooms, checkin, checkout, people, formattedToday, form, error: errorMessage, operation: 'search', nights, price, occupancy, priceSortBy, occupancySortBy, urlParams, page, total, totalPages });
+        }    
+        
     }
 });
 

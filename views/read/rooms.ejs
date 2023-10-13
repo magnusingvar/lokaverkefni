@@ -26,11 +26,24 @@
 </head>
 <body>
 <div id="wrapper">
-    <%- include('../includes/navbar') %>
-    <div class="container">
-        <% if (operation != 'edit') { %>
-            <% if (checkin != '' && checkout != '' && checkin != checkout && checkin >= formattedToday && !(checkout <= checkin)) { %>
-                <h2 class="header"><%= header %></h2>
+<%- include('../includes/navbar') %>
+<div class="container">
+    <% if (operation != 'edit') { %>
+        <% if (checkin != '' && checkout != '' && checkin != checkout && checkin >= formattedToday && !(checkout <= checkin)){ %>
+            <div class="current">
+                <span class="checkin">Checkin: <%= checkin %></span>
+                <span class="checkout">Checkout: <%= checkout %></span>
+                <span class="people">Guests: <%= people %></span>
+                <input type="button" id="edit-btn" class="btn" value="Modify Search">
+            </div>
+
+            <div class="edit">
+                <div id="booking-editor">
+                    <%- include('../includes/roomSearch') %>
+                </div>
+            </div>
+  
+            <div class="sortby">
                 <form action="/rooms" id="form">
                     <label for="orderby">Sort by:</label>
                     <select id="orderby">
@@ -41,74 +54,75 @@
                         <option value="desc" title="occupancy" <% if(occupancySortBy == "desc") {%> selected <% } %>>Occupancy High - Low</option>
                     </select>
                 </form>
+                <script src="js/editOrderby.js"></script>
+            </div>
 
-                <script src="js/orderby.js"></script>
-                <div id="rooms">
-                    <% if (rooms.length > 0) { %>
-                        <% for (let i = 0; i < rooms.length; i += 1){ %>
-                            <div class="room">
-                                <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>">
-                                    <div id="room">
-                                        <div class="image" <% if (rooms[i].type == "Standard") { %> style="background-image: url('images/rooms/standard/room.webp');" <% } %> else { style="background-image: url('images/rooms/deluxe/room.webp');" %> }></div>
-                                        <div class="title">
-                                                <%= rooms[i].type %> Room
-                                        </div>
+            <div id="rooms">
+                <% if (rooms.length > 0) { %>
+                    <% for (let i = 0; i < rooms.length; i += 1){ %>
+                        <div class="room">
+                            <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>&people=<%= people %>">
+                                <div id="room">
+                                    <div class="image" <% if (rooms[i].type == "Standard") { %> style="background-image: url('images/rooms/standard/room.webp');" <% } %> else { style="background-image: url('images/rooms/deluxe/room.webp');" %> }></div>
+                                    <div class="title">
+                                        <%= rooms[i].type %> Room
+                                    </div>
 
-                                        <div class="info">
-                                            <div id="price" title="Total price">
-                                                $<%= rooms[i].ppn * nights %>
-                                            </div>
-                                            <div id="guests" title="Maximum room occupancy capacity">
-                                                <div class="icon">
-                                                    <span class="i guests"></span>
-                                                </div>
-                                                <span>
-                                                    <%= rooms[i].occupancy %>
-                                                </span>
-                                            </div>
+                                    <div class="info">
+                                        <div id="price" title="Total price">
+                                            <span>$<%= rooms[i].ppn * nights %></span>
                                         </div>
-                                    </div>     
-                                </a>   
-                            </div>
-                        <% } %>  
+                                        <div id="guests" title="Maximum room occupancy capacity">
+                                            <div class="icon">
+                                                <span class="i guests"></span>
+                                            </div>
+                                            <span>
+                                                <span><%= rooms[i].occupancy %></span>    
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>     
+                            </a>   
+                        </div>
+                    <% } %>  
+                <% } else { %>
+                    <% if (page > totalPages && total > 0 || isNaN(people)) { %>
+                        <span>Invalid query, please check your search parameters</span>
                     <% } else { %>
-                        <p>No rooms available</p>
-                        <style>
-                            #form {
-                                display: none;
-                            }
-                        </style>
+                        <span>No rooms available</span>
+                    <% } %>
+                    <style>
+                        #form, .pagination {
+                            display: none;
+                        }
+                    </style>
+                <% } %>
+            </div>
+            <% if (totalPages > 1) { %>
+                <div class="pagination">        
+                    <% for (let i = 1; i < totalPages + 1; i += 1) {%>
+                        <div class="page">
+                            <a class="link <% if (page == i) { %>active<%}%>" 
+                            onclick="queryParams = new URLSearchParams(window.location.search) 
+                            queryParams.set('page', '<%= i %>')
+                            window.location.replace('?'+queryParams.toString());">
+                                <%= i %>
+                            </a>
+                        </div>
                     <% } %>
                 </div>
-                <% if (totalPages > 1) { %>
-                    <div class="pagination">        
-                        <% for (let i = 1; i < totalPages + 1; i += 1) {%>
-                            <div class="page">
-                                <a class="link <% if (page == i) { %>active<%}%>" 
-                                onclick="queryParams = new URLSearchParams(window.location.search) 
-                                queryParams.set('page', '<%= i %>')
-                                window.location.replace('?'+queryParams.toString());">
-                                    <%= i %>
-                                </a>
-                            </div>
-                        <% } %>
-                    </div>
-                <% } %>
-            <% } else { %>
-                <h2 class="header">Invalid search</h2>
-                <%- include('../includes/roomSearch') %>
-                    <div class="msg">
-                        <p>
-                            <%= msg %>
-                        </p>
-                    </div>
-                <script src="/js/checkIfBookingDatesValid.js"></script>
             <% } %>
         <% } else { %>
-            <%- include('../includes/updateRooms') %>
+            <h2 class="header">Invalid search</h2>
+            <%- include('../includes/roomSearch') %>
+            <div class="msg" id="error-message"><% if (error) { %> <%= error %> <% } %></div>
+            <script src="/js/checkIfBookingDatesValid.js"></script>
         <% } %>
-    </div>
-    <%- include('../includes/footer') %>
+    <% } else { %>
+        <%- include('../includes/updateRooms') %>
+    <% } %>
+</div>
+<%- include('../includes/footer') %>
 </div>
 </body>
 </html>

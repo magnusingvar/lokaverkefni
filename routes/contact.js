@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
         }
       });
     
-      res.redirect('/contact')
+      res.redirect('/contact');
 });
 
 module.exports = router;

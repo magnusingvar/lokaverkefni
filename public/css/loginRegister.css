@@ -5,15 +5,11 @@
     min-height: calc(100vh - 173px);
 }
 
-.email, .password {
-    border: 1px solid var(--secondary-color);
-    border-radius: 4px;
-}
-
 #register, #login {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 15px;
 }
 
 #form {
@@ -22,14 +18,18 @@
     gap: 10px;
 }
 
+.email, .password {
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+}
+
 #password {
-    display: inline-flex;
+    display: flex;
     justify-content: right;
     align-items: center;
 }
 
 #showPswdBtn, #showVrfyPswdBtn {
-    float: right;
     position: absolute;
     width: 30px;
     margin: 0 10px 0 0;
@@ -48,10 +48,11 @@
 
 input#firstName, input#lastName, 
 input#email, input.password {
-    border: 1px solid var(--secondary-color);
+    border: 0;
     border-radius: 4px;
     width: 100%;
     padding: 12px 14px;
+    box-shadow: var(--box-shadow);
 }
 
 input.password {
@@ -61,29 +62,11 @@ input.password {
 input[type=text]:focus, input[type=password]:focus,
 input[type=email]:focus {
     background-color: var(--secondary-color);
-    border: 1px solid var(--btn-primary) !important;
     outline: none !important;
-}
-
-.btn {
-    width: 100%;
-    padding: 10px 0;
-    background-color: var(--btn-primary);
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-}
-
-.btn:hover {
-    cursor: pointer;
-    background-color: var(--btn-secondary);
 }
 
 .error, .container-register,
 .container-login {
-    width: 100%;
     text-align: center;
 }
 

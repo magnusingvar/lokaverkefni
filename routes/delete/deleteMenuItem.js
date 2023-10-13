@@ -1,14 +1,15 @@
 const express = require('express');
-const path = require('path');
-const readMenu = require('../../db/read/readMenu');
-const deleteMenuItem = require('../../db/delete/deleteMenuItem');
 const router = express.Router();
+const path = require('path');
+const deleteMenuItem = require('../../db/delete/deleteMenuItem');
+const readUser = require('../../db/read/readUser');
 const validSession = require('../functions/userSession');
 const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.post('/', (req, res) => {
     const user = validSession(req.session);
-    if (req.session.validSession) {
+    const userPrivilege = readUser(dbFile, user).userPrivilege;
+    if (req.session.validSession && userPrivilege == 'administrator') {
         deleteMenuItem(dbFile, req.body.id);
         res.redirect('/editMenu');
     } else {

@@ -9,39 +9,32 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    const error = req.query.error;
-
     try {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        if (userPrivilege == 'administrator') {
-            const types = readRoomTypes(dbFile);
-            if (error != 1) {
-                res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Room', operation: 'createRoom', user, userPrivilege, types, msg: '' });
-            } else {
-                res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Room', operation: 'createRoom', user, userPrivilege, types, msg: 'Room creation failed' });
-            }
-        } else {
-            res.redirect('/');
-        }
+        const types = readRoomTypes(dbFile);
+        res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Room', operation: 'createRoom', user, userPrivilege, types, error: '' });
     } catch (e) {
         res.redirect('/');
     }
 });
 
 router.post('/', (req, res) => { 
+    const user = validSession(req.session);
+    let errorMessage = '';
     try {
-        if (userPrivilege = 'administrator') {
-            if (req.body.ppn != 0) {
+        const userPrivilege = readUser(dbFile, user).userPrivilege;
+        if (req.session.validSession && userPrivilege === 'administrator') {
+            if (req.body.ppn == 0 || req.body.ppn < 0) {
+                errorMessage = 'Price must be a non-negative number and more than zero';
+                const types = readRoomTypes(dbFile);
+                res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Room', operation: 'createRoom', user, userPrivilege, types, error: errorMessage });
+            } else {
                 createRoom(dbFile, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
                 res.redirect('/createRoom');
-            } else {
-                res.redirect('/createRoom?error=1');
             }
-        } else {
-            res.send('not authorized');
         }
     } catch (e) {
-        res.redirect('/createMenuItem?error=1');
+        res.redirect('/');
     }
 });
 

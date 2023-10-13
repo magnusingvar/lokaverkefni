@@ -15,7 +15,8 @@ router.get('/', (req, res) => {
         const menu = readMenu(dbFile, 'Breakfast', 'Dinner');
         if (req.session.validSession) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
-            res.render('read/menu', { title: 'Edit Menu', user, userPrivilege, menu, operation: 'edit' });
+            let header = 'Edit Menu';
+            res.render('read/menu', { title: 'Edit Menu', user, userPrivilege, header, menu, operation: 'edit' });
         } else {
             res.redirect('/');
         }
@@ -38,9 +39,9 @@ router.get('/:menu', (req, res) => {
         if (menu != '') {
             if (req.session.validSession) {
                 const userPrivilege = readUser(dbFile, user).userPrivilege;
-                res.render('read/menu', { title: `${menu[0].menuType}`, user, userPrivilege, menu, operation: 'view' });
+                res.render('read/menu', { title: `${menu[0].menuType} Menu`, user, userPrivilege, menu, operation: 'view' });
             } else {
-                res.render('read/menu', { title: `${menu[0].menuType}`, user, menu, operation: 'view' });
+                res.render('read/menu', { title: `${menu[0].menuType} Menu`, user, menu, operation: 'view' });
             }
         } else {
             res.render('read/menu', { title: 'Restaurant', user, menu: 'none', msg: 'Menu is empty', operation: 'view' });
@@ -48,7 +49,6 @@ router.get('/:menu', (req, res) => {
     } catch (e) {
         res.status(404).render('error', { title:'Error', status: 404, msg: 'Page not found!', user });
     }
-})
-
+});
 
 module.exports = router;

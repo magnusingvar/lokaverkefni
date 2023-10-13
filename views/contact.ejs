@@ -26,19 +26,19 @@
 </head>
 <body>
 <div id="wrapper">
-    <%- include('includes/navbar') %> 
-    <div class="container">
-        <form action="/contact" method="POST" id="contact">
-            <h2 class="header">Contact us</h2>
-            <input type="text" name="firstName" id="firstName" <% if (user != null) { %> value="<%= account.firstName %>" readonly tabindex="-1" <% } %>  placeholder="First Name" required>
-            <input type="text" name="lastName" id="lastName" <% if (user != null) { %> value="<%= account.lastName %>" readonly tabindex="-1" <% } %>  placeholder="Last Name" required>
-            <input type="email" name="email" id="email" <% if(user != null) { %> value="<%= user %>" readonly tabindex="-1" <% } else { %> placeholder="Email" <% } %> required>
-            <textarea name="enquiry" id="enquiry" placeholder="Enquiry" required></textarea>
+<%- include('includes/navbar') %> 
+<div class="container">
+    <form action="/contact" method="POST" id="contact">
+        <h2 class="header">Contact us</h2>
+        <input type="text" name="firstName" id="firstName" <% if (user != null) { %> value="<%= account.firstName %>" readonly tabindex="-1" <% } %>  placeholder="First Name" required>
+        <input type="text" name="lastName" id="lastName" <% if (user != null) { %> value="<%= account.lastName %>" readonly tabindex="-1" <% } %>  placeholder="Last Name" required>
+        <input type="email" name="email" id="email" <% if(user != null) { %> value="<%= user %>" readonly tabindex="-1" <% } else { %> placeholder="Email" <% } %> required>
+        <textarea name="enquiry" id="enquiry" placeholder="Enquiry" required></textarea>
     
-            <input type="submit" class="btn" value="Send">
-        </form>
-    </div>
-    <%- include('includes/footer') %>
+        <input type="submit" class="btn" value="Send">
+    </form>
+</div>
+<%- include('includes/footer') %>
 </div>
 </body>
 </html>
