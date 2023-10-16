@@ -10,9 +10,9 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    try {
+    if (user) {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        if (userPrivilege == "administrator") {
+        if (req.session.validSession && userPrivilege === 'administrator') {
             const room = readRoom(dbFile, req.query.id);
             const types = readRoomTypes(dbFile);
             if (room != undefined) {
@@ -23,14 +23,24 @@ router.get('/', (req, res) => {
         } else {
             res.redirect('/');
         }
-    } catch (e) {
+    } else {
         res.redirect('/');
     }
 });
 
 router.post('/', (req, res) => {
-    updateRoom(dbFile, req.body.id, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
-    res.redirect('/editRooms');
+    const user = validSession(req.session);
+    if (user) {
+        const userPrivilege = readUser(dbFile, user).userPrivilege;
+        if (req.session.validSession && userPrivilege === 'administrator') {
+            updateRoom(dbFile, req.body.id, req.body.type, req.body.occupancy, req.body.beds, req.body.bedType, req.body.ppn, req.body.description);
+            res.redirect('/editRooms');
+        } else {
+            res.redirect('/');
+        }
+    } else {
+        res.redirect('/');
+    }
 });
 
 module.exports = router;

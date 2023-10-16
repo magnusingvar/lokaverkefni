@@ -1,26 +1,17 @@
 .container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    min-height: calc(100vh - 173px);
+    align-items: center;
 }
 
 #register, #login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 15px;
+    padding: 0 1rem;
 }
 
 #form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-}
-
-.email, .password {
-    border: 1px solid var(--secondary-color);
-    border-radius: 4px;
 }
 
 #password {
@@ -31,10 +22,10 @@
 
 #showPswdBtn, #showVrfyPswdBtn {
     position: absolute;
-    width: 30px;
-    margin: 0 10px 0 0;
+    margin: 0 0.625rem 0 0;
     user-select: none;
     cursor: pointer;
+    width: 30px;
 }
 
 .eye-show {
@@ -45,18 +36,17 @@
     content: url(/svg/eye-slash.svg);
 }
 
-
 input#firstName, input#lastName, 
 input#email, input.password {
     border: 0;
     border-radius: 4px;
     width: 100%;
-    padding: 12px 14px;
+    padding: 0.75rem 0.875rem;
     box-shadow: var(--box-shadow);
 }
 
 input.password {
-    padding-right: 44px;
+    padding-right: 2.75rem;
 }
 
 input[type=text]:focus, input[type=password]:focus,
@@ -68,20 +58,4 @@ input[type=email]:focus {
 .error, .container-register,
 .container-login {
     text-align: center;
-}
-
-@media only screen and (max-width: 900px) {
-    .container {
-        justify-content: flex-start;
-    }
-
-    .container > #login,
-    .container > #register {
-        margin: 30px 0 0 0;
-    }
-
-    #form,
-    #form > * {
-        width: 100%;
-    }
 }

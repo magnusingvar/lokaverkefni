@@ -9,11 +9,15 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    try {
+    if (user) {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        const types = readRoomTypes(dbFile);
-        res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Room', operation: 'createRoom', user, userPrivilege, types, error: '' });
-    } catch (e) {
+        if (req.session.validSession && userPrivilege === 'administrator') {
+            const types = readRoomTypes(dbFile);
+            res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Room', operation: 'createRoom', user, userPrivilege, types, error: '' });
+        } else {
+            res.redirect('/');
+        }
+    } else {
         res.redirect('/');
     }
 });

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatile" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="/css/footer.css" />
     <link rel="stylesheet" type="text/css" href="/css/rooms.css" />
@@ -44,7 +44,7 @@
             </div>
   
             <div class="sortby">
-                <form action="/rooms" id="form">
+                <form action="/rooms" class="form">
                     <label for="orderby">Sort by:</label>
                     <select id="orderby">
                         <option value="" title="default">Default</option>
@@ -59,11 +59,10 @@
 
             <div id="rooms">
                 <% if (rooms.length > 0) { %>
-                    <% for (let i = 0; i < rooms.length; i += 1){ %>
-                        <div class="room">
-                            <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>&people=<%= people %>">
+                    <% for (let i = 0; i < rooms.length; i += 1){ %>                    
+                        <a href="/room?id=<%= rooms[i].id %>&checkin=<%= checkin %>&checkout=<%= checkout %>&people=<%= people %>" class="room">
+                            <div class="room" <% if (rooms[i].type == 'Standard') { %> style="background: linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('/images/rooms/standard/room.webp') center / cover no-repeat"; <% } else { %> style="background: linear-gradient(rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.3)), url('/images/rooms/deluxe/room.webp') center / cover no-repeat;" <% } %>>
                                 <div id="room">
-                                    <div class="image" <% if (rooms[i].type == "Standard") { %> style="background-image: url('images/rooms/standard/room.webp');" <% } %> else { style="background-image: url('images/rooms/deluxe/room.webp');" %> }></div>
                                     <div class="title">
                                         <%= rooms[i].type %> Room
                                     </div>
@@ -82,8 +81,8 @@
                                         </div>
                                     </div>
                                 </div>     
-                            </a>   
-                        </div>
+                            </div>
+                        </a>   
                     <% } %>  
                 <% } else { %>
                     <% if (page > totalPages && total > 0 || isNaN(people)) { %>

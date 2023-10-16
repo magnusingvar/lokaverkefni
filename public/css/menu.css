@@ -1,9 +1,6 @@
-.container {
-    min-height: calc(100vh - 173px);
-}  
-
+/* override msg style from main */
 .msg {
-    padding: 30px 0;
+    padding: 1.875rem 0;
 }
 
 .page-header {
@@ -13,7 +10,6 @@
     width: 100%;
     margin: 0 auto;
     padding: 12vh 0;
-    /* background: #030303; */
     background: radial-gradient(circle, rgba(0,78,152,1) 50%, rgba(0,68,133,1) 100%);
     font-size: calc(26px + 0.33vw);
     color: var(--text-secondary);
@@ -21,29 +17,23 @@
 }
 
 .breakfast {
-    background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url('/images/breakfast.webp');
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url('/images/breakfast.webp') center / cover no-repeat;
 }  
 
 .dinner {
-    background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url('/images/dinner.webp');
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url('/images/dinner.webp') center / cover no-repeat;
 }  
 
 #menus, #menu-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 15px 0;
+    margin: 0.9rem 0;
 }
 
 .menu, .menu-item {
-    margin: 10px 0;
-    padding: 5px 0;
+    margin: 0.75rem 0;
+    padding: 0.5rem 0;
     text-align: center;
 }
 
@@ -51,9 +41,5 @@
     .page-header {
         max-width: none;
         border-radius: 0;
-    }
-
-    .container {
-        display: block;
     }
 }

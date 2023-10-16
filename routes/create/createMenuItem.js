@@ -8,11 +8,15 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    try {
+    if (user) {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Menu Item', operation: 'createMenuItem', user, userPrivilege, error: '' });
-    } catch (e) {
-        res.redirect('/')
+        if (req.session.validSession && userPrivilege === 'administrator') {
+            res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Menu Item', operation: 'createMenuItem', user, userPrivilege, error: '' });
+        } else {
+            res.redirect('/');
+        }
+    } else {
+        res.redirect('/');
     }
 });
 

@@ -109,19 +109,24 @@ router.get('/', (req, res) => {
     let rooms = readRoom();
 
     if (url === '/editRooms') {
-        if (req.session.validSession) {
+        if (user) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
-            /* change room checkin, checkout and guest count to 0 
-            so it will return all rooms even if they are booked */
-            let rooms = readRooms.readRooms(dbFile, '0', '0', '0', '', page);
-            let total = readRooms.totalRooms(dbFile, '0', '0', '0');
-            let totalPages = Math.ceil(total / itemsPerPage);
-            let header = 'Edit Rooms';
-            if (page > totalPages) {
-                res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages });
+            if (req.session.validSession && userPrivilege === 'administrator') {
+                /* change room checkin, checkout and guest count to 0 
+                so it will return all rooms even if they are booked */
+                let rooms = readRooms.readRooms(dbFile, '0', '0', '0', '', page);
+                let total = readRooms.totalRooms(dbFile, '0', '0', '0');
+                let totalPages = Math.ceil(total / itemsPerPage);
+                let header = 'Edit Rooms';
+
+                if (page > totalPages) {
+                    res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages });
+                } else {
+                    res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages });
+                }   
             } else {
-                res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages });
-            }   
+                res.redirect('/');
+            }
         } else {
             res.redirect('/');
         }

@@ -8,12 +8,17 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.post('/', (req, res) => {
     const user = validSession(req.session);
-    const userPrivilege = readUser(dbFile, user).userPrivilege;
-    if (req.session.validSession && userPrivilege == 'administrator') {
-        deleteMenuItem(dbFile, req.body.id);
-        res.redirect('/editMenu');
+    if (user) {
+        const userPrivilege = readUser(dbFile, user).userPrivilege;
+        if (req.session.validSession && userPrivilege === 'administrator') {
+            deleteMenuItem(dbFile, req.body.id);
+            res.redirect('/editMenu');
+        } else {
+            res.redirect('/');
+            // res.render('error', { title: 'Error', status: 403, msg: `Access denied.`, user });
+        }
     } else {
-        res.render('error', { title: 'Error', status: 403, msg: `Access denied.`, user });
+        res.redirect('/');
     }
 });
 

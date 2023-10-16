@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatile" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="/css/footer.css" />
     <link rel="stylesheet" type="text/css" href="/css/bookingCheckout.css" />
@@ -27,41 +27,43 @@
 <body>
 <div id="wrapper">
 <%- include('../includes/navbar') %> 
-<div class="container">
+<div class="container" id="<% if (!bookings || bookings.length < 1) {%>center<% } %>">
     <% if (bookings.length > 0) { %>
         <h1 class="header">My bookings</h1>
-        <table class="table">
-            <tr>
-                <th>Room type</th>
-                <th>Checkin</th>
-                <th>Checkout</th>
-                <th class="hidden">View</th>
-                <th class="hidden">Cancel</th>
-            </tr>
-            <% for (let i = 0; i < bookings.length; i += 1){ %>
+        <div class="table-container">
+            <table class="table">
                 <tr>
-                    <td><%= bookings[i].type %> Room</td>
-                    <td><%= bookings[i].checkin %></td>
-                    <td><%= bookings[i].checkout %></td>
-                    <td>
-                        <form action="/room" method="GET">
-                            <input type="submit" value="View" class="btn">
-                            <input type="hidden" name="id" value="<%= bookings[i].idRoom %>">
-                        </form>
-                    </td>
-                    <td>
-                        <form action="/cancel" method="POST">
-                            <input type="hidden" name="id" value="<%= bookings[i].id %>">
-                            <input type="submit" value="Cancel" class="btn danger">
-                        </form>
-                    </td>
+                    <th>Room type</th>
+                    <th>Checkin</th>
+                    <th>Checkout</th>
+                    <th class="hidden">View</th>
+                    <th class="hidden">Cancel</th>
                 </tr>
-            <% } %>
-        </table>
+                <% for (let i = 0; i < bookings.length; i += 1){ %>
+                    <tr>
+                        <td><%= bookings[i].type %> Room</td>
+                        <td><%= bookings[i].checkin %></td>
+                        <td><%= bookings[i].checkout %></td>
+                        <td>
+                            <form action="/room" method="GET">
+                                <input type="submit" value="View" class="btn">
+                                <input type="hidden" name="id" value="<%= bookings[i].idRoom %>">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/cancel" method="POST">
+                                <input type="hidden" name="id" value="<%= bookings[i].id %>">
+                                <input type="submit" value="Cancel" class="btn danger">
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
     <% } else { %>
-        <div class="msg" style="margin: 12px 0 0 0;">
+        <div class="msg">
             <% if (user === null) { %>
-                <span>Please <a href="/login" class="link">login</a> to view bookings</span>
+                <span>To manage and view bookings, please<a href="/login" class="link">login</a></span>
             <% } else { %>
                 <span><%= msg %></span>
             <% } %>

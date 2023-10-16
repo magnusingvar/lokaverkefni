@@ -13,7 +13,7 @@
     --max-width: calc(100vw - 15%);
 }
 
-* {
+*, ::before, ::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -30,8 +30,18 @@ body {
     font-size: calc(16px + 0.33vw);
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.container {
+    min-height: calc(100vh - 173px);
+}
+
 a {
-    color: var(--text-primary);
+    color: inherit;
     text-decoration: none;
 }
 
@@ -43,7 +53,7 @@ a {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin: 20px 0;
+    margin: 1.25rem 0;
 }
 
 .link {
@@ -73,9 +83,19 @@ a {
     padding: 4px 0;
 }
 
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+/* Front page start */
 .hero-wrapper {
     max-width: var(--max-width);
-    padding: 16px 0 0 0;
+    padding: 1rem 0 0 0;
     margin: auto;
 }
 
@@ -93,6 +113,7 @@ a {
     border-radius: 7px;
 }
 
+/* Booking form start */
 .book-now {
     display: flex;
     flex-direction: column;
@@ -110,8 +131,8 @@ a {
     justify-content: center;
     flex-wrap: wrap;
     gap: 40px;
-    margin: 0 0 30px 0;
-    padding: 0 10px;
+    margin: 0 0 1.875rem 0;
+    padding: 0 0.625rem;
 }
 
 .booking > * {
@@ -124,13 +145,13 @@ a {
 
 .label {
     width: 100%;
-    margin: 0 0 8px 0;
+    margin: 0 0 0.5rem 0;
 }
 
 .datepicker, .peoplepicker {
     max-width: 80vw;
     min-width: 100%;
-    padding: 14px;
+    padding: 0.875rem;
     border: 1px solid #000;
     border-radius: 4px;
     cursor: pointer;
@@ -141,16 +162,19 @@ a {
     border: 1px solid var(--btn-primary);
     background: #f1f1f1;
 }
+/* Booking form end */
 
 .btn {
     min-width: 100px;
-    padding: 15px 20px;
+    padding: 1rem 1.25rem;
     background: var(--btn-primary);
     color: var(--text-secondary);
     font-weight: 600;
     border: none;
     border-radius: 4px;
     margin: auto 0 0 0;
+    text-wrap: wrap;
+    text-align: center;
 }
 
 .btn:hover {
@@ -161,7 +185,7 @@ a {
 .more {
     position: absolute;
     bottom: 2%;
-    padding: 0 0 12px 0;
+    padding: 0 0 0.75rem 0;
 }
 
 .mouse::before {
@@ -179,34 +203,35 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 16px auto;
+    margin: 1rem auto;
     max-width: var(--max-width);
 }
 
 .section {
     display: flex;
     align-items: center;
-    margin: 20px;
+    margin: 1.25rem;
 }
 
 .section > .image-left {
-    padding: 0 0 0 25px;
+    padding: 0 0 0 1.5rem;
 }
 
 .section > .image-right {
-    padding: 0 25px 0 0;
+    padding: 0 1.5rem 0 0;
 }
 
 .img {
     max-width: 80vw;
     border-radius: 7px;
 }
+/* Front page end */
 
 /* Edit table start */
 .table-container {
     display: block;
     overflow-x: auto;
-    padding: 5px 0;
+    padding: 0.3rem 0;
 }
 
 .table {
@@ -214,7 +239,7 @@ a {
 }
 
 tr > th, td {
-    padding: 4px 8px;
+    padding: 0.25rem 0.5rem;
     text-align: center;
 }
 /* Edit table end */
@@ -238,7 +263,7 @@ tr > th, td {
     }
 
     .section > p {
-        padding: 5px;
+        padding: 0.3rem;
     }
 }
 

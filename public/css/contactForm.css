@@ -1,22 +1,17 @@
-.container {
-    min-height: calc(100vh - 184px);
-}
-
 #contact {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin: 10px 0;
-    padding: 0 15px;
+    margin: 0.625rem 0;
+    padding: 0 0.9rem;
 }
 
 #firstName, #lastName, 
 #email, #enquiry, .btn {
-    max-width: 500px;
-    width: 100%;
-    padding: 12px 14px;
+    width: clamp(100px, 100%, 500px);
+    padding: 0.75rem 0.875rem;
     border: 0;
     border-radius: 4px;
     box-shadow: var(--box-shadow);

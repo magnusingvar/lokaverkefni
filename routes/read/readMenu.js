@@ -13,10 +13,15 @@ router.get('/', (req, res) => {
 
     if (url === '/editMenu') {
         const menu = readMenu(dbFile, 'Breakfast', 'Dinner');
-        if (req.session.validSession) {
+        if (user) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
-            let header = 'Edit Menu';
-            res.render('read/menu', { title: 'Edit Menu', user, userPrivilege, header, menu, operation: 'edit' });
+            if (req.session.validSession && userPrivilege === 'administrator') {
+                const userPrivilege = readUser(dbFile, user).userPrivilege;
+                let header = 'Edit Menu';
+                res.render('read/menu', { title: 'Edit Menu', user, userPrivilege, header, menu, operation: 'edit' });
+            } else {
+                res.redirect('/');
+            }
         } else {
             res.redirect('/');
         }
