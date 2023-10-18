@@ -27,7 +27,7 @@
 <body>
 <div id="wrapper">
 <%- include('../includes/navbar') %> 
-<div class="container" id="center">
+<div class="container" <% if (room.length < 1) { %>id="center"<% } %>>
     <% if (user != null) { %>
         <% if (room.length < 1) { %>
             <div class="msg">
@@ -37,10 +37,10 @@
         <h3 class="header">Checkout</h3>
         <div class="order">
             <form action="checkout" method="POST" id="order">
-                <input type="text" name="name" placeholder="Name on card">
-                <input type="tel" name="ccn" maxlength="16" placeholder="Card number" readonly value="5063516945005047">
-                <input type="cvc" name="cvc" maxlength="4" placeholder="CVC">
-                <input type="text" name="expire" id="expiration-date" maxlength="4" placeholder="MM/YY">
+                <input type="text" name="name" placeholder="Name on card" value="<%= form.name %>">
+                <input type="tel" name="ccn" maxlength="16" placeholder="Card number " value="<%= form.ccn %>">
+                <input type="cvc" name="cvc" maxlength="4" placeholder="CVC" value="<%= form.cvc %>">
+                <input type="text" name="expire" id="expiration-date" maxlength="4" placeholder="MM/YY" value="<%= form.expire %>">
                 <input type="submit" value="Pay" class="btn">
             </form>
                 

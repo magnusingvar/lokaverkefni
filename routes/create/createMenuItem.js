@@ -8,33 +8,35 @@ const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    if (user) {
+    if (req.session.validSession) {
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        if (req.session.validSession && userPrivilege === 'administrator') {
+        if (userPrivilege === 'administrator') {
             res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Menu Item', operation: 'createMenuItem', user, userPrivilege, error: '' });
         } else {
-            res.redirect('/');
+            res.status(401).render('error', { title:'Error', status: 401, msg: 'Not authorized', user});
         }
     } else {
-        res.redirect('/');
+        res.status(401).render('error', { title:'Error', status: 401, msg: 'Not authorized', user});
     }
 });
 
 router.post('/', (req, res) => {
-    const user = validSession(req.session);
-    let errorMessage = '';
-    try {
+    if (req.session.validSession) {
+        const user = validSession(req.session);
+        let errorMessage = '';
         const userPrivilege = readUser(dbFile, user).userPrivilege;
-        if (req.session.validSession && userPrivilege === 'administrator') {
+        if (userPrivilege === 'administrator') {
             if (!/\S/.test(req.body.menuitem)) {
                 errorMessage = 'Menu item creation failed';
                 res.render('roomMenuCreatorEditor/roomMenuCreatorEditor', { title: 'Create Menu Item', operation: 'createMenuItem', user, userPrivilege, error: errorMessage });
             } else {
-                createMenuItem(dbFile, req.body.menu, req.body.menuitem);
+                 createMenuItem(dbFile, req.body.menu, req.body.menuitem);
                 res.redirect('/createMenuItem');
             }
-        }        
-    } catch (e) {
+        } else {
+            res.redirect('/');
+        }
+    } else {
         res.redirect('/');
     }
 });

@@ -26,7 +26,8 @@ router.get('/', (req, res) => {
     let today = new Date();
     const formattedToday = today.toISOString().split('T')[0];
     
-    const form = {
+    // form data
+    let form = {
         checkin: checkin,
         checkout: checkout,
         people: people
@@ -105,30 +106,31 @@ router.get('/', (req, res) => {
             return rooms;
         };
     }
-
+    
     let rooms = readRoom();
 
     if (url === '/editRooms') {
-        if (user) {
+        if (req.session.validSession) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
-            if (req.session.validSession && userPrivilege === 'administrator') {
+            if (userPrivilege === 'administrator') {
                 /* change room checkin, checkout and guest count to 0 
                 so it will return all rooms even if they are booked */
                 let rooms = readRooms.readRooms(dbFile, '0', '0', '0', '', page);
                 let total = readRooms.totalRooms(dbFile, '0', '0', '0');
                 let totalPages = Math.ceil(total / itemsPerPage);
                 let header = 'Edit Rooms';
+                const error = req.query.error;
 
                 if (page > totalPages) {
-                    res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages });
+                    res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages, error });
                 } else {
-                    res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages });
+                    res.render('read/rooms', { title: 'Edit Rooms', user, userPrivilege, header, rooms, checkin, checkout, formattedToday, form, operation: 'edit', page, total, totalPages, error });
                 }   
             } else {
-                res.redirect('/');
+                res.status(401).render('error', { title:'Error', status: 401, msg: 'Not authorized', user});
             }
         } else {
-            res.redirect('/');
+            res.status(401).render('error', { title:'Error', status: 401, msg: 'Not authorized', user});
         }
     } else {
         if (req.session.validSession) {

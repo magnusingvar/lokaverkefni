@@ -11,12 +11,14 @@ WHERE
 CREATE TABLE users (
     id INTEGER PRIMARY KEY,
     firstName TEXT NOT NULL,
-    lastName TEXT NOT NULL,
+    lastName TEXT,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     userPrivilege INTEGER NOT NULL DEFAULT 'user',
     verifiedEmail INTEGER DEFAULT 0
 );
+
+DROP TABLE users;
 
 CREATE TABLE rooms (
     id INTEGER PRIMARY KEY,
@@ -41,8 +43,8 @@ CREATE TABLE bookings (
     checkout TEXT NOT NULL,
     isPaid INTEGER,
     userBooked TEXT NOT NULL,
-    FOREIGN KEY (idRoom) REFERENCES rooms (id) ON DELETE CASCADE,
-    FOREIGN KEY (idUser) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (idRoom) REFERENCES rooms (id),
+    FOREIGN KEY (idUser) REFERENCES users (id),
     UNIQUE (idRoom, idUser, checkin, checkout)
 );
 

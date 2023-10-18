@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const nodemailer = require('nodemailer');
+const sendMail = require('../functions/mail');
 const jwt = require('jsonwebtoken');
-const readUser = require('../../db/read/readUser');
 const booking = require('../../db/create/createBooking');
+const readUser = require('../../db/read/readUser');
 const validSession = require('../functions/userSession');
 const dbFile = path.join(__dirname, '../../db/database.db');
-require('dotenv').config();
 
 router.get('/checkAndDeleteUnpaidBookings', (req, res) => {
     booking.checkAndRemoveUnpaid();
@@ -32,7 +31,6 @@ router.get('/:booking', (req, res) => {
             const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     
             const bookingId = booking.createBooking(dbFile, req.query.id, userId.id, req.query.checkin, req.query.checkout, 0, formattedDateTime);
-            
             const basket = jwt.sign(
                 {
                     id: req.query.id,
@@ -44,7 +42,6 @@ router.get('/:booking', (req, res) => {
                 },
                 'token'
             );
-    
             res.cookie('basket', basket, { maxAge: 10 * 60 * 1000, httpOnly: true });
             res.redirect('/checkout');
         } catch (e) {
@@ -57,7 +54,15 @@ router.get('/:booking', (req, res) => {
 
 router.get('/', (req, res) => {
     const user = validSession(req.session);
-    const error = req.query.error;
+
+    // form data
+    let form = {
+        name: '',
+        ccn: req.body.ccn,
+        cvc: '',
+        expire: ''
+    };
+
     try { 
         if (req.session.validSession) {
             const userPrivilege = readUser(dbFile, user).userPrivilege;
@@ -65,19 +70,12 @@ router.get('/', (req, res) => {
             if (cookie != undefined) {
                 const room = jwt.verify(cookie, 'token');
                 const bookingId = room.idBooking;
-
-                res.render('read/checkout', {title: 'Basket', user, userPrivilege, room, bookingId, error: '' });
-
-                // if (error != 1) {
-                //     res.render('read/checkout', {title: 'Basket', user, userPrivilege, room, bookingId, msg: '' });
-                // } else {
-                //     res.render('read/checkout', {title: 'Basket', user, userPrivilege, room, bookingId, msg: 'Please fill out all fields' });
-                // }
+                res.render('read/checkout', {title: 'Basket', user, userPrivilege, form: form, room, bookingId, error: '' });
             } else {
-                res.render('read/checkout', {title: 'Basket', user, userPrivilege, room: ''});
+                res.render('read/checkout', {title: 'Basket', user, userPrivilege, form: form, room: ''});
             }
         } else {
-            res.render('read/checkout', {title: 'Basket', user, room: ''});
+            res.render('read/checkout', {title: 'Basket', user, form: form, room: ''});
         }
     } catch (e) {
         res.clearCookie('basket');
@@ -87,6 +85,17 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const user = validSession(req.session);
+
+    /* Keep the form data to use when
+	an error is thrown so the user
+	does not have to retype it */
+    let form = {
+        name: req.body.name,
+        ccn: req.body.ccn,
+        cvc: req.body.cvc,
+        expire: req.body.expire
+    }
+
     try {
         if (req.session.validSession) {
             const userId = readUser(dbFile, user);
@@ -105,31 +114,20 @@ router.post('/', (req, res) => {
                 errorMessage = 'Please fill out all fields';
             } else {
                 booking.markAsPaid(dbFile, bookingId);
-                let transport = nodemailer.createTransport({
-                    host: "sandbox.smtp.mailtrap.io",
-                    port: 2525,
-                    auth: {
-                        user: process.env.USER,
-                        pass: process.env.PASSWORD
-                    }
-                });
-        
-                const mailOptions = {
-                    from: '"Lokaverkefni" <magnuslokaverkefni@gmail.com>',
-                    to: userId.email,
-                    subject: 'Your booking',
-                    text: 'Your booking was successful',
-                    html: `You have booked the ${room.type} Room for $${room.price} from ${room.checkin} to ${room.checkout}`
-                };
-                
-                transport.sendMail(mailOptions);
-                
+                const recipient = userId.email;
+                const sender = 'magnuslokaverkefni@gmail.com';
+                const subject = 'Your booking';
+                const text = 'Your booking was successful';
+                const html = `You have booked the ${room.type} Room for $${room.price} from ${room.checkin} to ${room.checkout}`;
+                sendMail(recipient, sender, subject, text, html);
+
                 res.clearCookie('basket');
                 res.redirect('/');
+                return;
             }
 
             const userPrivilege = readUser(dbFile, user).userPrivilege;
-            res.render('read/checkout', {title: 'Basket', user, userPrivilege, room, bookingId, error: errorMessage });
+            res.render('read/checkout', {title: 'Basket', user, userPrivilege, form: form, room, bookingId, error: errorMessage });
 
         } else {
             res.redirect('/');

@@ -19,12 +19,12 @@
 <div class="container">
     <div id="login">
         <h3 class="header"><%= header %></h3>
-        <form action="/login" method="POST" id="form">
-            <div id="email">
+        <form action="/login" method="POST" id="form" onsubmit="return validateLogin();">
+            <div id="emailContainer">
                 <input type="email" name="email" id="email" class="email" placeholder="Email" value="<%= form.email %>" autocomplete="email" />
             </div>
         
-            <div id="password">
+            <div id="passwordContainer">
                 <input type="password" name="password" id="password" class="password" placeholder="Password" value="<%= form.password %>" />
                 <span class="i eye-show" id="showPswdBtn"></span>
             </div>
@@ -33,13 +33,16 @@
     
             <div class="msg"><% if (error) { %> <%= error %> <% } %></div>
     
+            <script src="/js/togglePasswordVisibility.js" type="module"></script>
+            <script src="/js/validate.js"></script>
+
             <div class="container-register">
                 <span>
                     Don't have an account?
                     <a href="/register" class="link">Register</a>
                 </span>
             </div>
-            <script src="js/script.js" type="module"></script>
+
         </form>
     </div>
 </div>

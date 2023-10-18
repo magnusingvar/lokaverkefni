@@ -33,6 +33,12 @@
         <% } %>
     </table>
 
+    <% if (error) { %>
+        <div class="msg">
+            Unable to delete room as it has been booked.
+        </div>
+    <% } %>
+
     <% if (totalPages > 1) { %>
         <div class="pagination">        
             <% for (let i = 1; i < totalPages + 1; i += 1) {%>

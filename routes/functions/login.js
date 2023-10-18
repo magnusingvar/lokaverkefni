@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const bcrypt = require('bcrypt');
+const loginUser = require('../../db/functions/loginFunction');
 const readUser = require('../../db/read/readUser');
 const validSession = require('./userSession');
-const loginUser = require('../../db/functions/loginFunction');
-const bcrypt = require('bcrypt');
 const dbFile = path.join(__dirname, '../../db/database.db');
 
 // Get login page
@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     const header = 'Login';
 
     // form data
-    const form = {
+    let form = {
         email: '',
         password: ''
     };
@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
     /* Keep the form data to use when
 	an error is thrown so the user
 	does not have to retype it */
-    const form = {
+    let form = {
         email: req.body.email,
         password: req.body.password
     };
@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
 
-        // Check if email is empty
+        // Check if email is empty fallback
         if (!email || /^\s*$/.test(email)) {
             res.render('login', { title: 'Login', user: null, header, form: form, error: 'Email cannot be empty' });
             return;
@@ -52,22 +52,35 @@ router.post('/', (req, res) => {
         const validPass = bcrypt.compareSync(password, user.password);
         let errorMessage = '';
 
-        /* Switch statement that checks if:
-        - User has verified email
-        - Password field is not empty
-        - Password is correct
-        - User exists 
+        // check if email is valid
+        const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        const validEmail = emailRegexp.test(email);
         
-        and if all criteria is met then logs in user */
+        /* Switch statement that checks if:
+        - User has verified email (server side only)
+        - Email is valid
+        - Password field is not empty
+        - Password is correct (server side only)
+        - User exists (server side only)
+        
+        after checks have been done client side that prevent
+        form submit until met and if all criteria is met 
+        then logs in the user 
+        
+        server sends error message as fallback if client side
+        javascript fails */
         switch (true) {
             case user.verifiedEmail === 0:
-                errorMessage = 'Please verify your account, check your email';
+                errorMessage = 'Please verify your account, check your email.';
+                break;
+            case !validEmail:
+                errorMessage = 'Email is not valid';
                 break;
             case !/\S/.test(password):
                 errorMessage = 'Password cannot be empty';
                 break;
             case !validPass:
-                errorMessage = 'Password incorrect';
+                errorMessage = 'Password incorrect.';
                 break;
             default:
                 req.session.validSession = true;
@@ -75,7 +88,8 @@ router.post('/', (req, res) => {
                 res.redirect('/');
                 return;
         }
-        
+
+        // rerender page if server side checks do not pass with error message
         res.render('login', { title: 'Login', user: null, header, form: form, error: errorMessage });
     } catch (e) {
         res.render('login', { title: 'Login', user: null, header, form: form, error: 'User does not exist' });

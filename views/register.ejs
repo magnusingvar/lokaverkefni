@@ -19,35 +19,36 @@
 <div class="container">
     <div id="register">
         <h3 class="header"><%= header %></h3>
-        <form action="/register" method="post" id="form">
-            <div id="firstName">
-                <input type="text" name="firstName" id="firstName" placeholder="First Name" value="<%= form.firstName %>" />
+        <form action="/register" method="POST" id="form" onsubmit="return validateRegister();">
+            <div id="firstNameContainer">
+                <input type="text" name="firstName" id="firstName" class="firstName" placeholder="First Name *" value="<%= form.firstName %>" />
             </div>
         
-            <div id="lastName">
-                <input type="text" name="lastName" id="lastName" placeholder="Last Name" value="<%= form.lastName %>" />
+            <div id="lastNameContainer">
+                <input type="text" name="lastName" id="lastName" class="lastName" placeholder="Last Name" value="<%= form.lastName %>" />
             </div>
         
-            <div id="email">
-                <input type="email" name="email" id="email" placeholder="Email" value="<%= form.email %>" autocomplete="email" />
+            <div id="emailContainer">
+                <input type="email" name="email" id="email" class="email" placeholder="Email *" autocomplete="email" value="<%= form.email %>" />
             </div>
         
-            <div id="password">
-                <input type="password" name="password" class="password" placeholder="Password" value="<%= form.password %>" />                
+            <div id="passwordContainer">
+                <input type="password" name="password"id="password" class="password" placeholder="Password *" value="<%= form.password %>" />                
                 <span class="i eye-show" id="showPswdBtn"></span>
             </div>
         
-            <div id="password">
-                <input type="password" name="verifyPassword" class="password verify" placeholder="Verify Password" value="<%= form.password2 %>" />
+            <div id="verifyPasswordContainer">
+                <input type="password" name="verifyPassword" id="verifyPassword" class="password verify" placeholder="Verify Password" value="<%= form.verifyPassword %>" />
                 <span class="i eye-show" id="showVrfyPswdBtn"></span>
             </div>
         
             <input type="submit" value="Register" id="button" class="btn" />
         
             <div class="msg"><% if (error) { %> <%= error %> <% } %></div>
-        
-            <script src="js/script.js" type="module"></script>
-        
+
+            <script src="/js/togglePasswordVisibility.js" type="module"></script>
+            <script src="/js/validate.js"></script>
+
             <div class="container-login">
                 <span>
                     Already have an account?

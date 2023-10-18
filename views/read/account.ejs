@@ -30,15 +30,15 @@
 <div class="container">
     <div id="account">
         <h2 class="header">My account</h2>
-        <form action="account/update" method="GET" class="form">
+        <form action="/account/update" method="GET" class="form">
             <div id="accountInfo">
                 <div id="name">
-                    <input type="text" value="<%= account.firstName %>" name="firstName" id="firstName">
-                    <input type="text" value="<%= account.lastName %>" name="lastName" id="lastName">
+                    <input type="text" value="<%= account.firstName %>" name="firstName" id="firstName" placeholder="First Name">
+                    <input type="text" value="<%= account.lastName %>" name="lastName" id="lastName" placeholder="Last Name">
                 </div>
     
                 <div id="email">
-                    <input type="text" value="<%= account.email %>" name="email" id="email">
+                    <input type="text" value="<%= account.email %>" name="email" id="email" placeholder="Email" disabled>
                 </div>
     
                 <input type="hidden" value="<%= account.id %>" name="userId">

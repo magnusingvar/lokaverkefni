@@ -27,7 +27,7 @@
 <body>
 <div id="wrapper">
 <%- include('../includes/navbar') %> 
-<div class="container" id="<% if (!bookings || bookings.length < 1) {%>center<% } %>">
+<div class="container" <% if (!bookings || bookings.length < 1) {%>id="center"<% } %>>
     <% if (bookings.length > 0) { %>
         <h1 class="header">My bookings</h1>
         <div class="table-container">

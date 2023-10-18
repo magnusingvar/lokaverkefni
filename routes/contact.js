@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const nodemailer = require('nodemailer');
+const sendMail = require('./functions/mail');
 const readUser = require('../db/read/readUser');
 const validSession = require('./functions/userSession');
 const dbFile = path.join(__dirname, '../db/database.db');
-require('dotenv').config();
 
 router.get('/', (req, res) => {    
     const user = validSession(req.session);
@@ -19,31 +18,13 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    let transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
-        auth: {
-            user: process.env.USER,
-            pass: process.env.PASSWORD
-        }
-    });   
-
-    const mailOptions = {
-        to: 'magnuslokaverkefni@gmail.com',
-        from: `"${req.body.firstName} ${req.body.lastName}" ${req.body.email}`,
-        subject: 'Contact form - website',
-        text: req.body.enquiry
-    };
-
-    transport.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
-    
-      res.redirect('/contact');
+    const recipient = 'magnuslokaverkefni@gmail.com';
+    const sender = `"${req.body.firstName} ${req.body.lastName}" ${req.body.email}`;
+    const subject = 'Contact form - website';
+    const text = req.body.enquiry;
+    const html = '';
+    sendMail(recipient, sender, subject, text, html);
+    res.redirect('/contact');
 });
 
 module.exports = router;

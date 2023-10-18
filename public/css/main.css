@@ -92,6 +92,13 @@ a {
     flex-wrap: wrap;
 }
 
+#center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Front page start */
 .hero-wrapper {
     max-width: var(--max-width);

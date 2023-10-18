@@ -5,7 +5,7 @@
 }
 
 #register, #login {
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
 
 #form {
@@ -14,7 +14,7 @@
     gap: 10px;
 }
 
-#password {
+#passwordContainer, #verifyPasswordContainer {
     display: flex;
     justify-content: right;
     align-items: center;

@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const jwt = require('jsonwebtoken');
-const readUser = require('../../db/read/readUser');
 const updateAccount = require('../../db/update/updateAccount');
 const deleteUser = require('../../db/delete/deleteUser');
-const validSession = require('../functions/userSession');
 const confirmAccount = require('../../db/functions/confirmFunction');
+const readUser = require('../../db/read/readUser');
+const validSession = require('../functions/userSession');
 const dbFile = path.join(__dirname, '../../db/database.db');
 
 router.get('/', (req, res) => {
@@ -22,18 +22,19 @@ router.get('/', (req, res) => {
 });
 
 router.get('/confirmation/:token', async (req, res) => {
-    try {
-        const user = jwt.verify(req.params.token, 'supersecrettoken');
-        confirmAccount(dbFile, user.user)
-        res.redirect('/login')
-    } catch (e) {
-        res.send('You have already confirmed your account');
-    }
+    const user = jwt.verify(req.params.token, 'supersecrettoken');
+    confirmAccount(dbFile, user.user);
+    res.redirect('/login')
 });
 
 router.get('/update', (req, res) => {
-    updateAccount(dbFile, req.query.firstName, req.query.lastName, req.query.email, req.query.userId);
-    res.redirect('/account');
+    // Prevent user from being able to update name with empty string
+    if (req.query.firstName == '' || !/\S/.test(req.query.firstName)) {
+        res.redirect('/account');
+    } else {
+        updateAccount(dbFile, req.query.firstName, req.query.lastName, req.query.userId);
+        res.redirect('/account');
+    }
 });
 
 router.get('/delete', (req, res) => {

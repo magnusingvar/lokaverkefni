@@ -20,10 +20,11 @@ const registerPage = require('./routes/functions/register');
 const loginPage = require('./routes/functions/login');
 const logout = require('./routes/functions/logout');
 const accountPage = require('./routes/read/readAccount');
-const validSession = require('./routes/functions/userSession');
 const checkout = require('./routes/functions/checkout');
 const contactPage = require('./routes/contact');
 const autoRemoveBookings = require('./routes/functions/autoRemoveBookings');
+const readUser = require('./db/read/readUser');
+const validSession = require('./routes/functions/userSession');
 const dbFile = path.join(__dirname, './db/database.db');
 const app = express();
 
@@ -48,6 +49,7 @@ app.use(session({
     }
 }));  
 
+// body parser
 app.use(express.urlencoded({ extended: true }));
 
 // serve static files
@@ -83,7 +85,12 @@ app.use('/contact', contactPage);
 app.use((req, res) => {
     const user = validSession(req.session);
     res.status(404);
-    res.render('error', { title: 'Error', status: 404, msg: 'Page not found!', user });
+    if(req.session.validSession) {
+        const userPrivilege = readUser(dbFile, user).userPrivilege;
+        res.render('error', { title: 'Error', status: 404, msg: 'Page not found!', user, userPrivilege });
+    } else {
+        res.render('error', { title: 'Error', status: 404, msg: 'Page not found!', user });
+    }
 });
 
 // handling errors
